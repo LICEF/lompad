@@ -72,7 +72,7 @@ class JDialogQuestion extends JDialog {
                 res = YES;
             else if (object == no)
                 res = NO;
-            else if (object == no)
+            else if (object == cancel)
                 res = CANCEL;
             setVisible(false);
         }

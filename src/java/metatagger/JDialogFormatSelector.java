@@ -22,7 +22,7 @@ class JDialogFormatSelector extends JDialog {
     JComboBox jComboBoxCategory;
     JList jList;
 
-    boolean bCancel = false;
+    boolean bOk;
 
     String format;
 
@@ -106,18 +106,6 @@ class JDialogFormatSelector extends JDialog {
         super.setVisible(b);
     }
 
-    class SymWindow extends java.awt.event.WindowAdapter {
-        public void windowClosing(java.awt.event.WindowEvent event) {
-            Object object = event.getSource();
-            if (object == JDialogFormatSelector.this)
-                JDialogFormatSelector_WindowClosing(event);
-        }
-    }
-
-    void JDialogFormatSelector_WindowClosing(java.awt.event.WindowEvent event) {
-        jButtonCancel_actionPerformed();
-    }
-
     class SymAction implements java.awt.event.ActionListener {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
@@ -151,11 +139,11 @@ class JDialogFormatSelector extends JDialog {
             else
                 return;
         }
+        bOk = true;
         setVisible(false);
     }
 
     void jButtonCancel_actionPerformed() {
-        bCancel = true;
         setVisible(false);
     }
 

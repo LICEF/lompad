@@ -60,7 +60,7 @@ class FormatComponent extends FormComponent {
         JDialogFormatSelector jDialog =
                 new JDialogFormatSelector(Util.getTopJFrame(this));
         jDialog.setVisible(true);
-        if (!jDialog.bCancel)
+        if (jDialog.bOk)
             jTextField.setText(jDialog.format);
 
         jDialog.dispose();

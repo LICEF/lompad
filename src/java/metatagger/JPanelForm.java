@@ -168,6 +168,8 @@ class JPanelForm extends JPanel {
             dialog.dispose();
             if (res == JDialogQuestion.CANCEL)
                 return false;
+            if (res == JDialogQuestion.NO)
+                return true;
             else if (res == JDialogQuestion.YES) {
                 ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Util.locale);
                 return saveFile(resBundle.getString("save"));

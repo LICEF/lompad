@@ -283,7 +283,7 @@ class DatetimeComponent extends FormComponent {
         JDialogDateSelector jDialog =
                 new JDialogDateSelector(Util.getTopJFrame(this));
         jDialog.setVisible(true);
-        if (!jDialog.bCancel) {
+        if (jDialog.bOk) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(jDialog.currentDate);
             jTextFieldYear.setText(cal.get(Calendar.YEAR) + "");

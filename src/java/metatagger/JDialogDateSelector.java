@@ -26,7 +26,7 @@ class JDialogDateSelector extends JDialog {
 
     LightCalendar calendar;
 
-    boolean bCancel = false;
+    boolean bOk;
 
     Date currentDate;
 
@@ -115,18 +115,6 @@ class JDialogDateSelector extends JDialog {
         super.setVisible(b);
     }
 
-    class SymWindow extends java.awt.event.WindowAdapter {
-        public void windowClosing(java.awt.event.WindowEvent event) {
-            Object object = event.getSource();
-            if (object == JDialogDateSelector.this)
-                JDialogDateSelector_WindowClosing(event);
-        }
-    }
-
-    void JDialogDateSelector_WindowClosing(java.awt.event.WindowEvent event) {
-        jButtonCancel_actionPerformed();
-    }
-
     class SymAction implements java.awt.event.ActionListener {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
@@ -162,11 +150,11 @@ class JDialogDateSelector extends JDialog {
     }
 
     void jButtonOk_actionPerformed() {
+        bOk = true;
         setVisible(false);
     }
 
     void jButtonCancel_actionPerformed() {
-        bCancel = true;
         setVisible(false);
     }
 
