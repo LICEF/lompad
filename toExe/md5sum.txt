@@ -1,0 +1,7 @@
+MD5 checksum
+
+839291ba9ecd4a08dad9c8704387f26e *readme.html
+afb49258a7cb84e6925e1099812085bb *script.nsi
+d4b35fb7ef0323ca99f18c637d263bed *makensis.exe
+086ecd24cb4b2e25611bbc54e4939643 *Splash.dll
+417877a5d5f1e8e543b4585faa1141ec *System.dll

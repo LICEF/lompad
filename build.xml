@@ -1,0 +1,58 @@
+<project name="Lom Editor" default="obf" basedir=".">
+
+<property name="src" 	    	location="src"/>
+<property name="code" 	    	location="src/java"/>
+<property name="properties" 	value="properties"/>
+<property name="images" 	value="images"/>
+<property name="res" 		value="res"/>
+<property name="build" 		location="build"/>
+<property name="lib" 		location="lib"/>
+<property name="logs" 		location="logs"/>
+
+<taskdef name="obfuscate" 
+      classname="com.yworks.yguard.ObfuscatorTask" 
+      classpath="${lib}/yguard.jar"/>
+
+<target name="clean">
+    <delete dir="${build}"/>
+</target>
+
+<target name="init">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build}/properties"/>
+    <mkdir dir="${build}/images"/>
+    <mkdir dir="${build}/res"/>
+    <mkdir dir="${logs}"/>
+</target>
+
+<target name="compile" depends="init">    
+    <javac srcdir="${code}" destdir="${build}"/>
+</target>
+
+<target name="copyRes">    
+    <copy todir="${build}/properties">
+        <fileset dir="${src}/properties"/>
+    </copy>
+    <copy todir="${build}/images">
+        <fileset dir="${src}/images"/>
+    </copy>
+    <copy todir="${build}/res">
+        <fileset dir="${src}/res"/>
+    </copy>
+</target>
+
+<target name="dist" depends="clean,copyRes,compile">
+    <jar destfile="LomPad.jar" manifest="${src}/manifest.txt" basedir="${build}"/>
+</target>
+
+
+<target name="obf" depends="dist">
+    <obfuscate mainclass="metatagger.JFrameForm" logfile="${logs}/logObf.xml" >
+    	<inoutpair in="LomPad.jar" out="LomPad_obf.jar"/>	
+    </obfuscate>
+    <delete file="LomPad.jar"/>
+</target>
+
+
+
+</project>

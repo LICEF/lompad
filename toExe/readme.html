@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<title>Jelude - EXE wrapper for JAR files</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body {margin:2% 4%}
+h1 {text-align:center}
+h2 {padding:0.2em; padding-left:0.3em; margin-bottom:0em}
+.chapter {padding-left:3%; padding-right:1%}
+.chapter li {margin-top:0.4em}
+code {font-family:monospace; speak-punctuation:code}
+p.indented {padding-left:4%; pause:50%}
+#entirecode {padding:0em 1em; margin:1em 0.5em; speak:none}
+div.linkhrefsforprint {display:none; visibility:hidden}
+abbr, acronym.spelt {speak:spell-out}
+#altreaders {visibility:hidden; position:absolute; top:0px; left:0px}
+
+@media braille, embossed, handheld, aural {
+  #altreaders {visibility:visible}
+}
+-->
+</style>
+<style type="text/css" title="Colour">
+<!--
+body {font-size:0.8em; background-color:rgb(252,252,218); font-family:Verdana, sans-serif}
+h1 {font-size:3em}
+h2 {font-size:1.2em; font-weight:bold; background-color:rgb(214,214,141)}
+h2.instructions {background-color:rgb(198,214,240)}
+h2.troubleshooter {background-color:rgb(240,200,200)}
+.chapter {background-color:white; border:1px solid rgb(204,204,204)}
+#toc a {text-decoration:none}
+#toc a:hover {text-decoration:underline}
+#entirecode {background-color:rgb(243,243,243)}
+span.codecomment {color:green}
+span.codecommand {color:black; font-weight:bold}
+span.codestring {color:blue}
+span.codevariable {color:maroon; font-style:italic}
+strong.codeimportant {color:red; font-weight:normal}
+#altreaders {background-color:rgb(241,241,194)}
+-->
+</style>
+<style type="text/css" media="print">
+<!--
+body {margin:0px; font-size:12pt; background-color:transparent; font-family:Times New Roman, serif}
+h2 {font-size:16pt; text-decoration:underline; background-color:transparent; padding:0px}
+h2.instructions {background-color:transparent}
+h2.troubleshooter {background-color:transparent}
+.chapter {padding:0px; padding-left:0px; border:0px}
+#toc, #toc0 {display:none; visibility:hidden}
+.chapter li {margin-top:0px}
+code {font-size:10pt}
+#entirecode {background-color:transparent; margin:0px; padding:0px}
+strong.codeimportant {font-weight:bold}
+div.linkhrefsforprint {display:block; visibility:visible}
+-->
+</style>
+</head>
+<body>
+<div><em>This is a copy of the website found at <a href="http://jelude.cjb.net">http://jelude.cjb.net</a>.</em>
+<hr></div>
+
+<h1>Jelude</h1>
+
+<h2 id="toc0">Table of Contents</h2>
+<div id="toc">
+<ol>
+<li>Jelude:
+  <ol>
+  <li><a href="#l1">What is Jelude?</a></li>
+  <li><a href="#l2">How do I use Jelude?</a></li>
+  <li><a href="#l3">How does it work?</a></li>
+  <li><a href="#l4">License?</a></li>
+  <li><a href="#l5">Download?</a></li>
+  </ol>
+</li>
+<li>Motivation for:
+  <ol>
+  <li><a href="#l6">Why did I create Jelude?</a></li>
+  <li><a href="#l7">The script is indeed really short!?</a></li>
+  <li><a href="#l8">Why name such a short program?</a></li>
+  </ol>
+</li>
+<li>Advanced Options:
+  <ol>
+  <li><a href="#l9">How can I show the text console for my application?</a></li>
+  <li><a href="#l10">How can I specify more than one JAR file?</a></li>
+  <li><a href="#l11">How can I modify where the JAR file is extracted?</a></li>
+  <li><a href="#l12">How can I locate the directory of the EXE file in the Java application?</a></li>
+  <li><a href="#l13">How can I make it delete the JAR file after it exits?</a></li>
+  </ol>
+</li>
+<li>Miscellaneous:
+  <ol>
+  <li><a href="#l14">What are JAR files?</a></li>
+  <li><a href="#l15">Related Links</a></li>
+  </ol>
+</li>
+</ol>
+</div>
+
+<h2><a name="l1" id="l1">What is Jelude?</a></h2>
+<div class="chapter">
+<p>
+Jelude is a short <acronym title="Nullsoft Scriptable Installation System">NSIS</acronym> script designed to allow JAR files to be wrapped 
+in an <abbr title="executable">EXE</abbr> file so they can be made distributable to Windows users. The main  
+advantage over distributing JAR files alone is that the end user is prompted when 
+a Java Runtime Environment (<acronym class="spelt" title="Java Runtime Environment">JRE</acronym>) is not found on the computer and an option is 
+provided to download it.</p>
+<p>Other features include:</p>
+<ul>
+<li>A single distributable with no floating files.</li>
+<li>Support for multiple JAR files.</li>
+<li>Runtime parameters are transferred to the Java application.</li>
+<li>An optional splash screen can be shown at startup.</li>
+<li>Free</li>
+</ul>
+<p>Note that Jelude does not convert your actual Java code into a native
+application. Also, Jelude does not replace the role of a Java Virtual Machine (<acronym class="spelt" title="Java Virtual Machine">JVM</acronym>). </p>
+</div>
+
+<h2 class="instructions"><a name="l2">How do I use Jelude?</a></h2>
+<div class="chapter">
+<ol>
+<li><p>First <strong>download</strong> the <a href="jelude.zip" title="jelude.zip">script and NSIS compiler</a>.</p></li>
+<li><p>Then <strong>open</strong> the script file
+using a text editor (like Notepad) and <strong>edit</strong> the first 2 lines to specify your application 
+name and JAR filename. i.e.,</p>
+<p class="indented"><code>
+!define APPNAME "<strong>Synergy Easter Egg Demo</strong>"
+<br>!define JARFILE "<strong>Egglet.jar</strong>"
+</code></p>
+</li>
+<li><p>Then <strong>compile</strong> the script using the NSIS compiler by running the following instruction at 
+the command prompt. (In the same way you compile Java code):</p>
+<p class="indented"><code>makensis.exe script.nsi</code></p>
+</li>
+<li><p>An <abbr>EXE</abbr> file named launch.exe should be produced in the same directory. You can now <strong>distribute</strong> 
+that <abbr>EXE</abbr> file to anyone.</p>
+</li>
+</ol>
+</div>
+
+<h2 class="instructions"><a name="l3">How does it work?</a></h2>
+<div class="chapter">
+<p>When you execute the compiled program, the program will search the system registry and 
+environment variables for a <acronym class="spelt">JRE</acronym> and if it exists, it will extract the JAR file to a temporary 
+folder and execute it with the <acronym class="spelt">JRE</acronym>. Any parameters sent to the <abbr>EXE</abbr> would be 
+passed along to the JAR file. The program will also register a mutex with Windows for 5 seconds to prevent the same program from being 
+executed multiple times if, for example, the user double clicks on the icon several times while the 
+<acronym class="spelt" title="Java Virtual Machine">JVM</acronym> is still loading. 
+If a splash screen is specified, it will be displayed for 4 seconds. </p>
+
+<p>However, if no <acronym class="spelt">JRE</acronym> is found, it will display an error message.
+If the user clicks on the "Yes" button on the error message dialog box, they would be directed to the 
+Sun website to download the <acronym class="spelt">JRE</acronym>. If the user clicks "no", the application exits.</p>
+</div>
+
+<h2 class="instructions"><a name="l4">License?</a></h2>
+<div class="chapter">
+<p>This script is license free and is considered a part of the public domain. Feel free 
+to use it or add on to it. The NSIS compiler, however, is distributed by 
+<a href="http://www.nullsoft.com" title="Nullsoft website">Nullsoft</a> and is subject to <a href="http://nsis.sourceforge.net/features/license/" title="NSIS License">their license</a>.</p>
+</div>
+
+<h2 class="instructions"><a name="l5">Download?</a></h2>
+<div class="chapter">
+<p>Click here to download the <strong><a href="jelude.zip" title="jelude.zip">script and compiler</a></strong>.
+For the most updated version of the compiler visit the <a href="http://www.nullsoft.com/free/nsis/" title="NSIS website">NSIS</a> website.
+For an application that opens zip files, download <a href="http://www.winzip.com" title="Winzip website">Winzip</a>.</p>
+
+<p>Here is an inline copy of the script in it's entirety with nice formatting:
+<br><small><a href="#l6">(click here to skip over this section)</a></small></p>
+<pre id="entirecode"><code><span class="codecomment">;--------- CONFIGURATION ---------</span>
+
+<span class="codecommand">!define</span> <span class="codevariable">APPNAME</span> <span class="codestring">"Synergy Easter Egg Demo"</span>
+<span class="codecommand">!define</span> <span class="codevariable">JARFILE</span> <span class="codestring">"Egglet.jar"</span>
+
+<span class="codecomment">;Uncomment the next line to specify an icon for the EXE.</span>
+<span class="codecomment">;Icon "test.ico"</span>
+
+<span class="codecomment">;Uncomment the next line to specify a splash screen bitmap.</span>
+<span class="codecomment">;!define SPLASH_IMAGE "splash.bmp"</span>
+
+<span class="codecomment">;---------------------------------</span>
+
+<span class="codecommand">Name</span> <span class="codestring">"Jelude"</span>
+<span class="codecommand">Caption</span> <span class="codestring">"${<span class="codevariable">APPNAME</span>}"</span>
+<span class="codecommand">OutFile</span> <span class="codestring">"launch.exe"</span>
+
+<span class="codecommand">SilentInstall</span> silent
+<span class="codecommand">XPStyle</span> on
+
+<span class="codecommand">!addplugindir</span> .
+
+<span class="codecommand">Section</span> <span class="codestring">""</span>
+  <span class="codecommand">System::Call</span> <span class="codestring">"kernel32::CreateMutexA(i 0, i 0, t 'jelude') i .r1 ?e"</span>
+  <span class="codecommand">Pop</span> <span class="codevariable">$R0</span>
+  <span class="codecommand">StrCmp</span> <span class="codevariable">$R0</span> 0 +2
+  <span class="codecommand">Quit</span>
+
+  <span class="codecommand">ClearErrors</span>
+  <span class="codecommand">ReadRegStr</span> <span class="codevariable">$R0</span> HKLM <span class="codestring">"SOFTWARE\JavaSoft\Java Runtime Environment" "CurrentVersion"</span>
+  <span class="codecommand">ReadRegStr</span> <span class="codevariable">$R0</span> HKLM <span class="codestring">"SOFTWARE\JavaSoft\Java Runtime Environment\<span class="codevariable">$R0</span>" "JavaHome"</span>
+  <span class="codecommand">IfErrors</span> 0 FoundVM
+
+  <span class="codecommand">ClearErrors</span>
+  <span class="codecommand">ReadRegStr</span> <span class="codevariable">$R0</span> HKLM <span class="codestring">"SOFTWARE\JavaSoft\Java Development Kit" "CurrentVersion"</span>
+  <span class="codecommand">ReadRegStr</span> <span class="codevariable">$R0</span> HKLM <span class="codestring">"SOFTWARE\JavaSoft\Java Development Kit\<span class="codevariable">$R0</span>" "JavaHome"</span>
+  <span class="codecommand">IfErrors</span> 0 FoundVM
+
+  <span class="codecommand">ClearErrors</span>
+  <span class="codecommand">ReadEnvStr</span> <span class="codevariable">$R0</span> <span class="codestring">"JAVA_HOME"</span>
+  <span class="codecommand">IfErrors</span> NotFound 0
+
+  FoundVM:
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R0</span> <span class="codestring">"<span class="codevariable">$R0</span>\bin\javaw.exe"</span>
+  <span class="codecommand">IfFileExists</span> <span class="codevariable">$R0</span> 0 NotFound
+
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R1</span> <span class="codestring">""</span>
+  <span class="codecommand">Call</span> GetParameters
+  <span class="codecommand">Pop</span> <span class="codevariable">$R1</span>
+
+  <span class="codecommand">SetOverwrite</span> ifdiff
+  <span class="codecommand">SetOutPath</span> <span class="codevariable">$TEMP</span>
+  <span class="codecommand">File</span> <span class="codestring">"${<span class="codevariable">JARFILE</span>}"</span>
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R0</span> <span class="codestring">'<span class="codevariable">$R0</span> -jar "${<span class="codevariable">JARFILE</span>}" <span class="codevariable">$R1</span>'</span>
+  <span class="codecommand">Exec</span> <span class="codestring">"<span class="codevariable">$R0</span>"</span>
+
+  <span class="codecommand">!ifdef</span> <span class="codevariable">SPLASH_IMAGE</span>
+    <span class="codecommand">SetOutPath</span> <span class="codevariable">$TEMP</span>
+    <span class="codecommand">File</span> /oname=spltmp.bmp <span class="codestring">"${<span class="codevariable">SPLASH_IMAGE</span>}"</span>
+    <span class="codecommand">Splash::show</span> 4000 <span class="codestring">"<span class="codevariable">$TEMP</span>\spltmp"</span>
+    <span class="codecommand">Delete</span> <span class="codestring">"<span class="codevariable">$TEMP</span>\spltmp.bmp"</span>
+  <span class="codecommand">!endif</span>
+
+  <span class="codecommand">Sleep</span> 5000
+  <span class="codecommand">Quit</span>
+
+  NotFound:
+  <span class="codecommand">Sleep</span> 800
+  <span class="codecommand">MessageBox</span> MB_ICONEXCLAMATION|MB_YESNO \
+          <span class="codestring">'Could not find a Java Runtime Environment installed on your computer. \
+          <span class="codevariable">$\n</span>Without it you cannot run "${<span class="codevariable">APPNAME</span>}". \
+          <span class="codevariable">$\n$\n</span>Would you like to visit the Java website to download it?'</span> \
+          IDNO +2
+  <span class="codecommand">ExecShell</span> open <span class="codestring">"http://java.sun.com/getjava"</span>
+  <span class="codecommand">Quit</span>
+<span class="codecommand">SectionEnd</span>
+
+<span class="codecommand">Function GetParameters</span>
+  <span class="codecommand">Push</span> <span class="codevariable">$R0</span>
+  <span class="codecommand">Push</span> <span class="codevariable">$R1</span>
+  <span class="codecommand">Push</span> <span class="codevariable">$R2</span>
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R0 $CMDLINE</span> 1
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R1</span> <span class="codestring">'"'</span>
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R2</span> 1
+  <span class="codecommand">StrCmp</span> <span class="codevariable">$R0</span> <span class="codestring">'"'</span> loop
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R1</span> <span class="codestring">' '</span>
+  loop:
+    <span class="codecommand">StrCpy</span> <span class="codevariable">$R0 $CMDLINE</span> 1 <span class="codevariable">$R2</span>
+    <span class="codecommand">StrCmp</span> <span class="codevariable">$R0 $R1</span> loop2
+    <span class="codecommand">StrCmp</span> <span class="codevariable">$R0</span> <span class="codestring">""</span> loop2
+    <span class="codecommand">IntOp</span> <span class="codevariable">$R2 $R2</span> + 1
+    <span class="codecommand">Goto</span> loop
+  loop2:
+    <span class="codecommand">IntOp</span> <span class="codevariable">$R2 $R2</span> + 1
+    <span class="codecommand">StrCpy</span> <span class="codevariable">$R0 $CMDLINE</span> 1 <span class="codevariable">$R2</span>
+    <span class="codecommand">StrCmp</span> <span class="codevariable">$R0</span> <span class="codestring">" "</span> loop2
+  <span class="codecommand">StrCpy</span> <span class="codevariable">$R0 $CMDLINE</span> <span class="codestring">""</span> <span class="codevariable">$R2</span>
+  <span class="codecommand">Pop</span> <span class="codevariable">$R2</span>
+  <span class="codecommand">Pop</span> <span class="codevariable">$R1</span>
+  <span class="codecommand">Exch</span> <span class="codevariable">$R0</span>
+<span class="codecommand">FunctionEnd</span></code></pre>
+</div>
+
+<h2><a name="l6">Why did I create Jelude?</a></h2>
+<div class="chapter">
+<p>It's because I wanted to experiment with <a href="http://www.nullsoft.com/free/nsis/" title="NSIS website">NSIS</a> 
+before I do any real work with it. NSIS stands for, Nullsoft Scriptable Installation System, 
+and is created by the same people who brought you, <a href="http://www.winamp.com" title="Winamp website">Winamp</a>. 
+Since I am a Java programmer, I decided to create a JAR distribution program.</p>
+</div>
+
+<h2><a name="l7">The script is indeed really short!?</a></h2>
+<div class="chapter">
+<p>Yes it is. It shows how powerful NSIS can be with just a few lines of code. (See below for 
+an inline version of the NSIS script.) I decided to keep the script short but simple rather than 
+long but powerful because that was what I wanted. As long as it gets it's job done. Note that 
+because of this, it will only run the JRE if it is version <code>1.2.X</code> and above and was produced 
+by Sun. If you want fine tuned version checking, you will have to do it from within your Java 
+application.</p>
+<p>Note: Jelude uses the "System" plugin by Nik Medved, the "Splash" plugin by Justin &amp; Amir Szekely 
+and the "GetParameters" code by Sunjammer.</p>
+</div>
+
+<h2><a name="l8">Why name such a short program?</a></h2>
+<div class="chapter">
+<p>I felt that quite a few Java programmers could benefit from this tool so I decided to give 
+it a name so that others could find it easily via search engines. The name Jelude comes from 
+the letter &quot;J&quot; and the word &quot;elude&quot; which is meant to show how easily Java 
+applications could be designed to mimic native Windows applications.</p>
+</div>
+
+<h2 class="troubleshooter"><a name="l9">How can I show the text console for my application?</a></h2>
+<div class="chapter">
+<p>
+You can show the text console by editing the following line in the script 
+to use <code>java.exe</code> instead of <code>javaw.exe</code> to 
+launch the Java application:</p>
+
+<p class="indented"><code>
+StrCpy $R0 "$R0\bin\<strong class="codeimportant">javaw</strong>.exe"
+</code></p>
+change to
+<p class="indented"><code>
+StrCpy $R0 "$R0\bin\java.exe"
+</code></p>
+</div>
+
+<h2 class="troubleshooter"><a name="l10">How can I specify more than one JAR file?</a></h2>
+<div class="chapter">
+<p>
+If you want to specify more JAR files to extract, simply edit the following line to include a 
+reference to your jar files.</p>
+<p class="indented"><code>
+SetOutPath $TEMP
+<br>File "${JARFILE}"
+<br><strong class="codeimportant">File "second.jar"
+<br>File "third.jar"</strong>
+<br>StrCpy $R0 '$R0 -jar "${JARFILE}" $R1'
+</code></p>
+<p>The additional files will automatically be included when you compile the script. If you do 
+decide to use multiple JAR files, don't forget to include the <strong>classpath</strong> information within the 
+main JAR file's <strong><a href="http://developer.java.sun.com/developer/Books/javaprogramming/JAR/basics/manifest.html" title="Java documentation on manifest files">MANIFEST</a></strong> file. For more information on how to do this, read the JAR file 
+documentation below.</p>
+</div>
+
+<h2 class="troubleshooter"><a name="l11">How can I modify where the JAR file is extracted?</a></h2>
+<div class="chapter">
+<p>By default, the JAR file is extracted to the computer's default temporary folder. This is 
+usually located in "C:\Windows\Temp" and is represented by the <a href="http://nsis.sourceforge.net/Docs/Chapter4.html#4.2.3" title="NSIS documentation on constants">symbolic constant</a>, "<code>$TEMP</code>". 
+You can change the output folder to the folder where the <abbr>EXE</abbr> file is currently residing by 
+editing the following line in the script:</p>
+<p class="indented"><code>
+SetOutPath $TEMP
+</code></p>
+change to
+<p class="indented"><code>
+SetOutPath <strong class="codeimportant">$EXEDIR</strong>
+</code></p>
+</div>
+
+<h2 class="troubleshooter"><a name="l12">How can I locate the directory of the <abbr>EXE</abbr> file in the Java application?</a></h2>
+<div class="chapter">
+<p>
+You can explicitly pass the <abbr>EXE</abbr> file's directory information to the Java application by
+using Java's <a href="http://java.sun.com/docs/books/tutorial/essential/system/properties.html" title="Java documentation on System Properties">System Properties</a> facility.
+You can do this by editing the following line in the script:</p>
+<p class="indented"><code>
+StrCpy $R0 '$R0 -jar "${JARFILE}" $R1'
+</code></p>
+change to
+<p class="indented"><code>
+StrCpy $R0 '$R0 <strong class="codeimportant">-Dexe.dir="$EXEDIR"</strong> -jar "${JARFILE}" $R1'
+</code></p>
+<p>Then when you need to locate the directory information inside your Java application, 
+simply call, <code>System.getProperty("exe.dir")</code> which returns a <code>String</code>. 
+This feature may be useful if the <abbr>EXE</abbr> file is accompanied with other files in the same directory.
+</p>
+</div>
+
+<h2 class="troubleshooter"><a name="l13">How can I make it delete the JAR file after it exits?</a></h2>
+<div class="chapter">
+<p>
+You can specify that the <abbr>EXE</abbr> file deletes the JAR file from the temporary folder 
+after it exits, by editing the following line in the script. If left unchanged, 
+the default configuration is to leave the JAR file in the temporary folder so that 
+on subsequent launches the JAR does not have to be extracted everytime.</p>
+<p class="indented"><code>
+Exec "$R0"
+</code></p>
+change to
+<p class="indented"><code>
+Exec<strong class="codeimportant">Wait</strong> "$R0"
+<br><strong class="codeimportant">Delete "${JARFILE}"</strong>
+</code></p>
+<p>If you do modify the code, the <abbr>EXE</abbr> file will then persist in memory until the 
+Java application exits whereafter the <abbr>EXE</abbr> file will delete the JAR file and exit itself.</p>
+
+<p>It is <strong>important</strong> to note that the splash screen is shown <em>after</em> the call to start the <acronym class="spelt" title="Java Virtual Machine">JVM</acronym>. 
+If you make the above changes, the program will pause until the <acronym class="spelt" title="Java Virtual Machine">JVM</acronym> exits which therefore prevents the 
+splash screen from being shown beforehand.</p>
+</div>
+
+<h2 class="instructions"><a name="l14">What are JAR files?</a></h2>
+<div class="chapter">
+<p><a href="http://java.sun.com/docs/books/tutorial/jar/" title="Introduction to JAR files">JAR files</a> are the distribution format recommended for Java applications. You can use the JAR 
+tool provided by Sun to store all your CLASS files, image files and data files into one JAR file 
+for easy transportation. JAR files are by default compressed files. For more information and 
+instructions for producing and using JAR files, read the <a href="http://java.sun.com/docs/books/tutorial/jar/basics/index.html" title="Tutorial on using JAR files">JAR Tutorial</a>.
+</p>
+</div>
+
+<h2><a name="l15">Related Links</a></h2>
+<div class="chapter">
+<p>Here are some links to other similar products:</p>
+<ul class="linkslist">
+<li>http://www.ucware.com/jexec/ [shareware]</li>
+<li>http://www.duckware.com/jexepack/ [shareware]</li>
+<li>http://mpowers.net/executor/ [shareware]</li>
+<li>http://www.sureshotsoftware.com/exej/ [freeware]</li>
+<li>http://www.rolemaker.dk/nonRoleMaker/javalauncher/marner_java_launcher.htm [freeware]</li>
+<li>http://thor.prohosting.com/~dfolly/java/index.html [freeware]</li>
+<li>http://jsmooth.sourceforge.net/ [GPL]</li>
+<li>http://jstart32.sourceforge.net/ [GPL]</li>
+<li>http://www.roxes.com/produkte/rat.html [GPL]</li>
+</ul>
+<div class="linkhrefsforprint">
+<br>For printing purposes, here are the links used in this document:
+<ul>
+<li>NSIS: http://www.nullsoft.com/free/nsis/</li>
+<li>Winamp: http://www.winamp.com/</li>
+<li>Nullsoft: http://www.nullsoft.com/</li>
+<li>NSIS license: http://nsis.sourceforge.net/features/license/</li>
+<li>Winzip: http://www.winzip.com/</li>
+<li>JAR Manifest: http://developer.java.sun.com/developer/Books/javaprogramming/JAR/basics/manifest.html#download</li>
+<li>JAR Tutorials: http://java.sun.com/docs/books/tutorial/jar/</li>
+<li>System Properties: http://java.sun.com/docs/books/tutorial/essential/system/properties.html</li>
+<li>NSIS Symbolic Constants: http://nsis.sourceforge.net/Docs/Chapter4.html#4.2.3</li>
+</ul>
+</div>
+</div>
+
+<div style="margin-top:4%">
+<div style="text-align:right">Please link to this site using: <a href="http://jelude.cjb.net">http://jelude.cjb.net</a></div>
+
+<hr>
+
+<div style="float:left"><address>Terry Yuen - email: java_intro(a)yahoo.com (replace "(a)" with "@")</address></div>
+<div style="float:right">Last modified: June 19, 2004</div>
+</div>
+
+<p id="altreaders"><small><em>This site had been modified to support screen readers where ever possible. If you have further accessibility sugestions, feel free to email the author. This site may not be compatible with older browsers.</em></small></p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+iges
+vrml
+mesh
+vnd.dwf
+vnd.gtw
+vnd.flatland.3dml
+vnd.vtu
+vnd.mts
+vnd.gdl
+vnd.gs-gdl
+vnd.parasolid.transmit.text
+vnd.parasolid.transmit.binary

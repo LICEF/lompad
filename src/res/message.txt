@@ -1,0 +1,8 @@
+rfc822
+partial
+external-body
+news
+http
+delivery-status
+disposition-notification
+s-http

@@ -1,0 +1,11 @@
+mpeg
+quicktime
+vnd.vivo
+vnd.motorola.video
+vnd.motorola.videop
+vnd.fvt
+pointer
+parityfec
+vnd.mpegurl
+MP4V-ES
+vnd.nokia.interleaved-multimedia
