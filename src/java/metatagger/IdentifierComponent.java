@@ -13,8 +13,8 @@ class IdentifierComponent extends FormComponent {
     JPanel jPanelEntry;
     LocalizeJLabel jLabelCatalog;
     LocalizeJLabel jLabelEntry;
-    JTextField jTextFieldCatalog;
-    JTextField jTextFieldEntry;
+    JTextFieldPopup jTextFieldCatalog;
+    JTextFieldPopup jTextFieldEntry;
 
     public IdentifierComponent() {
         super(null);
@@ -29,8 +29,8 @@ class IdentifierComponent extends FormComponent {
         jLabelCatalog.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
         jLabelEntry = new LocalizeJLabel("1.1.2");
         jLabelEntry.setFont(jLabelCatalog.getFont());
-        jTextFieldCatalog = new JTextField();
-        jTextFieldEntry = new JTextField();
+        jTextFieldCatalog = new JTextFieldPopup();
+        jTextFieldEntry = new JTextFieldPopup();
 
         jPanelCatEntr.setLayout(new GridLayout(1, 2, 5, 0));
 

@@ -6,24 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 
 class EntityComponent extends FormComponent {
-
     JPanel jPanelEntity;
     LocalizeJLabel jLabelName;
     LocalizeJLabel jLabelEMail;
     LocalizeJLabel jLabelOrg;
 
-    JTextField jTextFieldName;
-    JTextField jTextFieldEMail;
-    JTextField jTextFieldOrg;
+    JTextFieldPopup jTextFieldName;
+    JTextFieldPopup jTextFieldEMail;
+    JTextFieldPopup jTextFieldOrg;
 
     public EntityComponent(boolean isFirst) {
         super(null);
 
         jPanelEntity = new JPanel();
         jPanelEntity.setOpaque(false);
-        jTextFieldName = new JTextField();
-        jTextFieldEMail = new JTextField();
-        jTextFieldOrg = new JTextField();
+        jTextFieldName = new JTextFieldPopup();
+        jTextFieldEMail = new JTextFieldPopup();
+        jTextFieldOrg = new JTextFieldPopup();
 
         jPanelEntity.setLayout(new GridLayout(isFirst ? 2 : 1, 3, 0, 0));
         if (isFirst) {

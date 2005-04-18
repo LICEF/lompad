@@ -19,8 +19,8 @@ class OrCompositeComponent extends FormComponent {
     LocalizeJLabel jLabelMaxVer;
     JComboBox jComboBoxType;
     JComboBox jComboBoxName;
-    JTextField jTextFieldMinVer;
-    JTextField jTextFieldMaxVer;
+    JTextFieldPopup jTextFieldMinVer;
+    JTextFieldPopup jTextFieldMaxVer;
 
     String[] typeValues = {"4.4.1.1-1", "4.4.1.1-2"};
     String[] OSValues = new String[]{"pc-dos", "ms-windows", "macos", "unix", "multi-os", "none"};
@@ -56,8 +56,8 @@ class OrCompositeComponent extends FormComponent {
         jComboBoxType.addItem(null);
         jComboBoxType.addItem(new OrderedValue(typeValues[0], 1, true));
         jComboBoxType.addItem(new OrderedValue(typeValues[1], 2, true));
-        jTextFieldMinVer = new JTextField();
-        jTextFieldMaxVer = new JTextField();
+        jTextFieldMinVer = new JTextFieldPopup();
+        jTextFieldMaxVer = new JTextFieldPopup();
 
         jPanelWrapperGauche.setLayout(new CardLayout(5, 0));
         jPanelWrapperDroite.setLayout(new CardLayout(5, 0));

@@ -6,14 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 
 class FormatComponent extends FormComponent {
-    JTextField jTextField;
+    JTextFieldPopup jTextField;
     JButton jButtonWizard;
     Component horizontalStrut;
 
     public FormatComponent(FormMediator mediator) {
         super(mediator);
 
-        jTextField = new JTextField();
+        jTextField = new JTextFieldPopup();
         jPanelGauche.add(jTextField);
 
         jButtonWizard = new JButton(Util.wizardIcon);

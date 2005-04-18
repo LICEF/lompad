@@ -9,8 +9,8 @@ class TaxonComponent extends FormComponent {
     JPanel jPanelIdEntry;
     LocalizeJLabel jLabelId;
     LocalizeJLabel jLabelEntry;
-    JTextField jTextFieldId;
-    JTextField jTextFieldEntry;
+    JTextFieldPopup jTextFieldId;
+    JTextFieldPopup jTextFieldEntry;
     JComboBox jComboBoxLang;
     private boolean isFirst;
 
@@ -25,11 +25,11 @@ class TaxonComponent extends FormComponent {
         jLabelId.setFont(new Font("Dialog", Font.PLAIN, 12));
         jLabelEntry = new LocalizeJLabel("9.2.2.2");
         jLabelEntry.setFont(jLabelId.getFont());
-        jTextFieldId = new JTextField();
+        jTextFieldId = new JTextFieldPopup();
         jTextFieldId.setMinimumSize(new Dimension(50, 25));
         jTextFieldId.setPreferredSize(new Dimension(50, 25));
         jTextFieldId.setMaximumSize(new Dimension(50, 25));
-        jTextFieldEntry = new JTextField();
+        jTextFieldEntry = new JTextFieldPopup();
         jTextFieldEntry.setMinimumSize(new Dimension(50, 25));
         jTextFieldEntry.setPreferredSize(new Dimension(50, 25));
         jTextFieldEntry.setMaximumSize(new Dimension(1000, 25));

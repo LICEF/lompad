@@ -14,13 +14,13 @@ class TextComponent extends FormComponent {
         super(mediator);
 
         if (isOneLine) {
-            currentJTextComponent = new JTextField();
+            currentJTextComponent = new JTextFieldPopup();
             jPanelGauche.add(currentJTextComponent);
         } else {
             jScrollPaneTextArea = new JScrollPane();
             jPanelGauche.add(BorderLayout.CENTER, jScrollPaneTextArea);
-            currentJTextComponent = new JTextArea();
-            ((JTextArea) currentJTextComponent).setLineWrap(true);
+            currentJTextComponent = new JTextAreaPopup();
+            ((JTextAreaPopup) currentJTextComponent).setLineWrap(true);
             jScrollPaneTextArea.getViewport().add(currentJTextComponent);
         }
     }

@@ -3,7 +3,7 @@ package metatagger;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-class NumericTextField extends JTextField {
+class NumericTextField extends JTextFieldPopup {
     int length = -1;
     String minMask;
     String maxMask;
@@ -51,7 +51,7 @@ class NumericTextField extends JTextField {
             }
         }
 
-        //max mask
+//max mask
         if (maxMask != null) {
             if (getText().length() == 0) {
                 if (c > maxMask.charAt(0))
