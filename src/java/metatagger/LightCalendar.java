@@ -40,10 +40,6 @@ class LightCalendar extends JComponent
         font = new Font( "Helvetica", Font.PLAIN, 12 );
         fontHighlighted = new Font( "Helvetica", Font.BOLD, 12 );
 
-        setDate( new Date() );
-
-        selectionner( new Date() );
-
 		//{{REGISTER_LISTENERS
 		SymMouse aSymMouse = new SymMouse();
 		this.addMouseListener(aSymMouse);
@@ -52,13 +48,14 @@ class LightCalendar extends JComponent
 
 	public void setDate(Date date)
 	{
-	    Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 	    cal.setTime( date );
 	    annee = cal.get( Calendar.YEAR );
 	    mois = cal.get( Calendar.MONTH );
 	    //Date dateAjustee = ajusteDate( currentDate );
 	    dateDebutMois = trouveDateDebutMois( date );
-	    repaint();
+
+        selectionner(date);
 	}
 
 	public Date getDate()
