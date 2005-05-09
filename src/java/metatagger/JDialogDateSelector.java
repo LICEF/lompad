@@ -30,13 +30,17 @@ class JDialogDateSelector extends JDialog {
 
     Date currentDate;
 
-    public JDialogDateSelector(JFrame parent) {
+    public JDialogDateSelector(Frame parent) {
+        this(parent, new Date());
+    }
+
+    public JDialogDateSelector(Frame parent, Date initDate) {
         super(parent, "title", true);
 
         setSize(220, 270);
 
+        currentDate = initDate;
         Calendar cal = Calendar.getInstance();
-        currentDate = new Date();
         cal.setTime(currentDate);
 
         Container cp = getContentPane();
@@ -80,6 +84,7 @@ class JDialogDateSelector extends JDialog {
         jPanelContent.add(jPanelTop, BorderLayout.NORTH);
 
         calendar = new LightCalendar(this, false);
+        calendar.setDate( currentDate );
         jPanelContent.add(calendar, BorderLayout.CENTER);
 
 
