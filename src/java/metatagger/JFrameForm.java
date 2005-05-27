@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.teluq.uquebec.ca)
+ *
+ * This file is part of LomPad.
+ *
+ * LomPad is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * LomPad is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with LomPad; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package metatagger;
 
 import javax.swing.*;
@@ -95,7 +115,13 @@ class JFrameForm extends JFrame {
      */
     public static void main(String args[]) {
         try {
-            (new JFrameForm()).setVisible(true);
+            JFrameForm app = new JFrameForm();
+            JWindowAbout splash = new JWindowAbout(app, true);
+            splash.setSize(376, 314);
+            splash.setVisible(true);
+            Thread.sleep(1500);
+            app.setVisible(true);
+            splash.setVisible(false);
         } catch (Throwable t) {
             t.printStackTrace();
             System.exit(1);
@@ -275,7 +301,7 @@ class JFrameForm extends JFrame {
     }
 
     private void about() {
-        JWindowAbout w = new JWindowAbout(this);
+        JWindowAbout w = new JWindowAbout(this, false);
         w.setSize(376, 314);
         w.setVisible(true);
     }

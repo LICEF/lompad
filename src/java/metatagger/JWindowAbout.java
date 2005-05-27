@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.teluq.uquebec.ca)
+ *
+ * This file is part of LomPad.
+ *
+ * LomPad is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * LomPad is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with LomPad; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 package metatagger;
 
 import javax.swing.*;
@@ -17,9 +37,11 @@ class JWindowAbout extends JWindow {
     JLabel jLabelContact;
     JLabel jLabelMail;
 
-    public JWindowAbout(Frame owner) {
-        super(owner);
+    boolean firstTime;
 
+    public JWindowAbout(Frame owner, boolean firstTime) {
+        super(owner);
+        this.firstTime = firstTime;
         getRootPane().setLayout(null);
         JPanel panel = new JPanel() {
             public void paintComponent(Graphics g) {
@@ -51,7 +73,7 @@ class JWindowAbout extends JWindow {
         jPanelCogigraph.addMouseListener(aSymMouse);
         panel.add(jPanelCogigraph);
 
-        jLabelBuild = new JLabel("(revision 6)");
+        jLabelBuild = new JLabel("(revision 7)");
         jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 10));
         jLabelBuild.setForeground(Color.LIGHT_GRAY);
         jLabelBuild.setBounds(260, 97, 150, 24);
@@ -73,10 +95,16 @@ class JWindowAbout extends JWindow {
 
     public void setVisible(boolean b) {
         if (b) {
-            Rectangle bounds = getParent().getBounds();
-            Rectangle abounds = getBounds();
-            setLocation(bounds.x + (bounds.width - abounds.width) / 2,
-                    bounds.y + (bounds.height - abounds.height) / 2);
+            if (firstTime) {
+                Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+                setLocation((d.width - getSize().width) / 2,
+                        (d.height - getSize().height) / 2);
+            } else {
+                Rectangle bounds = getParent().getBounds();
+                Rectangle abounds = getBounds();
+                setLocation(bounds.x + (bounds.width - abounds.width) / 2,
+                        bounds.y + (bounds.height - abounds.height) / 2);
+            }
         }
         super.setVisible(b);
     }
@@ -105,7 +133,7 @@ class JWindowAbout extends JWindow {
             else if (object == jPanelCogigraph)
                 Util.launchRessourceName("iexplore", "http://www.cogigraph.com/");
             else if (object == jLabelMail)
-                Util.launchRessourceName("mailto:" + jLabelMail.getText(), null );
+                Util.launchRessourceName("mailto:" + jLabelMail.getText(), null);
             dispose();
         }
 

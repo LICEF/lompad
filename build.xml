@@ -1,4 +1,4 @@
-<project name="Lom Editor" default="obf" basedir=".">
+<project name="LomPad" default="dist" basedir=".">
 
 <property name="src" 	    	location="src"/>
 <property name="code" 	    	location="src/java"/>
@@ -6,12 +6,6 @@
 <property name="images" 	value="images"/>
 <property name="res" 		value="res"/>
 <property name="build" 		location="build"/>
-<property name="lib" 		location="lib"/>
-<property name="logs" 		location="logs"/>
-
-<taskdef name="obfuscate" 
-      classname="com.yworks.yguard.ObfuscatorTask" 
-      classpath="${lib}/yguard.jar"/>
 
 <target name="clean">
     <delete dir="${build}"/>
@@ -22,7 +16,6 @@
     <mkdir dir="${build}/properties"/>
     <mkdir dir="${build}/images"/>
     <mkdir dir="${build}/res"/>
-    <mkdir dir="${logs}"/>
 </target>
 
 <target name="compile" depends="init">    
@@ -44,15 +37,5 @@
 <target name="dist" depends="clean,copyRes,compile">
     <jar destfile="LomPad.jar" manifest="${src}/manifest.txt" basedir="${build}"/>
 </target>
-
-
-<target name="obf" depends="dist">
-    <obfuscate mainclass="metatagger.JFrameForm" logfile="${logs}/logObf.xml" >
-    	<inoutpair in="LomPad.jar" out="LomPad_obf.jar"/>	
-    </obfuscate>
-    <delete file="LomPad.jar"/>
-</target>
-
-
 
 </project>
