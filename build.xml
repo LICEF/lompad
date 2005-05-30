@@ -1,7 +1,6 @@
 <project name="LomPad" default="dist" basedir=".">
 
 <property name="src" 	    	location="src"/>
-<property name="code" 	    	location="src/java"/>
 <property name="properties" 	value="properties"/>
 <property name="images" 	value="images"/>
 <property name="res" 		value="res"/>
@@ -19,7 +18,7 @@
 </target>
 
 <target name="compile" depends="init">    
-    <javac srcdir="${code}" destdir="${build}"/>
+    <javac srcdir="${src}" destdir="${build}"/>
 </target>
 
 <target name="copyRes">    
