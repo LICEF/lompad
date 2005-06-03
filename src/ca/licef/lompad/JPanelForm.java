@@ -337,11 +337,6 @@ class JPanelForm extends JPanel {
     }
 
     void popHTML(String html) {
-        int index = html.indexOf("<head>") + "<head>".length();
-        html = html.substring(0, index) +
-               "<TITLE>" + "ss" + "</TITLE>" +
-               html.substring(index);
-
         try {
             String java_tmp = System.getProperty("java.io.tmpdir").replace('\\', '/');
             if (!java_tmp.endsWith("/")) java_tmp += "/";
