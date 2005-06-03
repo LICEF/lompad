@@ -34,6 +34,7 @@ class JFrameForm extends JFrame {
     private JMenuItem item14;
     private JMenuItem item15;
     private JMenuItem item16;
+    private JMenuItem item17;
     private JRadioButtonMenuItem item21;
     private JRadioButtonMenuItem item22;
     private JMenuItem item31;
@@ -91,8 +92,9 @@ class JFrameForm extends JFrame {
         item12.setText(resBundle.getString("open"));
         item13.setText(resBundle.getString("save"));
         item14.setText(resBundle.getString("saveas"));
-        item15.setText(resBundle.getString("viewxml"));
-        item16.setText(resBundle.getString("quit"));
+        item15.setText(resBundle.getString("viewhtml"));
+        item16.setText(resBundle.getString("viewxml"));
+        item17.setText(resBundle.getString("quit"));
         menu2.setText(resBundle.getString("language"));
         item21.setText(resBundle.getString("french"));
         item22.setText(resBundle.getString("english"));
@@ -153,15 +155,19 @@ class JFrameForm extends JFrame {
         item14.addActionListener(lSymAction);
         menu1.add(item14);
         menu1.addSeparator();
-        item15 = new JMenuItem("viewxml");
+        item15 = new JMenuItem("viewhtml");
         item15.setFont(menu1.getFont());
         item15.addActionListener(lSymAction);
         menu1.add(item15);
-        menu1.addSeparator();
-        item16 = new JMenuItem("quit");
+        item16 = new JMenuItem("viewxml");
         item16.setFont(menu1.getFont());
         item16.addActionListener(lSymAction);
         menu1.add(item16);
+        menu1.addSeparator();
+        item17 = new JMenuItem("quit");
+        item17.setFont(menu1.getFont());
+        item17.addActionListener(lSymAction);
+        menu1.add(item17);
         mb.add(menu1);
 
         menu2 = new JMenu("language");
@@ -258,8 +264,10 @@ class JFrameForm extends JFrame {
             else if (object == item14)
                 jPanelForm.saveAsFile(item14.getText());
             else if (object == item15)
-                jPanelForm.viewXML();
+                jPanelForm.viewHTML();
             else if (object == item16)
+                jPanelForm.viewXML();
+            else if (object == item17)
                 JFrame1_windowClosing(null);
             else if (object == item21) {
                 Util.locale = Locale.FRENCH;

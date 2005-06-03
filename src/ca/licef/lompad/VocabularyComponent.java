@@ -147,4 +147,17 @@ class VocabularyComponent extends FormComponent {
         } else if (e.getFirstChild() != null)
             jComboBoxVocabulary.setSelectedItem(getMatchedValue(e.getFirstChild().getNodeValue().trim()));
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = null;
+        if (isFilled()) {
+            if (isLomVocabulary)
+                html = Util.getVocabulary(getSelectedValue().value.toString()) + "<br>";
+            else
+                html = getSelectedValue() + "<br>";
+        }
+        return html;
+    }
+
 }

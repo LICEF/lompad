@@ -134,4 +134,26 @@ class TaxonComponent extends FormComponent {
         jTextFieldEntry.setCaretPosition(0);
         jComboBoxLang.setSelectedItem(e.getAttribute("language"));
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        if (!jTextFieldId.getText().equals(""))
+            html += jTextFieldId.getText();
+
+        if (!jTextFieldEntry.getText().equals("")) {
+            if (!html.equals(""))
+                html += ":" + jTextFieldEntry.getText();
+            else
+                html = jTextFieldEntry.getText();
+        }
+
+        if (html.equals(""))
+            html = null;
+        else
+            html += "<br>";
+
+        return html;
+    }
 }

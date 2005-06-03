@@ -85,4 +85,9 @@ class TextForm extends FormContainer {
 
         c.fromXML(path, e);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLRow(key);
+    }
 }

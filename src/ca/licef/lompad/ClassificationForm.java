@@ -53,4 +53,9 @@ class ClassificationForm extends FormContainer {
         keyword.addFormContent();
         addComponent(keyword);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

@@ -107,7 +107,6 @@ class JDialogDateSelector extends JDialog {
         calendar.setDate( currentDate );
         jPanelContent.add(calendar, BorderLayout.CENTER);
 
-
         jButtonOk = new JButton("OK");
         jButtonOk.setFont(jComboBoxMonth.getFont());
         jButtonCancel = new JButton("cancel");

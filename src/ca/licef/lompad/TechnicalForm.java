@@ -70,4 +70,9 @@ class TechnicalForm extends FormContainer {
         duration.addFormContent();
         addComponent(duration);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

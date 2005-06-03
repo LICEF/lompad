@@ -313,6 +313,9 @@ class JPanelForm extends JPanel {
 
     }
 
+    void viewHTML() {
+        popHTML(lomForm.toHTML());
+    }
 
     void viewXML() {
         popXML(lomForm.toXML());
@@ -325,6 +328,26 @@ class JPanelForm extends JPanel {
             String file = java_tmp + "output.xml";
             java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(file));
             dos.writeBytes(xml);
+            dos.flush();
+            dos.close();
+            Util.launchRessourceName("iexplore", file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void popHTML(String html) {
+        int index = html.indexOf("<head>") + "<head>".length();
+        html = html.substring(0, index) +
+               "<TITLE>" + "ss" + "</TITLE>" +
+               html.substring(index);
+
+        try {
+            String java_tmp = System.getProperty("java.io.tmpdir").replace('\\', '/');
+            if (!java_tmp.endsWith("/")) java_tmp += "/";
+            String file = java_tmp + "output.html";
+            java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(file));
+            dos.writeBytes(html);
             dos.flush();
             dos.close();
             Util.launchRessourceName("iexplore", file);

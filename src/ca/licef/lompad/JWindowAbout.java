@@ -73,7 +73,7 @@ class JWindowAbout extends JWindow {
         jPanelCogigraph.addMouseListener(aSymMouse);
         panel.add(jPanelCogigraph);
 
-        jLabelBuild = new JLabel("(revision 9)");
+        jLabelBuild = new JLabel("(revision 10)");
         jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 10));
         jLabelBuild.setForeground(Color.LIGHT_GRAY);
         jLabelBuild.setBounds(260, 97, 150, 24);

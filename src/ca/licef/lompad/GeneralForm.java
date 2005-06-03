@@ -80,4 +80,9 @@ class GeneralForm extends FormContainer {
         aggregationLevel.addFormContent();
         addComponent(aggregationLevel);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

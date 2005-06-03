@@ -46,4 +46,9 @@ class RightsForm extends FormContainer {
         description.addFormContent();
         addComponent(description);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

@@ -21,6 +21,7 @@
 package ca.licef.lompad;
 
 import java.awt.*;
+import java.util.Enumeration;
 
 class DurationForm extends FormContainer {
     public DurationForm(String title, boolean isLine, boolean isMultiple) {
@@ -37,5 +38,24 @@ class DurationForm extends FormContainer {
         LangstringForm description = new LangstringForm("description", false, true, true);
         description.addFormContent();
         addComponent(description);
+    }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res =(c instanceof FormContainer)?
+                    c.toHTMLData(key):c.toHTML(key);
+            if (res != null) html += res;
+        }
+
+        if (!html.equals(""))
+            html = "<TR><TD WIDTH=\"160\" VALIGN=\"TOP\"><B>" + Util.getLabel(key)+ "</B></TD>" +
+                    "<TD VALIGN=\"TOP\">" + html + "</TD></TR>";
+        else
+            html = null;
+
+        return html;
     }
 }

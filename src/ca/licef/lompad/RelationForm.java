@@ -41,4 +41,9 @@ class RelationForm extends FormContainer {
         resource.addFormContent();
         addComponent(resource);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

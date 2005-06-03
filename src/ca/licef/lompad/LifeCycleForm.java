@@ -49,4 +49,9 @@ class LifeCycleForm extends FormContainer {
         contribute.addFormContent();
         addComponent(contribute);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

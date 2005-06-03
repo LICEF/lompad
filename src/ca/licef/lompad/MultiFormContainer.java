@@ -230,4 +230,21 @@ class MultiFormContainer extends JPanel {
 
         jListForms.setSelectedIndex(0);
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormContainer c = (FormContainer) e.nextElement();
+            String res = c.toHTML(key);
+            if (res != null)
+                html += res;
+        }
+
+        if (html.equals(""))
+            html = null;
+
+        return html;
+    }
 }

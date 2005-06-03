@@ -107,4 +107,9 @@ class EducationalForm extends FormContainer {
         language.addFormContent();
         addComponent(language);
     }
+
+    //HTML
+    String toHTML(String key) {
+        return toHTMLCategory(key);
+    }
 }

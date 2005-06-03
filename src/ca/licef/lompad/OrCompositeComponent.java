@@ -213,4 +213,22 @@ class OrCompositeComponent extends FormComponent {
             }
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        if (jComboBoxName.getSelectedItem() != null) {
+            html += Util.getVocabulary(((OrderedValue) jComboBoxType.getSelectedItem()).value.toString()) + " : " +
+                        jComboBoxName.getSelectedItem() + "<br>";
+        }
+        if (!jTextFieldMinVer.getText().equals(""))
+            html += Util.getLabel(key + ".1.3") + " : " + jTextFieldMinVer.getText() + "<br>";
+
+        if (!jTextFieldMaxVer.getText().equals(""))
+            html += Util.getLabel(key + ".1.4") + " : " + jTextFieldMaxVer.getText() + "<br>";
+
+        if (html.equals("")) html = null;
+        return html;
+    }
 }

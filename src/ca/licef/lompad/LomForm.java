@@ -356,4 +356,36 @@ class LomForm extends JPanel {
             }
         }
     }
+
+    //HTML
+    public String toHTML() {
+        String html = "<html><head>";
+
+        html += "<style TYPE=\"text/css\">"+
+                "<!-- p, td, ul, li, ol, textarea {" +
+                "font-family: arial, sans-serif;" +
+                "font-weight: normal;" +
+                "color: #000000;" +
+                "font-size: 12px; --></style>";
+
+        //html += "<link href=\"lom.css\" rel=\"stylesheet\" type=\"text/css\">";
+
+        html += "</head><body BGCOLOR=\"white\"><DIV ALIGN=\"CENTER\">";
+        int i = 1;
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements(); i++) {
+            Object c = e.nextElement();
+            String res = null;
+            if (c instanceof FormContainer)
+                res = ((FormContainer) c).toHTML(i + "");
+            if (c instanceof MultiFormContainer)
+                res = ((MultiFormContainer) c).toHTML(i + "");
+
+            if (res != null)
+                html += res;
+        }
+
+        html += "</DIV></body></html>\n";
+
+        return html;
+    }
 }

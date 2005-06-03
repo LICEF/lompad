@@ -118,4 +118,12 @@ class FormatComponent extends FormComponent {
             jTextField.setCaretPosition(0);
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = null;
+        if (!jTextField.getText().equals(""))
+            html = jTextField.getText() + "<br>";
+        return html;
+    }
 }

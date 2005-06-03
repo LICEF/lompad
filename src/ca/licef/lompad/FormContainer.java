@@ -404,4 +404,79 @@ abstract class FormContainer extends FormComponent {
             }
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        int i = 1;
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements(); i++) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = c.toHTML(key + "." + i);
+            if (res != null) html += res;
+        }
+
+        if (!html.equals(""))
+            html = "<TABLE BORDER=\"0\" CELLPADDING=\"3\" CELLSPACING=\"0\" WIDTH=\"95%\">\n" +
+                    "<TR VALIGN=\"TOP\"><TD><P><B>" + Util.getLabel(key)+ "</B>\n" +
+                    "</TD></TR></TABLE>" + html;
+        else
+            html = null;
+
+        return html;
+    }
+
+    String toHTMLCategory(String key) {
+        String html = "";
+        int i = 1;
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements(); i++) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = c.toHTML(key + "." + i);
+            if (res != null) html += res;
+        }
+
+        if (!html.equals(""))
+
+            html =  "<TABLE BORDER=\"0\" CELLPADDING=\"3\" CELLSPACING=\"0\" WIDTH=\"95%\">\n" +
+                    "<TR VALIGN=\"TOP\"><TD><P><B>" + Util.getLabel(key)+ "</B>\n" +
+                    "</TD></TR></TABLE>" +
+                    "<TABLE BORDER=\"1\" CELLPADDING=\"3\" CELLSPACING=\"0\" WIDTH=\"95%\">\n" +
+                    html + "</TABLE><br><br>";
+        else
+            html = null;
+
+        return html;
+    }
+
+    String toHTMLRow(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = c.toHTML(key);
+            if (res != null) html += res;
+        }
+
+        if (!html.equals(""))
+            html = "<TR><TD WIDTH=\"160\" VALIGN=\"TOP\"><B>" + Util.getLabel(key)+ "</B></TD>" +
+                    "<TD VALIGN=\"TOP\">" + html + "</TD></TR>";
+        else
+            html = null;
+
+        return html;
+    }
+
+    String toHTMLData(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res =(c instanceof FormContainer)?
+                    c.toHTMLData(key):c.toHTML(key);
+            if (res != null) html += res;
+        }
+
+        if (html.equals(""))
+            html = null;
+
+        return html;
+    }
 }

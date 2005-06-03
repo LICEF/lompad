@@ -122,4 +122,21 @@ class IdentifierComponent extends FormComponent {
             }
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        //cas particulier
+        if (key.startsWith("7.2"))
+            key += ".1";
+        
+        if (!jTextFieldCatalog.getText().equals(""))
+            html += Util.getLabel(key + ".1") + " : " + jTextFieldCatalog.getText() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        if (!jTextFieldEntry.getText().equals(""))
+            html += Util.getLabel(key + ".2") + " : " + jTextFieldEntry.getText() + "<br>";
+
+        if (html.equals("")) html = null;
+        return html;
+    }
 }

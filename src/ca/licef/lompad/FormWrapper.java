@@ -62,4 +62,22 @@ class FormWrapper extends FormContainer {
             c.fromXML(path, e);
         }
     }
+
+    //HTML
+    String toHTML(String key, boolean incr) {
+        String html = "";
+
+        int i = 1;
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements(); i++) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = c.toHTMLData(key + (incr?"." + i:""));
+            if (res != null)
+                html += res;
+        }
+
+        if (html.equals(""))
+            html = null;
+
+        return html;
+    }
 }

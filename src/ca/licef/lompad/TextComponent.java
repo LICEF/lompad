@@ -80,4 +80,26 @@ class TextComponent extends FormComponent {
             currentJTextComponent.setCaretPosition(0);
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = null;
+        if (isFilled()) {
+            html = currentJTextComponent.getText();
+            //cas particulier
+            if ("4.3".equals(key))
+                html = "<a href=\"" + html + "\" target=\"_blank\">" + html + "</a>";
+            if ("9.2.1".equals(key))
+                html = Util.getLabel(key) + " : " + html;
+
+            html += "<br>";
+            if (currentJTextComponent instanceof JTextArea) {
+                html = html.replaceAll("\n", "<br>");
+                html += "<br>";
+            }
+
+        }
+
+        return html;
+    }
 }

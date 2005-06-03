@@ -139,10 +139,12 @@ class DatetimeComponent extends FormComponent {
         jTextFieldTZHour.setMinimumSize(new Dimension(25, 20));
         jTextFieldTZHour.setPreferredSize(new Dimension(25, 20));
         jTextFieldTZHour.setMaximumSize(new Dimension(25, 20));
+        jTextFieldTZHour.setBackground(Color.white);
         jTextFieldTZMin = new NumericTextField(2, "00", "59");
         jTextFieldTZMin.setMinimumSize(new Dimension(25, 20));
         jTextFieldTZMin.setPreferredSize(new Dimension(25, 20));
         jTextFieldTZMin.setMaximumSize(new Dimension(25, 20));
+        jTextFieldTZMin.setBackground(Color.white);
 
         jLabelDate = new LocalizeJLabel("date");
         jLabelDate.setFont(fontLabel);
@@ -253,12 +255,7 @@ class DatetimeComponent extends FormComponent {
         jTextFieldFracSec.setBackground(Color.white);
         jRadioButtonZ.setEnabled(b);
         jRadioButtonDecal.setEnabled(b);
-        jComboBoxSign.setEnabled(b && jRadioButtonDecal.isSelected());
-        jTextFieldTZHour.setEditable(b && jRadioButtonDecal.isSelected());
-        jTextFieldTZHour.setBackground(Color.white);
-        jTextFieldTZMin.setEditable(b && jRadioButtonDecal.isSelected());
-        jTextFieldTZMin.setBackground(Color.white);
-
+        setEnabledTZ(b);
         jButtonWizard.setVisible(b);
     }
 
@@ -333,11 +330,9 @@ class DatetimeComponent extends FormComponent {
     }
 
     void setEnabledTZ(boolean b) {
-        jComboBoxSign.setEnabled(b);
-        jTextFieldTZHour.setEnabled(b);
-        jTextFieldTZMin.setEnabled(b);
-        jLabelTZHour.setEnabled(b);
-        jLabelTZMin.setEnabled(b);
+        jComboBoxSign.setEnabled(b && jRadioButtonDecal.isSelected());
+        jTextFieldTZHour.setEditable(b && jRadioButtonDecal.isSelected());
+        jTextFieldTZMin.setEditable(b && jRadioButtonDecal.isSelected());
     }
 
     int pos = 0;
@@ -494,5 +489,52 @@ class DatetimeComponent extends FormComponent {
                 }
             }
         }
+    }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        if (jTextFieldYear.isFilled()) {
+            html += jTextFieldYear.getText();
+            if (jTextFieldMonth.isFilled()) {
+                html += "-" + jTextFieldMonth.getText();
+                if (jTextFieldDay.isFilled()) {
+                    html += "-" + jTextFieldDay.getText();
+                    String htmlTime = "";
+                    if (jTextFieldHour.isFilled()) {
+                        htmlTime += jTextFieldHour.getText();
+                        if (jTextFieldMin.isFilled()) {
+                            htmlTime += ":" + jTextFieldMin.getText();
+                            if (jTextFieldSec.isFilled()) {
+                                htmlTime += ":" + jTextFieldSec.getText();
+
+                                if (!jTextFieldFracSec.getText().equals(""))
+                                    htmlTime += "." + jTextFieldFracSec.getText();
+                            }
+
+                            if (jRadioButtonZ.isSelected())
+                                htmlTime += "Z";
+
+                            if (jRadioButtonDecal.isSelected() &&
+                                    jTextFieldTZHour.isFilled() && jTextFieldTZMin.isFilled()) {
+                                htmlTime += jComboBoxSign.getSelectedItem();
+                                htmlTime += jTextFieldTZHour.getText() + ":" + jTextFieldTZMin.getText();
+
+                            }
+                        }
+                    }
+                    if (!"".equals(htmlTime))
+                        html += " " + htmlTime;
+                }
+            }
+        }
+
+        if (html.equals(""))
+            html = null;
+        else
+            html += "<br>";
+
+        return html;
     }
 }

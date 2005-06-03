@@ -265,4 +265,40 @@ class DurationComponent extends FormComponent {
             }
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+
+        if (jTextFieldYear.getText().length() > 0)
+            html += jTextFieldYear.getText() + " " + jLabelYear.getText();
+        if (jTextFieldMonth.getText().length() > 0)
+            html += (html.equals("")?"":" + ") + jTextFieldMonth.getText() + " " + jLabelMonth.getText();
+        if (jTextFieldDay.getText().length() > 0)
+            html += (html.equals("")?"":" + ") + jTextFieldDay.getText() + " " + jLabelDay.getText();;
+
+        if (jTextFieldHour.getText().length() > 0)
+            html += (html.equals("")?"":" + ") + jTextFieldHour.getText() + " " + jLabelHour.getText();;
+        if (jTextFieldMin.getText().length() > 0)
+            html += (html.equals("")?"":" + ") + jTextFieldMin.getText() + " " + jLabelMin.getText();;
+        String sec = "";
+        if (jTextFieldSec.getText().length() > 0) {
+            int secVal = Integer.parseInt(jTextFieldSec.getText());
+            if (secVal > 0)
+                sec += secVal;
+        }
+        if (jTextFieldFracSec.getText().length() > 0) {
+            int fracSecVal = Integer.parseInt(jTextFieldFracSec.getText());
+            if (fracSecVal > 0)
+                sec = (sec.equals("") ? "0" : sec) + "." + jTextFieldFracSec.getText();
+        }
+        if (!sec.equals("")) html += (html.equals("")?"":" + ") + sec + " " + jLabelSec.getText();
+
+        if (html.equals(""))
+            html = null;
+        else
+            html = html + "<br>";
+
+        return html;
+    }
 }

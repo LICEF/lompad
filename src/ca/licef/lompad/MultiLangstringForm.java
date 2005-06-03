@@ -72,4 +72,23 @@ class MultiLangstringForm extends FormContainer {
 
         c.fromXML(path, e, false);
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = ((FormWrapper) c).toHTML(key, false);
+            if (res != null)
+                html += res;
+        }
+
+        if (!html.equals(""))
+            html = "<TR><TD WIDTH=\"140\" VALIGN=\"TOP\"><B>" + Util.getLabel(key)+ "</B></TD>" +
+                    "<TD VALIGN=\"TOP\">" + html + "</TD></TR>";
+        else
+            html = null;
+
+        return html;
+    }
 }

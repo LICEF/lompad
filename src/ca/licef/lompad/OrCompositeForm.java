@@ -87,4 +87,22 @@ class OrCompositeForm extends FormContainer {
             }
         }
     }
+
+    //HTML
+    String toHTMLData(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res =(c instanceof FormContainer)?
+                    c.toHTMLData(key):c.toHTML(key);
+            if (res != null) html += (html.equals("")?"":
+                    ("fr".equals(Util.resBundleLabel.getLocale().getLanguage())?"OU":"OR") +
+                    "<br>") + res;
+        }
+
+        if (html.equals(""))
+            html = null;
+
+        return html;
+    }
 }

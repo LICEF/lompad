@@ -121,4 +121,22 @@ class EntityComponent extends FormComponent {
             if (vCard.startsWith("END:")) b = false;
         }
     }
+
+    //HTML
+    String toHTML(String key) {
+        String html = "";
+        if (!jTextFieldName.getText().equals(""))
+            html += jTextFieldName.getText();
+        if (!jTextFieldOrg.getText().equals(""))
+            html += (html.equals("")?"":"; ") + jTextFieldOrg.getText();
+        if (!jTextFieldEMail.getText().equals(""))
+            html += (html.equals("")?"":"; ") + "<i>" + jTextFieldEMail.getText() + "</i>";
+
+        if (html.equals(""))
+            html = null;
+        else
+            html += "<br>";
+
+        return html;
+    }
 }

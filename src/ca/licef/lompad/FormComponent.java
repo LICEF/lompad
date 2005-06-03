@@ -90,4 +90,13 @@ abstract class FormComponent extends JComponent {
     void fromXML(String path, Element e) {
         System.out.println("feuille");
     }
+
+    //HTML
+    String toHTML(String key) {
+        return "feuille";
+    }
+
+    String toHTMLData(String key) {
+        return "feuille";
+    }
 }
