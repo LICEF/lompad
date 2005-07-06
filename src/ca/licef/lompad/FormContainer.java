@@ -124,8 +124,10 @@ abstract class FormContainer extends FormComponent {
                 JButton button = (JButton) e.nextElement();
                 button.setVisible(b);
             }
-            if (b)
-                jPanelControl.remove(0);
+            if (b) {
+                if (jPanelControl.getComponentCount() > 0)
+                    jPanelControl.remove(0);
+            }
             else
                 jPanelControl.add(Box.createHorizontalStrut(CONTROL_WIDTH));
         }
