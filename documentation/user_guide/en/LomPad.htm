@@ -2,11 +2,7 @@
 
 <head>
 <title>Ressources Manager</title>
-<SCRIPT LANGUAGE="JavaScript" SRC="../../../../style/style.js"></SCRIPT>
-<SCRIPT LANGUAGE="JavaScript" SRC="../../../../style/Css.js"></SCRIPT>
-<script language="JavaScript" type="text/JavaScript">
-
-</script>
+<link href="main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -16,7 +12,7 @@
 <table width="92%" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
     <td width="1%">&nbsp;</td>
-    <td width="31%" align="left" valign="top"> <h3>LomPad</h3>
+    <td width="31%" align="left" valign="top"> <h1>LomPad</h1>
     </td>
     <td width="23%" align="left" valign="top"><input type="button" value="Print" name="Exemple" onClick="javascript:window.print()">
     &nbsp;</td>
@@ -26,11 +22,22 @@
 
 <table class="tableBgTxt" border="0" cellspacing="5" width="100%" cellpadding="0" height="30%" align="center">
   <tr> 
-    <td width="92%" height="12" valign="top"><p>The goal of this help is to facilitate the use of features in the <strong>LomPad</strong>. This system allows 
-        the referencing of the resources with metadata according to the international 
-        <em>IEEE LOM, SCORM, CANCORE</em> and <em>Normetic</em> standards. </p>
-      <h3>A) Menu Bar</h3>
-      <ul>
+    <td width="92%" height="12" valign="top"><ul>
+      <li><a href="#lompad">1. LomPad Interface</a></li>
+      <li><a href="#manage">2. Manage LOM</a>
+        <ul>
+          <li><a href="#create_lom">2.1 Create a LOM</a></li>
+          <li><a href="#complete_lom">2.2 Complete Metadata</a></li>
+          </ul>
+      </li>
+      <li><a href="#open_lom">3. Open a LOM</a></li>
+      <li><a href="#save_lom">4. Save a LOM</a></li>
+      <li><a href="#view_lom">5. View the LOM in XML format</a></li>
+      <li><a href="#quit_lom">6. Quit a LomPad</a></li>
+      <li><a href="#ref">Reference</a></li>
+    </ul>      <p>LomPad system allows the referencing of learning resources using metadata according to the international IEEE LOM standard and also to SCORM, CANCORE and Normetic application profiles. </p>      
+      <h2><a name="lompad" id="lompad"></a>1. LomPad Interface:</h2>
+      <p>PALOMA interface is composed of a menu bar and section: </p>      <ul>
         <li>The Menu Bar gives access to a series of drop-down menus containing <strong>LomPad</strong>'s  commands. 
           <ul>
             <li><strong>File</strong> : 
@@ -44,19 +51,18 @@
             <li><strong>Help</strong> : Access the IEEE Reference document.</li>
           </ul>
         </li>
+        <li>The section is :
+          <ul><li><strong>Metadata section</strong>: Allows to consult or edit metadata.. </li>
+            </ul>
+        </li>
       </ul>
-      <h4>B) Create, open and save LOM </h4>
-      <h4>1 To Create a LOM : </h4>
+      <h2><a name="manage" id="manage"></a>2. Manage LOM:</h2>
+      <p>You may work on lomPad to consult, add, modify or delete LOM records and their elements. </p>            <h4><a name="create_lom" id="create_lom"></a>2.1 Create a LOM: </h4>
       <ul>
         <li>To create a new LOM, click on <strong>New </strong>command on the <strong>File </strong>menu. </li>
       </ul>      
-      <h4>1.1 To enter Metadata for a new LOM:</h4>
-      <ul>
-        <li>Complete the metadata according to the LOM Profile you have previously selected.
-        <li>Once completed, don't forget to click on "Save" at the bottom of the metadata frame. </li>
-      </ul>      
-      <h4>LOM Profile metadata </h4>
-      <p>Data elements in the LOM Profile (IEEE LOM, CanCore, SCORM and Normetic) are grouped into different categories. Note that the different profiles do not include all categories. </p>
+      <h4><a name="complete_lom" id="complete_lom"></a>2.2 Complete Metadata:</h4>
+      <p>Data elements in the LOM Profile (IEEE LOM, CanCore, SCORM and Normetic) are grouped into different categories. Note that the different profiles do not include all categories. See references at the end of this document for more details. </p>
       <p>The 9 (nine) categories are: </p>
       <ol>
         <li> The<em> General </em>category groups the general information that describes the learning object as a whole.</li>
@@ -73,43 +79,46 @@
     information on when and by whom the comments were created.</li>
         <li>The <em>Classification</em> category describes this learning object in relation to a particular classification system.</li>
       </ol>
-      <h4>1.1.1 To add an element or a sub-element: </h4>      
-      <p>For some metadata elements, you may have many instances of an element or sub-element:
+      <p>To complete metadata (LOM):</p>
+      <ul><li>Complete the metadata you have on this learning object by filling the corresponding fields. For element (category or element) having multiple cardinality, see sections below. 
+        <li>Once completed, don't forget to click on <strong><em>Save</em></strong> at the bottom of the <em>Metadata section</em>. </li>
+      </ul>                  <h4>2.2.1. Add an element or a sub-element:</h4>
+      <p>For some metadata elements, you may have multiple cardinality:
       <ul>
-        <li>Click on the plus (+) button on the right of the metadata (or its leafs) to add a new element (or sub-element). </li>
+        <li>Click on the plus (+) button on the right of the field corresponding to the metadata (or its leafs) to add a new element (or sub-element). </li>
+      </ul>
+      <h4>2.2.2. Remove an element of sub-element:</h4>
+      <ul>
+        <li>Click on the minus (-) button on the right of the metadata (or its leafs) to remove an element (or sub-element). </li>
+      </ul>
+      <h4>2.2.3. Add a metadata category :</h4>
+      <p>As well, for some categories <strong><em>Educational, Relation, Annotation </em> </strong>or<strong> <em>Classification</em></strong>, you may have multiple cardinality:
+      <ul>
+        <li> Select the category in the <em>Metadata section:</em> <strong><em>Educational, Relation, Annotation </em></strong> or <strong><em>Classification</em></strong>.
+        <li>Click on the plus (+) button on the left part of the <em>Metadata section</em>. 
+      </ul>
+      <h4> 2.2.4. Remove a category:</h4>
+      <ul>
+        <li>Select the category in the <em>Metadata section:</em><strong><em> Educational, Relation, Annotation </em></strong> or <strong><em>Classification</em></strong>.
+        <li>Select the category on the left part of the <em>Metadata section</em> you want to remove.
+        <li>Click on the minus (-) button on the left part of the <em>Metadata section</em>. </li>
       </ul>      
-      <h4>1.1.2 To delete an element of sub-element: </h4>
-      <ul>
-        <li>Click on the minus (-) button on the right of the metadata (or its leafs) to delete an element (or sub-element). </li>
-      </ul>
-      <h4>1.1.3 To add a metadata category (or duplicate a category): </h4>
-      <p>As well, for some categories <em>Educational, Relation, Annotation </em> or <em>Classification </em>, you may have many instances:
-      <ul>
-        <li>Select the tag corresponding to the category in the Metadata section(entitled "Profile").
-        <li>Click on the plus (+) button on the left part of the Metadata section. </li>
-      </ul>
-      <h4>1.1.4 To delete a duplicate category: </h4>
-      <ul>
-        <li>Select the tag corresponding to the category in the Metadata ("Profile") section <em>Educational, Relation, Annotation </em> or <em>Classification </em>.
-        <li>Select a duplicated category on the left part of the Metadata section.
-        <li>Click on the minus (-) button on the left part of the Metadata section. </li>
-      </ul>
-      <h4>2 To Open a LOM: </h4>      
+      <h2><a name="open_lom" id="open_lom"></a>3. Open a LOM: </h2>      
       <ul>
         <li>Click on <strong>Open </strong>command on the <strong>File </strong>menu. </li>
-        <li>This command opens a Windows&reg; <strong>Open </strong>dialog box where you can locate and open the document using its file name. </li>
+        <li>This command opens dialog box where you can locate and open the document using its file name. </li>
       </ul>      
-      <h4>3 To Save a LOM: </h4>
+      <h2><a name="save_lom" id="save_lom"></a>4. Save a LOM: </h2>
       <p>To store your LOM in a folder (directory) under an appropriate name, click on one of the save commands ( <strong>Save </strong>or <strong>Save As </strong> ) following Windows&reg; standards.  </p>      
-      <h4>4 To view the LOM in XML format: </h4>      
+      <h2><a name="view_lom" id="view_lom"></a>5.  View the LOM in XML format: </h2>      
       <ul>
         <li>Click on <strong>XML </strong>command on the <strong>File </strong>menu.
         <li>The XML document will be displayed with color-coded root and child elements. Clicking on the plus (+) or minus (-) signs on the left will expand or collapse the metadata element structure. </li>
       </ul>
-      <h4>5 To Quit the LorPad:</h4>
+      <h2><a name="quit_lom" id="quit_lom"></a>6. Quit a LomPad:</h2>
       <ul>
         <li>Click on <strong>Quit </strong>command on the <strong>File </strong>menu.</li>
-      </ul>      <h3>Reference :</h3>
+      </ul>            <h2><a name="ref" id="ref"></a>Reference:</h2>
       <p><em><a href="LOM_1484_12_1_v1_Final_Draft.pdf">Draft Standard for Learning Object Metadata</a></em>, Learning Technology Standards Committee<br>
       of the IEEE, 2002, USA. </p>
       <p>
