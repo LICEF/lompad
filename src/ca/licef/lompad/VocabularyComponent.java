@@ -62,7 +62,6 @@ class VocabularyComponent extends FormComponent {
 
     public void setEnabled(boolean b) {
         jComboBoxVocabulary.setEnabled(b);
-        jComboBoxVocabulary.setEditable(b && isEditable);
     }
 
     class SymAction implements java.awt.event.ActionListener {
@@ -118,7 +117,7 @@ class VocabularyComponent extends FormComponent {
                 xml = "<source>LOMv1.0</source>\n" +
                         "<value>" + Util.getXMLVocabulary(getSelectedValue().value.toString()) + "</value>\n";
             else
-                xml = getSelectedValue() + "\n";
+                xml = Util.convertSpecialCharactersForXML(getSelectedValue().toString()) + "\n";
         }
         return xml;
     }

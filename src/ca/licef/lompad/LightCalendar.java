@@ -26,8 +26,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 
-class LightCalendar extends JComponent
-{
+class LightCalendar extends JComponent {
     public static final Color   BG_MONTH_NAME       = new Color(117, 123, 114);
     public static final Color   FG_MONTH_NAME       = new Color(225, 222, 215);
     public static final Color   BG_DAY_NAME         = new Color(117, 123, 114);
@@ -40,12 +39,10 @@ class LightCalendar extends JComponent
     JDialogDateSelector parent;
 
     /**
-     *
      * Le parametre calendrier peut etre null si aucun update n'est requis
      * sur le parent lorsque l'on selectionne une journee du petit calendrier.
      */
-	public LightCalendar( JDialogDateSelector parent, boolean drawMonthName )
-    {
+    public LightCalendar(JDialogDateSelector parent, boolean drawMonthName) {
 	    super();
         this.parent = parent;
 
@@ -67,8 +64,7 @@ class LightCalendar extends JComponent
 		//}}
 	}
 
-	public void setDate(Date date)
-	{
+    public void setDate(Date date) {
         Calendar cal = Calendar.getInstance();
 	    cal.setTime( date );
 	    annee = cal.get( Calendar.YEAR );
@@ -79,23 +75,19 @@ class LightCalendar extends JComponent
         selectionner(date);
 	}
 
-	public Date getDate()
-	{
+    public Date getDate() {
         return dateDebutMois;
     }
 
-	public Date getDateSelectionnee()
-	{
+    public Date getDateSelectionnee() {
 	    return( selectedDate );
 	}
 
-	public void update(Graphics g)
-	{
+    public void update(Graphics g) {
 	    paint(g);
 	}
 
-	public void paint(Graphics g)
-	{
+    public void paint(Graphics g) {
 	    int width = getSize().width;
 	    int height = getSize().height;
 
@@ -199,8 +191,7 @@ class LightCalendar extends JComponent
 	    g.drawImage( offImage, 0, 5, null );
 	}
 
-	public void selectionner( Date date )
-    {
+    public void selectionner(Date date) {
         selectedDate = date;
         selectedRow = -1;
         selectedCol = -1;
@@ -227,8 +218,7 @@ class LightCalendar extends JComponent
         while( ( selectedRow == -1 ) && ( testedRow < 6 ) ) {
             if( ( minJour <= jour ) && ( jour <= maxJour ) ) {
                 selectedRow = testedRow;
-            }
-            else {
+            } else {
                 minJour += maxJour - minJour + 1;
                 maxJour += 7;
                 testedRow += 1;
@@ -238,15 +228,13 @@ class LightCalendar extends JComponent
         repaint();
     }
 
-    public void deselectionner()
-	{
+    public void deselectionner() {
 	    selectedRow = -1;
 	    selectedCol = -1;
 	    repaint();
     }
 
-	private Date trouveDateDebutMois( Date date )
-	{
+    private Date trouveDateDebutMois(Date date) {
 	    Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         cal.set( Calendar.DATE, 1 );

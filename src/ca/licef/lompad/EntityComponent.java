@@ -82,11 +82,12 @@ class EntityComponent extends FormComponent {
     String toXML(String key) {
         String vCard = "";
         if (!jTextFieldName.getText().equals(""))
-            vCard += "FN:" + jTextFieldName.getText() + "\n";
+            vCard += "FN:" + Util.convertSpecialCharactersForXML(jTextFieldName.getText()) + "\n";
         if (!jTextFieldEMail.getText().equals(""))
-            vCard += "EMAIL;TYPE=INTERNET:" + jTextFieldEMail.getText() + "\n";
+            vCard += "EMAIL;TYPE=INTERNET:" +
+                    Util.convertSpecialCharactersForXML(jTextFieldEMail.getText()) + "\n";
         if (!jTextFieldOrg.getText().equals(""))
-            vCard += "ORG:" + jTextFieldOrg.getText() + "\n";
+            vCard += "ORG:" + Util.convertSpecialCharactersForXML(jTextFieldOrg.getText()) + "\n";
 
         if (vCard.equals(""))
             vCard = null;

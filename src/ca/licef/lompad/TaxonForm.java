@@ -74,13 +74,13 @@ class TaxonForm extends FormContainer {
     String toHTMLData(String key) {
         String html = "";
         int i = 0;
-        int j = 0;
+        int j = -1;
         for (Enumeration e = vComponents.elements(); e.hasMoreElements(); i++) {
             FormComponent c = (FormComponent) e.nextElement();
             String res =(c instanceof FormContainer)?
                     c.toHTMLData(key):c.toHTML(key);
             if (res != null) {
-                html = ((i == 0)?"<LI>":"") + html + doTab(j) + res;
+                html = ((i == 0) ? "<LI>" : "") + html + doTab((i == 0) ? 0 : 13 + j*10) + res;
                 j++;
             }
         }
@@ -93,7 +93,7 @@ class TaxonForm extends FormContainer {
     String doTab(int n) {
         String res = "";
         for (int i = 0; i < n; i++)
-            res += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            res += "&nbsp;";
         return res;
     }
 }

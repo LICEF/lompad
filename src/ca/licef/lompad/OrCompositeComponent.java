@@ -141,8 +141,6 @@ class OrCompositeComponent extends FormComponent {
                 if (values != null)
                     for (int i = 0; i < values.length; i++)
                         jComboBoxName.addItem(values[i]);
-
-                jComboBoxName.setEnabled(index > 0);
             }
         }
     }
@@ -164,10 +162,12 @@ class OrCompositeComponent extends FormComponent {
                     "</" + Util.getTag(key + ".2") + ">\n";
         }
         if (!jTextFieldMinVer.getText().equals(""))
-            xml += "<" + Util.getTag(key + ".3") + ">" + jTextFieldMinVer.getText() +
+            xml += "<" + Util.getTag(key + ".3") + ">" +
+                    Util.convertSpecialCharactersForXML(jTextFieldMinVer.getText()) +
                     "</" + Util.getTag(key + ".3") + ">\n";
         if (!jTextFieldMaxVer.getText().equals(""))
-            xml += "<" + Util.getTag(key + ".4") + ">" + jTextFieldMaxVer.getText() +
+            xml += "<" + Util.getTag(key + ".4") + ">" +
+                    Util.convertSpecialCharactersForXML(jTextFieldMaxVer.getText()) +
                     "</" + Util.getTag(key + ".4") + ">\n";
 
         if (xml.equals("")) xml = null;

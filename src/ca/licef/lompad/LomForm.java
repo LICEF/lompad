@@ -59,8 +59,6 @@ class LomForm extends JPanel {
 
     protected Vector vComponents;
 
-    Vector vOnglets = new Vector();
-
     String lastLom;
     String newLom;
 
@@ -84,7 +82,6 @@ class LomForm extends JPanel {
         jPanelGeneral.setLayout(new BoxLayout(jPanelGeneral, BoxLayout.Y_AXIS));
         jScrollPaneGeneral.getViewport().add(jPanelGeneral);
         jPanelGeneral.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletGeneral);
 
         jPanelOngletLifeCycle.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletLifeCycle);
@@ -93,7 +90,6 @@ class LomForm extends JPanel {
         jPanelLifeCycle.setLayout(new BoxLayout(jPanelLifeCycle, BoxLayout.Y_AXIS));
         jScrollPaneLifeCycle.getViewport().add(jPanelLifeCycle);
         jPanelLifeCycle.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletLifeCycle);
 
         jPanelOngletMetaMetadata.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletMetaMetadata);
@@ -102,7 +98,6 @@ class LomForm extends JPanel {
         jPanelMetaMetadata.setLayout(new BoxLayout(jPanelMetaMetadata, BoxLayout.Y_AXIS));
         jScrollPaneMetaMetadata.getViewport().add(jPanelMetaMetadata);
         jPanelMetaMetadata.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletMetaMetadata);
 
         jPanelOngletTechnical.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletTechnical);
@@ -111,12 +106,10 @@ class LomForm extends JPanel {
         jPanelTechnical.setLayout(new BoxLayout(jPanelTechnical, BoxLayout.Y_AXIS));
         jScrollPaneTechnical.getViewport().add(jPanelTechnical);
         jPanelTechnical.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletTechnical);
 
         jPanelOngletEducational.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletEducational);
         jPanelOngletEducational.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletEducational);
 
         jPanelOngletRights.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletRights);
@@ -125,22 +118,18 @@ class LomForm extends JPanel {
         jPanelRights.setLayout(new BoxLayout(jPanelRights, BoxLayout.Y_AXIS));
         jScrollPaneRights.getViewport().add(jPanelRights);
         jPanelRights.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletRights);
 
         jPanelOngletRelation.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletRelation);
         jPanelOngletRelation.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletRelation);
 
         jPanelOngletAnnotation.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletAnnotation);
         jPanelOngletAnnotation.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletAnnotation);
 
         jPanelOngletClassification.setLayout(new BorderLayout(0, 0));
         jTabbedPaneLom.add(jPanelOngletClassification);
         jPanelOngletClassification.setBackground(bgColor);
-        vOnglets.addElement(jPanelOngletClassification);
 
         jTabbedPaneLom.setSelectedIndex(0);
 
@@ -367,8 +356,6 @@ class LomForm extends JPanel {
                 "font-weight: normal;" +
                 "color: #000000;" +
                 "font-size: 12px; --></style>";
-
-        //html += "<link href=\"lom.css\" rel=\"stylesheet\" type=\"text/css\">";
 
         html += "</head><body BGCOLOR=\"white\"><DIV ALIGN=\"CENTER\">";
         int i = 1;

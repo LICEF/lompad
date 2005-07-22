@@ -86,7 +86,7 @@ class TaxonPathForm extends FormContainer {
         }
 
         if (!html.equals(""))
-            html = "<TR><TD WIDTH=\"140\" VALIGN=\"TOP\"><B>" + Util.getLabel(key)+ "</B></TD>" +
+            html = "<TR><TD WIDTH=\"160\" VALIGN=\"TOP\"><B>" + Util.getLabel(key) + "</B></TD>" +
                     "<TD VALIGN=\"TOP\">" + html + "</TD></TR>";
         else
             html = null;

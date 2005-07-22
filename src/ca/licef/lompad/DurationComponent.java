@@ -275,12 +275,11 @@ class DurationComponent extends FormComponent {
         if (jTextFieldMonth.getText().length() > 0)
             html += (html.equals("")?"":" + ") + jTextFieldMonth.getText() + " " + jLabelMonth.getText();
         if (jTextFieldDay.getText().length() > 0)
-            html += (html.equals("")?"":" + ") + jTextFieldDay.getText() + " " + jLabelDay.getText();;
-
+            html += (html.equals("")?"":" + ") + jTextFieldDay.getText() + " " + jLabelDay.getText();
         if (jTextFieldHour.getText().length() > 0)
-            html += (html.equals("")?"":" + ") + jTextFieldHour.getText() + " " + jLabelHour.getText();;
+            html += (html.equals("")?"":" + ") + jTextFieldHour.getText() + " " + jLabelHour.getText();
         if (jTextFieldMin.getText().length() > 0)
-            html += (html.equals("")?"":" + ") + jTextFieldMin.getText() + " " + jLabelMin.getText();;
+            html += (html.equals("")?"":" + ") + jTextFieldMin.getText() + " " + jLabelMin.getText();
         String sec = "";
         if (jTextFieldSec.getText().length() > 0) {
             int secVal = Integer.parseInt(jTextFieldSec.getText());

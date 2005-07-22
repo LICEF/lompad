@@ -34,6 +34,9 @@ class FormMediator {
     void buttonRemoveComponentPerformed(FormComponent c) {
         int index = form.vComponents.indexOf(c);
         form.vComponents.removeElement(c);
+        try {
         ((FormComponent) form.vComponents.elementAt(index - 1)).updateAfterAdded();
+        } catch (Exception e) {
+        }
     }
 }

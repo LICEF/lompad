@@ -33,6 +33,7 @@ class TaxonElementForm extends FormContainer {
     public TaxonElementForm() {
         super(true);
         mediator = new LangstringMediator(this, values);
+        offset = 2;
     }
 
     void addFormContent() {
@@ -111,5 +112,27 @@ class TaxonElementForm extends FormContainer {
                 }
             }
         }
+    }
+
+    //HTML
+    String toHTMLData(String key) {
+        String html = "";
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent) e.nextElement();
+            String res = (c instanceof FormContainer) ?
+                    c.toHTMLData(key) : c.toHTML(key);
+            if (res != null) {
+                if (!"".equals(html))
+                    html += "; ";
+                html += res;
+            }
+        }
+
+        if (html.equals(""))
+            html = null;
+        else
+            html += "<br>";
+
+        return html;
     }
 }

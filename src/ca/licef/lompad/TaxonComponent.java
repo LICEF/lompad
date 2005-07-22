@@ -94,7 +94,6 @@ class TaxonComponent extends FormComponent {
         jTextFieldEntry.setEditable(b);
         jTextFieldEntry.setBackground(Color.white);
         jComboBoxLang.setEnabled(b);
-        jComboBoxLang.setEditable(b);
     }
 
 
@@ -102,7 +101,8 @@ class TaxonComponent extends FormComponent {
     String toXML_Id(String key) {
         String xml = "";
         if (!jTextFieldId.getText().equals(""))
-            xml += "<" + Util.getTag(key + ".1") + ">" + jTextFieldId.getText() +
+            xml += "<" + Util.getTag(key + ".1") + ">" +
+                    Util.convertSpecialCharactersForXML(jTextFieldId.getText()) +
                     "</" + Util.getTag(key + ".1") + ">\n";
         if (xml.equals("")) xml = null;
         return xml;
@@ -113,10 +113,11 @@ class TaxonComponent extends FormComponent {
 
         if (!jTextFieldEntry.getText().equals("")) {
             String lang = "";
-            if (jComboBoxLang.getSelectedItem() != null)
-                lang = "language=\"" + jComboBoxLang.getSelectedItem() + "\"";
-            xml = "<string " + lang + ">" +
-                    jTextFieldEntry.getText() + "</string>" + "\n";
+            String selectedItem = (String)jComboBoxLang.getSelectedItem();
+            if (selectedItem != null && !"".equals(selectedItem))
+                lang = " language=\"" + selectedItem + "\"";
+            xml = "<string" + lang + ">" +
+                    Util.convertSpecialCharactersForXML(jTextFieldEntry.getText()) + "</string>" + "\n";
         }
         if (xml.equals("")) xml = null;
         return xml;
@@ -139,20 +140,22 @@ class TaxonComponent extends FormComponent {
     String toHTML(String key) {
         String html = "";
 
-        if (!jTextFieldId.getText().equals(""))
+        if (isFirst && !jTextFieldId.getText().equals(""))
             html += jTextFieldId.getText();
 
         if (!jTextFieldEntry.getText().equals("")) {
+            String lang = "";
+            if (jComboBoxLang.getSelectedItem() != null && !"".equals(jComboBoxLang.getSelectedItem()))
+                lang = " (" + jComboBoxLang.getSelectedItem() + ")";
+
             if (!html.equals(""))
-                html += ":" + jTextFieldEntry.getText();
+                html += ":" + jTextFieldEntry.getText() + lang;
             else
-                html = jTextFieldEntry.getText();
+                html = jTextFieldEntry.getText() + lang;
         }
 
         if (html.equals(""))
             html = null;
-        else
-            html += "<br>";
 
         return html;
     }

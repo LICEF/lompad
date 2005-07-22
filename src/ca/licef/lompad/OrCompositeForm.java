@@ -95,7 +95,8 @@ class OrCompositeForm extends FormContainer {
             FormComponent c = (FormComponent) e.nextElement();
             String res =(c instanceof FormContainer)?
                     c.toHTMLData(key):c.toHTML(key);
-            if (res != null) html += (html.equals("")?"":
+            if (res != null)
+                html += (html.equals("") ? "" :
                     ("fr".equals(Util.resBundleLabel.getLocale().getLanguage())?"OU":"OR") +
                     "<br>") + res;
         }
