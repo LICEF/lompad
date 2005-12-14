@@ -31,7 +31,6 @@ class Util {
     public static Locale locale = Locale.FRENCH;
 
     //For Metatagger Localization
-    static Locale defaultLocale = new Locale("", "");//for enforce default property file
     static ResourceBundle resBundleLabel;
     static ResourceBundle resBundleTag;
     static ResourceBundle resBundlePosTag;
@@ -41,11 +40,12 @@ class Util {
 
     static {
         try {
+            Locale.setDefault(Locale.ENGLISH);
             resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
             resBundleTag = ResourceBundle.getBundle("properties.LomTag");
             resBundlePosTag = ResourceBundle.getBundle("properties.LomPosTag");
-            resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", Locale.FRENCH);
-            resBundleXMLVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", defaultLocale);
+            resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
+            resBundleXMLVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", new Locale(""));
             resBundlePosVocabulary = ResourceBundle.getBundle("properties.LomPosVocabulary");
         } catch (Exception e) {
         }
@@ -71,7 +71,7 @@ class Util {
     }
 
     static void setBundleLocale(Locale locale) {
-        resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", (locale == Locale.ENGLISH) ? defaultLocale : locale);
+        resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
         resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
     }
 
