@@ -63,7 +63,8 @@ class VocabularyForm extends FormContainer {
         String selectedProfile = JPanelForm.instance.getCurrentSelectedProfile();
         if (!selectedProfile.equals("IEEE")) {
             try {
-                fillVocabularies(Util.resBundleProfileVocabulary, "x" + title, listVocab);
+                if (Util.externalProfile != null)
+                    fillVocabularies(Util.resBundleProfileVocabulary, "x" + title, listVocab);
             } catch (Exception e) {
             }
         }

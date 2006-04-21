@@ -154,10 +154,7 @@ class JPanelForm extends JPanel {
     void changeStandardActionPerformed(String profile, boolean isVisible) {
         lomForm.preUpdateVocabularies();
         changeStandard(profile, isVisible);
-        try {
-            Util.setExternalVocabulary(getCurrentSelectedProfile());
-        } catch (Exception e) {
-        }
+        Util.setExternalVocabulary(getCurrentSelectedProfile());
         bInit = true;
         lomForm.updateVocabularies();
         bInit = false;

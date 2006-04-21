@@ -58,12 +58,20 @@ class Util {
         }
     }
 
-    static void setExternalVocabulary(String profile) throws Exception {
-        externalProfile = profile;
-        resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", locale);
-        resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", new Locale(""));
-        resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "PosVocabulary");
-        resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "VocabularySource");
+    static void setExternalVocabulary(String profile) {
+        try {
+            externalProfile = profile;
+            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", locale);
+            resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", new Locale(""));
+            resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "PosVocabulary");
+            resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "VocabularySource");
+        } catch (Exception e) { //no externeal vocabularies for this profile
+            externalProfile = null;
+            resBundleProfileVocabulary = null;
+            resBundleProfileXMLVocabulary = null;
+            resBundleProfilePosVocabulary = null;
+            resBundleProfileVocabularySource = null;
+        }
     }
 
     static String getBundleValue(ResourceBundle resBundle, String key) {
@@ -88,7 +96,8 @@ class Util {
     static void setBundleLocale(Locale locale) {
         resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
         resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
-        resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + externalProfile + "Vocabulary", locale);
+        if (externalProfile != null)
+            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + externalProfile + "Vocabulary", locale);
     }
 
     static String getLabel(String key) {
