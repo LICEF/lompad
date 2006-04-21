@@ -34,6 +34,8 @@ class VocabularyComponent extends FormComponent {
     boolean isEditable;
     boolean isLomVocabulary;
 
+    String source = "LOMv1.0";
+
     public VocabularyComponent(ControlValueMediator mediator, boolean isLomVocabulary, boolean isEditable) {
         super(mediator);
 
@@ -51,7 +53,6 @@ class VocabularyComponent extends FormComponent {
                 jComboBoxVocabulary.addItem(e.nextElement());
             previousVocabulary = getSelectedValue();
         }
-
         SymAction lSymAction = new SymAction();
         jComboBoxVocabulary.addActionListener(lSymAction);
     }
@@ -113,10 +114,17 @@ class VocabularyComponent extends FormComponent {
     String toXML(String key) {
         String xml = null;
         if (isFilled()) {
-            if (isLomVocabulary)
-                xml = "<source>LOMv1.0</source>\n" +
-                        "<value>" + Util.getXMLVocabulary(getSelectedValue().value.toString()) + "</value>\n";
-            else
+            if (isLomVocabulary) {
+                String value = null;
+                value = getSelectedValue().value.toString();
+                if (value.startsWith("x")) //profile vocabulary
+                    source = Util.getProfileVocabularySource(value.substring(1, value.indexOf("-")));
+
+                value = Util.getXMLVocabulary(value);
+
+                xml = "<source>" + source + "</source>\n" +
+                        "<value>" + value + "</value>\n";
+            } else
                 xml = Util.convertSpecialCharactersForXML(getSelectedValue().toString()) + "\n";
         }
         return xml;
@@ -124,12 +132,17 @@ class VocabularyComponent extends FormComponent {
 
     void fromXML(String path, Element e, Hashtable tableImportXML, boolean firstField) {
         if (isLomVocabulary) {
+            NodeList listSrc = e.getElementsByTagName("source");
+            Element childSrc = (Element) listSrc.item(0);
+            String source = childSrc.getFirstChild().getNodeValue();
+
             NodeList list = e.getElementsByTagName("value");
             Element child = (Element) list.item(0);
+            String value = child.getFirstChild().getNodeValue().trim();
+
             try {
                 if (child.getFirstChild() != null) {
-                    String key = child.getFirstChild().getNodeValue().trim().replace(' ', '_');
-                    int pos = Util.getPosVocabulary(key);
+                    int pos = Util.getPosVocabulary(value, !source.equals("LOMv1.0"));
                     Integer index = (Integer) tableImportXML.remove(new Integer(pos));
                     if (index == null) return;
                     jComboBoxVocabulary.setSelectedIndex(index.intValue());

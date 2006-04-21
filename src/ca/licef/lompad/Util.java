@@ -35,20 +35,35 @@ class Util {
     static ResourceBundle resBundleTag;
     static ResourceBundle resBundlePosTag;
     static ResourceBundle resBundleVocabulary;
-    static ResourceBundle resBundlePosVocabulary;
     static ResourceBundle resBundleXMLVocabulary;
+    static ResourceBundle resBundlePosVocabulary;
+    static ResourceBundle resBundleExternalVocabularySource;
+
+    static String externalProfile;
+    static ResourceBundle resBundleProfileVocabulary;
+    static ResourceBundle resBundleProfileXMLVocabulary;
+    static ResourceBundle resBundleProfilePosVocabulary;
+    static ResourceBundle resBundleProfileVocabularySource;
 
     static {
         try {
-            Locale.setDefault(Locale.ENGLISH);
             resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
             resBundleTag = ResourceBundle.getBundle("properties.LomTag");
             resBundlePosTag = ResourceBundle.getBundle("properties.LomPosTag");
             resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
             resBundleXMLVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", new Locale(""));
             resBundlePosVocabulary = ResourceBundle.getBundle("properties.LomPosVocabulary");
+            resBundleExternalVocabularySource = ResourceBundle.getBundle("properties.ExternalVocabularySource");
         } catch (Exception e) {
         }
+    }
+
+    static void setExternalVocabulary(String profile) throws Exception {
+        externalProfile = profile;
+        resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", locale);
+        resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", new Locale(""));
+        resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "PosVocabulary");
+        resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "VocabularySource");
     }
 
     static String getBundleValue(ResourceBundle resBundle, String key) {
@@ -73,6 +88,7 @@ class Util {
     static void setBundleLocale(Locale locale) {
         resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
         resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
+        resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + externalProfile + "Vocabulary", locale);
     }
 
     static String getLabel(String key) {
@@ -88,17 +104,37 @@ class Util {
     }
 
     static String getVocabulary(String key) {
-        return getBundleValue(resBundleVocabulary, key);
+        if (key.startsWith("x"))
+            return externalProfile + ": " + getBundleValue(resBundleProfileVocabulary, key);
+        else
+            return getBundleValue(resBundleVocabulary, key);
     }
 
     static String getXMLVocabulary(String key) {
-        return getBundleValue(resBundleXMLVocabulary, key);
+        if (key.startsWith("x"))
+            return getBundleValue(resBundleProfileXMLVocabulary, key);
+        else
+            return getBundleValue(resBundleXMLVocabulary, key);
     }
 
-    static int getPosVocabulary(String key) throws IllegalTagException {
-        return getPosValue(resBundlePosVocabulary, key);
+    static int getPosVocabulary(String key, boolean isProfileKey) throws IllegalTagException {
+        key = key.replace(' ', '_');
+        key = key.replace(':', '_');
+        if (isProfileKey)
+            return getPosValue(resBundleProfilePosVocabulary, key);
+        else
+            return getPosValue(resBundlePosVocabulary, key);
     }
 
+    static String getProfileVocabularySource(String key) {
+        return getBundleValue(resBundleProfileVocabularySource, key);
+    }
+
+    static String getExternalProfileFromVocabularySource(String key) {
+        key = key.replace(' ', '_');
+        key = key.replace(':', '_');
+        return getBundleValue(resBundleExternalVocabularySource, key);
+    }
 
     public static String convertSpecialCharactersForXML(String str) {
         String res = "";

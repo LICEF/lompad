@@ -68,6 +68,12 @@ abstract class FormComponent extends JComponent {
 
     abstract boolean isFilled();
 
+    public void preUpdateVocabularies() {
+    }
+
+    public void updateVocabularies() {
+    }
+
     Component getSpace() {
         return space;
     }

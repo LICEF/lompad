@@ -27,6 +27,7 @@ import java.util.Vector;
 
 class ControlValueMediator extends FormMediator {
     Object[] valueArray;
+    Object[] exclusiveValues;
     Vector vExclusiveValues;
     private Vector vAvailableValues;
     private Dimension comboBoxPreferredSize = null;
@@ -35,6 +36,7 @@ class ControlValueMediator extends FormMediator {
         super(form);
         this.valueArray = valueArray;
         vAvailableValues = new Vector();
+        this.exclusiveValues = exclusiveValues;
         if (exclusiveValues != null)
             vExclusiveValues = new Vector();
 
@@ -55,11 +57,22 @@ class ControlValueMediator extends FormMediator {
         }
     }
 
+    private Vector getControlledComponents() {
+        Vector vRes = new Vector();
+        for (Enumeration e = form.vComponents.elements(); e.hasMoreElements();) {
+            FormComponent c = (FormComponent)e.nextElement();
+            if (c instanceof VocabularyComponent)
+                vRes.add(c);
+        }
+        return vRes;
+    }
+
     void buttonAddComponentPerformed(FormComponent c) {
         super.buttonAddComponentPerformed(c);
         setNotAvailableValue((VocabularyComponent) c, ((VocabularyComponent) c).getSelectedValue(), false);
-        if (vExclusiveValues != null && form.vComponents.size() == 2) {
-            for (Enumeration e = form.vComponents.elements(); e.hasMoreElements();) {
+        Vector vCtrlComp = getControlledComponents();
+        if (vExclusiveValues != null && vCtrlComp.size() == 2) {
+            for (Enumeration e = vCtrlComp.elements(); e.hasMoreElements();) {
                 VocabularyComponent comp = (VocabularyComponent) e.nextElement();
                 for (Enumeration e2 = vExclusiveValues.elements(); e2.hasMoreElements();)
                     setNotAvailableValue(comp, (OrderedValue) e2.nextElement(), true);
@@ -71,8 +84,10 @@ class ControlValueMediator extends FormMediator {
 
     void buttonRemoveComponentPerformed(FormComponent c) {
         super.buttonRemoveComponentPerformed(c);
+        if (!(c instanceof VocabularyComponent)) return;
+
         setAvailableValue((VocabularyComponent) c, ((VocabularyComponent) c).getSelectedValue());
-        if (vExclusiveValues != null && form.vComponents.size() == 1) {
+        if (vExclusiveValues != null && getControlledComponents().size() == 1) {
             for (Enumeration e = vExclusiveValues.elements(); e.hasMoreElements();)
                 setAvailableValue((VocabularyComponent) c, (OrderedValue) e.nextElement());
         }
@@ -118,7 +133,7 @@ class ControlValueMediator extends FormMediator {
     void setNotAvailableValue(VocabularyComponent c, OrderedValue value, boolean forceSelf) {
         if (value.pos == -1) return;
         vAvailableValues.removeElement(value);
-        for (Enumeration e = form.vComponents.elements(); e.hasMoreElements();) {
+        for (Enumeration e = getControlledComponents().elements(); e.hasMoreElements();) {
             VocabularyComponent comp = (VocabularyComponent) e.nextElement();
             if (!comp.equals(c) || forceSelf) {
                 JComboBox comboBox = comp.getJComboBox();
@@ -145,7 +160,7 @@ class ControlValueMediator extends FormMediator {
         }
         vAvailableValues.insertElementAt(value, pos);
 
-        for (Enumeration e = form.vComponents.elements(); e.hasMoreElements();) {
+        for (Enumeration e = getControlledComponents().elements(); e.hasMoreElements();) {
             VocabularyComponent comp = (VocabularyComponent) e.nextElement();
             if (!comp.equals(c)) {
                 JComboBox comboBox = comp.getJComboBox();

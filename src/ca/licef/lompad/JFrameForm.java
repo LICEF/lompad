@@ -274,7 +274,7 @@ class JFrameForm extends JFrame {
                 updateLocalization();
                 jPanelForm.changeLanguage("fr");
             } else if (object == item22) {
-                Util.locale = new Locale("");
+                Util.locale = Locale.ENGLISH;
                 updateLocalization();
                 jPanelForm.changeLanguage("en");
             } else if (object == item31) {
@@ -282,23 +282,23 @@ class JFrameForm extends JFrame {
                 jPanelForm.updateProfile(item31.getText());
             }
             else if (object == item32) {
-                jPanelForm.changeStandard("CANCORE", false);
+                jPanelForm.changeStandardActionPerformed("CANCORE", false);
                 jPanelForm.updateProfile(item32.getText());
             }
             else if (object == item33) {
-                jPanelForm.changeStandard("SCORM", false);
+                jPanelForm.changeStandardActionPerformed("SCORM", false);
                 jPanelForm.updateProfile(item33.getText());
             }
             else if (object == item341) {
-                jPanelForm.changeStandard("NORMETIC1", false);
+                jPanelForm.changeStandardActionPerformed("NORMETIC1", false);
                 jPanelForm.updateProfile("Normetic (" + item341.getText() + ")");
             }
             else if (object == item342) {
-                jPanelForm.changeStandard("NORMETIC2", false);
+                jPanelForm.changeStandardActionPerformed("NORMETIC2", false);
                 jPanelForm.updateProfile("Normetic (" + item342.getText() + ")");
             }
             else if (object == item343) {
-                jPanelForm.changeStandard("NORMETIC3", false);
+                jPanelForm.changeStandardActionPerformed("NORMETIC3", false);
                 jPanelForm.updateProfile("Normetic (" + item343.getText() + ")");
             }
             else if (object == item41)

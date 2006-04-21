@@ -26,9 +26,7 @@ class ClassificationForm extends FormContainer {
     }
 
     void addFormContent() {
-        VocabularyForm purpose = new VocabularyForm("9.1", true, false,
-                new Object[]{null, "9.1-1", "9.1-2", "9.1-3", "9.1-4",
-                             "9.1-5", "9.1-6", "9.1-7", "9.1-8", "9.1-9"}, null, true);
+        VocabularyForm purpose = new VocabularyForm("9.1", true, false, null, true);
         purpose.setIcon(Util.redIcon);
         purpose.addToggle();
         purpose.setAlignRight();

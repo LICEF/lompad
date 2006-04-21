@@ -26,14 +26,14 @@ class RightsForm extends FormContainer {
     }
 
     void addFormContent() {
-        VocabularyForm cost = new VocabularyForm("6.1", true, false, new Object[]{null, "6.1-1", "6.1-2"}, null, true);
+        VocabularyForm cost = new VocabularyForm("6.1", true, false, null, true);
         cost.setIcon(Util.redIcon);
         cost.addToggle();
         cost.setAlignRight();
         cost.addFormContent();
         addComponent(cost);
 
-        VocabularyForm copyright = new VocabularyForm("6.2", true, false, new Object[]{null, "6.2-1", "6.2-2"}, null, true);
+        VocabularyForm copyright = new VocabularyForm("6.2", true, false, null, true);
         copyright.setIcon(Util.redIcon);
         copyright.addToggle();
         copyright.setAlignRight();

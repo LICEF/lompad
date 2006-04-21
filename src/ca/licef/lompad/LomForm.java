@@ -273,6 +273,26 @@ class LomForm extends JPanel {
         }
     }
 
+    public void preUpdateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            Object c = e.nextElement();
+            if (c instanceof FormContainer)
+                ((FormContainer) c).preUpdateVocabularies();
+            if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).preUpdateVocabularies();
+        }
+    }
+
+    public void updateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            Object c = e.nextElement();
+            if (c instanceof FormContainer)
+                ((FormContainer) c).updateVocabularies();
+            if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).updateVocabularies();
+        }
+    }
+
     void initiateHasChanged() {
         toXML();
         lastLom = newLom;

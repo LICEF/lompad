@@ -188,7 +188,7 @@ class OrCompositeComponent extends FormComponent {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null) {
                                 String key = val.getFirstChild().getNodeValue().trim().replace(' ', '_');
-                                jComboBoxType.setSelectedIndex(Util.getPosVocabulary(key));
+                                jComboBoxType.setSelectedIndex(Util.getPosVocabulary(key, false));
                             }
                         }
                     }

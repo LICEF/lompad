@@ -107,6 +107,16 @@ class MultiFormContainer extends JPanel {
         }
     }
 
+    public void preUpdateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
+            ((FormContainer) e.nextElement()).preUpdateVocabularies();
+    }
+
+    public void updateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
+            ((FormContainer) e.nextElement()).updateVocabularies();
+    }
+
     public boolean isComplete(String key) {
         boolean res = true;
         for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {

@@ -26,48 +26,40 @@ class EducationalForm extends FormContainer {
     }
 
     void addFormContent() {
-        VocabularyForm interactType = new VocabularyForm("5.1", true, false,
-                new Object[]{null, "5.1-1", "5.1-2", "5.1-3"}, null, true);
+        VocabularyForm interactType = new VocabularyForm("5.1", true, false, null, true);
         interactType.setIcon(Util.greenIcon);
         interactType.addToggle();
         interactType.setAlignRight();
         interactType.addFormContent();
         addComponent(interactType);
 
-        VocabularyForm learnResType = new VocabularyForm("5.2", true, true,
-                new Object[]{null, "5.2-1", "5.2-2", "5.2-3", "5.2-4", "5.2-5", "5.2-6",
-                             "5.2-7", "5.2-8", "5.2-9", "5.2-10", "5.2-11", "5.2-12",
-                             "5.2-13", "5.2-14", "5.2-15"}, new Object[]{null}, true);
+        VocabularyForm learnResType = new VocabularyForm("5.2", true, true, new Object[]{null}, true);
         learnResType.setIcon(Util.redIcon);
         learnResType.addToggle();
         learnResType.addFormContent();
         addComponent(learnResType);
 
-        VocabularyForm interactLevel = new VocabularyForm("5.3", true, false,
-                new Object[]{null, "5.3-1", "5.3-2", "5.3-3", "5.3-4", "5.3-5"}, null, true);
+        VocabularyForm interactLevel = new VocabularyForm("5.3", true, false, null, true);
         interactLevel.setIcon(Util.greenIcon);
         interactLevel.addToggle();
         interactLevel.setAlignRight();
         interactLevel.addFormContent();
         addComponent(interactLevel);
 
-        VocabularyForm semant = new VocabularyForm("5.4", true, false,
-                new Object[]{null, "5.4-1", "5.4-2", "5.4-3", "5.4-4", "5.4-5"}, null, true);
+        VocabularyForm semant = new VocabularyForm("5.4", true, false, null, true);
         semant.setIcon(Util.greenIcon);
         semant.addToggle();
         semant.setAlignRight();
         semant.addFormContent();
         addComponent(semant);
 
-        VocabularyForm intended = new VocabularyForm("5.5", true, true,
-                new Object[]{null, "5.5-1", "5.5-2", "5.5-3", "5.5-4"}, new Object[]{null}, true);
+        VocabularyForm intended = new VocabularyForm("5.5", true, true, new Object[]{null}, true);
         intended.setIcon(Util.yellowIcon);
         intended.addToggle();
         intended.addFormContent();
         addComponent(intended);
 
-        VocabularyForm context = new VocabularyForm("5.6", true, true,
-                new Object[]{null, "5.6-1", "5.6-2", "5.6-3", "5.6-4"}, new Object[]{null}, true);
+        VocabularyForm context = new VocabularyForm("5.6", true, true, new Object[]{null}, true);
         context.setIcon(Util.redIcon);
         context.addToggle();
         context.addFormContent();
@@ -79,8 +71,7 @@ class EducationalForm extends FormContainer {
         typicalAge.addFormContent();
         addComponent(typicalAge);
 
-        VocabularyForm difficulty = new VocabularyForm("5.8", true, false,
-                new Object[]{null, "5.8-1", "5.8-2", "5.8-3", "5.8-4", "5.8-5"}, null, true);
+        VocabularyForm difficulty = new VocabularyForm("5.8", true, false, null, true);
         difficulty.setIcon(Util.greenIcon);
         difficulty.addToggle();
         difficulty.setAlignRight();

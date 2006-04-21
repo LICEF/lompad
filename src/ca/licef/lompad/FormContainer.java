@@ -110,7 +110,7 @@ abstract class FormContainer extends FormComponent {
         boolean res = false;
         for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
             FormComponent c = (FormComponent) e.nextElement();
-            res = res || c.isFilled();
+            res = c.isFilled();
             if (res) break;
         }
 
@@ -134,6 +134,16 @@ abstract class FormContainer extends FormComponent {
 
         for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
             ((FormComponent) e.nextElement()).setEnabled(b);
+    }
+
+    public void preUpdateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
+            ((FormComponent) e.nextElement()).preUpdateVocabularies();
+    }
+
+    public void updateVocabularies() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
+            ((FormComponent) e.nextElement()).updateVocabularies();
     }
 
     abstract void addFormContent();

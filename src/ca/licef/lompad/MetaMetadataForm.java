@@ -32,8 +32,7 @@ class MetaMetadataForm extends FormContainer {
         identifier.addFormContent();
         addComponent(identifier);
 
-        Object[] values = new Object[]{null, "3.2.1-1", "3.2.1-2"};
-        ContributeForm contribute = new ContributeForm("3.2", true, Util.greenIcon, true, "3.2", values);
+        ContributeForm contribute = new ContributeForm("3.2", true, Util.greenIcon, true);
         contribute.setIcon(Util.greenIcon);
         contribute.addToggle();
         contribute.addFormContent();

@@ -64,16 +64,16 @@ class GeneralForm extends FormContainer {
         coverage.addFormContent();
         addComponent(coverage);
 
-        VocabularyForm structure = new VocabularyForm("1.7", true, false,
-                new Object[]{null, "1.7-1", "1.7-2", "1.7-3", "1.7-4", "1.7-5"}, null, true);
+//        VocabularyForm structure = new VocabularyForm("1.7", true, false,
+//                new Object[]{null, "1.7-1", "1.7-2", "1.7-3", "1.7-4", "1.7-5"}, null, true);
+        VocabularyForm structure = new VocabularyForm("1.7", true, false, null, true);
         structure.setIcon(Util.greenIcon);
         structure.addToggle();
         structure.setAlignRight();
         structure.addFormContent();
         addComponent(structure);
 
-        VocabularyForm aggregationLevel = new VocabularyForm("1.8", true, false,
-                new Object[]{null, "1.8-1", "1.8-2", "1.8-3", "1.8-4"}, null, true);
+        VocabularyForm aggregationLevel = new VocabularyForm("1.8", true, false, null, true);
         aggregationLevel.setIcon(Util.greenIcon);
         aggregationLevel.addToggle();
         aggregationLevel.setAlignRight();

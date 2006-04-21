@@ -30,10 +30,9 @@ class ContributeForm extends FormContainer {
     Object[] roleValues;
     ImageIcon icon;
 
-    public ContributeForm(String title, boolean isLine, ImageIcon icon, boolean isMultiple, String rootNumber, Object[] roleValues) {
+    public ContributeForm(String title, boolean isLine, ImageIcon icon, boolean isMultiple) {
         super(title, isLine, isMultiple);
-        this.rootNumber = rootNumber;
-        this.roleValues = roleValues;
+        this.rootNumber = title;
         this.icon = icon;
     }
 
@@ -41,7 +40,7 @@ class ContributeForm extends FormContainer {
         FormWrapper wrapper = new FormWrapper("", true);
         wrapper.addToggle();
 
-        VocabularyForm role = new VocabularyForm(rootNumber + ".1", true, false, roleValues, null, true);
+        VocabularyForm role = new VocabularyForm(rootNumber + ".1", true, false, null, true);
         role.setIcon(icon);
         role.setAlignRight();
         role.addFormContent();

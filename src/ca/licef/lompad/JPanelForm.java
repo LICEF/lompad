@@ -23,10 +23,7 @@ package ca.licef.lompad;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
+import java.util.*;
 
 class JPanelForm extends JPanel {
 
@@ -139,13 +136,31 @@ class JPanelForm extends JPanel {
     }
 
     void changeToIEEE() {
+        lomForm.preUpdateVocabularies();
+
         undo();
         currentSelectedProfile = "IEEE";
+
+        bInit = true;
+        lomForm.updateVocabularies();
+        bInit = false;
     }
 
     void undo() {
         if (!currentSelectedProfile.equals("IEEE"))
             changeStandard(currentSelectedProfile, true);
+    }
+
+    void changeStandardActionPerformed(String profile, boolean isVisible) {
+        lomForm.preUpdateVocabularies();
+        changeStandard(profile, isVisible);
+        try {
+            Util.setExternalVocabulary(getCurrentSelectedProfile());
+        } catch (Exception e) {
+        }
+        bInit = true;
+        lomForm.updateVocabularies();
+        bInit = false;
     }
 
     void changeStandard(String profile, boolean isVisible) {
@@ -163,6 +178,13 @@ class JPanelForm extends JPanel {
                 new StringTokenizer(resBundle.getString("hideComponent"), ",");
         while (st.hasMoreTokens())
             lomForm.setFormVisible(st.nextToken(), isVisible);
+    }
+
+    public String getCurrentSelectedProfile() {
+        String res = currentSelectedProfile;
+        if (res.startsWith("NORMETIC"))
+            res = "NORMETIC";
+        return res;
     }
 
     public boolean isValidNormetic() {
