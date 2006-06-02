@@ -64,8 +64,6 @@ class GeneralForm extends FormContainer {
         coverage.addFormContent();
         addComponent(coverage);
 
-//        VocabularyForm structure = new VocabularyForm("1.7", true, false,
-//                new Object[]{null, "1.7-1", "1.7-2", "1.7-3", "1.7-4", "1.7-5"}, null, true);
         VocabularyForm structure = new VocabularyForm("1.7", true, false, null, true);
         structure.setIcon(Util.greenIcon);
         structure.addToggle();
