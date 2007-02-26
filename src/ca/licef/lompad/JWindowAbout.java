@@ -73,7 +73,7 @@ class JWindowAbout extends JWindow {
         jPanelCogigraph.addMouseListener(aSymMouse);
         panel.add(jPanelCogigraph);
 
-        jLabelBuild = new JLabel("(revision 31)");
+        jLabelBuild = new JLabel("(revision 33)");
         jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 10));
         jLabelBuild.setForeground(Color.LIGHT_GRAY);
         jLabelBuild.setBounds(260, 97, 150, 24);
@@ -85,7 +85,7 @@ class JWindowAbout extends JWindow {
         jLabelContact.setBounds(106, 270, 40, 24);
         panel.add(jLabelContact);
 
-        jLabelMail = new JLabel("info@licef.teluq.uquebec.ca");
+        jLabelMail = new JLabel("paloma@licef.teluq.uqam.ca");
         jLabelMail.setFont(jLabelBuild.getFont());
         jLabelMail.setForeground(Color.CYAN);
         jLabelMail.setBounds(150, 270, 200, 24);
