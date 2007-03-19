@@ -21,6 +21,7 @@
 package ca.licef.lompad;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -48,6 +49,7 @@ class JPanelForm extends JPanel {
     Hashtable normeticLabels;
 
     File file = null;
+    String workingFolder = FileSystemView.getFileSystemView().getDefaultDirectory().toString();
 
     public JPanelForm() {
 
@@ -276,10 +278,10 @@ class JPanelForm extends JPanel {
     File selectFile(boolean openMode, String label) {
         File f = null;
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File(workingFolder));
         if (label != null)
             fc.setDialogTitle(" " + label);
         fc.addChoosableFileFilter(new XMLFilter());
-        //fc.setFont();
         int rVal;
         if (openMode)
             rVal = fc.showOpenDialog(this);
@@ -295,6 +297,8 @@ class JPanelForm extends JPanel {
                     fc.getSelectedFile().getName());
         }
 
+        if (f != null)
+            workingFolder = f.getParentFile().toString();
         return f;
     }
 
@@ -323,9 +327,12 @@ class JPanelForm extends JPanel {
     void writeFile(File f) {
         try {
             String lom = lomForm.toXML();
-            ByteArrayInputStream bis = new ByteArrayInputStream(lom.getBytes());
             FileOutputStream fos = new FileOutputStream(f);
-            Util.copy(bis, fos);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+            writer.write(lom);
+            writer.flush();
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

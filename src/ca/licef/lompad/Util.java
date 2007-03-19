@@ -146,6 +146,8 @@ class Util {
     }
 
     public static String convertSpecialCharactersForXML(String str) {
+        if (str == null)
+            return ("");
         String res = "";
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
@@ -155,6 +157,8 @@ class Util {
                 res += "&lt;";
             else if (c == '>')
                 res += "&gt;";
+            else if (c == '"')
+                res += "&quot;";
             else
                 res += c;
         }
