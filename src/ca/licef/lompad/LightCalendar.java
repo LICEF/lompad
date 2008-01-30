@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef.teluq.uquebec.ca)
+ * Copyright (C) 2005  Alexis Miara (amiara@licef..ca)
  *
  * This file is part of LomPad.
  *
@@ -43,7 +43,7 @@ class LightCalendar extends JComponent {
      * sur le parent lorsque l'on selectionne une journee du petit calendrier.
      */
     public LightCalendar(JDialogDateSelector parent, boolean drawMonthName) {
-	    super();
+        super();
         this.parent = parent;
 
         offGraphics = null;
@@ -58,138 +58,138 @@ class LightCalendar extends JComponent {
         font = new Font( "Helvetica", Font.PLAIN, 12 );
         fontHighlighted = new Font( "Helvetica", Font.BOLD, 12 );
 
-		//{{REGISTER_LISTENERS
-		SymMouse aSymMouse = new SymMouse();
-		this.addMouseListener(aSymMouse);
-		//}}
-	}
+        //{{REGISTER_LISTENERS
+        SymMouse aSymMouse = new SymMouse();
+        this.addMouseListener(aSymMouse);
+        //}}
+    }
 
     public void setDate(Date date) {
         Calendar cal = Calendar.getInstance();
-	    cal.setTime( date );
-	    annee = cal.get( Calendar.YEAR );
-	    mois = cal.get( Calendar.MONTH );
-	    //Date dateAjustee = ajusteDate( currentDate );
-	    dateDebutMois = trouveDateDebutMois( date );
+        cal.setTime( date );
+        annee = cal.get( Calendar.YEAR );
+        mois = cal.get( Calendar.MONTH );
+        //Date dateAjustee = ajusteDate( currentDate );
+        dateDebutMois = trouveDateDebutMois( date );
 
         selectionner(date);
-	}
+    }
 
     public Date getDate() {
         return dateDebutMois;
     }
 
     public Date getDateSelectionnee() {
-	    return( selectedDate );
-	}
+        return( selectedDate );
+    }
 
     public void update(Graphics g) {
-	    paint(g);
-	}
+        paint(g);
+    }
 
     public void paint(Graphics g) {
-	    int width = getSize().width;
-	    int height = getSize().height;
+        int width = getSize().width;
+        int height = getSize().height;
 
-	    offImage = createImage( width, height );
-	    offGraphics = offImage.getGraphics();
+        offImage = createImage( width, height );
+        offGraphics = offImage.getGraphics();
 
         offGraphics.setFont( font );
         fm = offGraphics.getFontMetrics( font );
 
-	    int xPen = 0;
-	    int yPen = 0;
+        int xPen = 0;
+        int yPen = 0;
 
         DateFormatSymbols dfs = new DateFormatSymbols( Util.locale );
 
         // Nom du mois
-	    if( drawMonthName ) {
-	        String strMonthName = Util.capitalize( dfs.getMonths()[ mois ] ) + ", " + new Integer( annee ).toString();
+        if( drawMonthName ) {
+            String strMonthName = Util.capitalize( dfs.getMonths()[ mois ] ) + ", " + new Integer( annee ).toString();
 
-	        offGraphics.setColor( BG_MONTH_NAME );
-	        offGraphics.fillRect( xPen, yPen, (width - 1), fm.getHeight() + 2 );
-	        offGraphics.setColor( FG_MONTH_NAME );
-	        offGraphics.drawString( strMonthName, xPen + 5, fm.getHeight() );
-	        yPen += fm.getHeight() + 2;
-	    }
+            offGraphics.setColor( BG_MONTH_NAME );
+            offGraphics.fillRect( xPen, yPen, (width - 1), fm.getHeight() + 2 );
+            offGraphics.setColor( FG_MONTH_NAME );
+            offGraphics.drawString( strMonthName, xPen + 5, fm.getHeight() );
+            yPen += fm.getHeight() + 2;
+        }
 
-		int caseWidth = ( width - 2 ) / 7;
+        int caseWidth = ( width - 2 ) / 7;
 
-	    // Nom des jours
-	    offGraphics.setColor( BG_DAY_NAME );
-		offGraphics.fillRect( 1, yPen, width - 2, fm.getHeight() + 5 );
+        // Nom des jours
+        offGraphics.setColor( BG_DAY_NAME );
+        offGraphics.fillRect( 1, yPen, width - 2, fm.getHeight() + 5 );
 
-	    offGraphics.setColor( FG_DAY_NAME );
-	    for( int i = 1; i <= 7; i++ ) {
-	        String strNomJour = Util.capitalize( dfs.getWeekdays()[ i ].substring( 0, 1 ) );
-	        
-	        int x = 1 + (i-1) * caseWidth + ( caseWidth - fm.stringWidth( strNomJour ) ) / 2;
-	        int y = yPen + fm.getHeight() - 1;
-	        offGraphics.drawString( strNomJour, x, y );
-	    }
-	    yPen += fm.getHeight() + 5;
+        offGraphics.setColor( FG_DAY_NAME );
+        for( int i = 1; i <= 7; i++ ) {
+            String strNomJour = Util.capitalize( dfs.getWeekdays()[ i ].substring( 0, 1 ) );
+            
+            int x = 1 + (i-1) * caseWidth + ( caseWidth - fm.stringWidth( strNomJour ) ) / 2;
+            int y = yPen + fm.getHeight() - 1;
+            offGraphics.drawString( strNomJour, x, y );
+        }
+        yPen += fm.getHeight() + 5;
 
 
-	    // Cases des jours
-	    Rectangle r = new Rectangle( 1, yPen, width - 2, height - yPen - 1);
+        // Cases des jours
+        Rectangle r = new Rectangle( 1, yPen, width - 2, height - yPen - 1);
 
         offGraphics.setFont( font );
         fm = offGraphics.getFontMetrics( font );
 
-	    offGraphics.setColor( BG_DAY );
+        offGraphics.setColor( BG_DAY );
         offGraphics.fillRect( r.x, r.y, r.width, r.height );
 
-	    int caseHeight = r.height / 7;
-	    Calendar cal = Calendar.getInstance();
+        int caseHeight = r.height / 7;
+        Calendar cal = Calendar.getInstance();
         cal.setTime( dateDebutMois );
 
-	    int nbJoursVides = cal.get( Calendar.DAY_OF_WEEK ) - 1;
-	    int iJoursVides = 0;
-	    //int iJour = 1;
+        int nbJoursVides = cal.get( Calendar.DAY_OF_WEEK ) - 1;
+        int iJoursVides = 0;
+        //int iJour = 1;
 
         yPen += 3;
 
-	    for( int iRow = 0; iRow < 6; iRow++ ) {
-	        for( int iCol = 0; iCol < 7; iCol++ ) {
-	            int day = cal.get( Calendar.DATE );
-	            if( iJoursVides < nbJoursVides )
-	                iJoursVides++;
-	            else if( cal.get( Calendar.MONTH ) == mois ) {
-	                String  strDay = (new Integer( day )).toString();
-	                int     xCase = 3 + ( iCol * caseWidth );
-	                int     yCase = yPen + ( iRow * caseHeight );
-	                int     x = xCase + ( caseWidth - fm.stringWidth( strDay ) ) / 2;
-	                //int     y = yCase + ( caseHeight - fm.getHeight() ) / 2 + fm.getHeight();
+        for( int iRow = 0; iRow < 6; iRow++ ) {
+            for( int iCol = 0; iCol < 7; iCol++ ) {
+                int day = cal.get( Calendar.DATE );
+                if( iJoursVides < nbJoursVides )
+                    iJoursVides++;
+                else if( cal.get( Calendar.MONTH ) == mois ) {
+                    String  strDay = (new Integer( day )).toString();
+                    int     xCase = 3 + ( iCol * caseWidth );
+                    int     yCase = yPen + ( iRow * caseHeight );
+                    int     x = xCase + ( caseWidth - fm.stringWidth( strDay ) ) / 2;
+                    //int     y = yCase + ( caseHeight - fm.getHeight() ) / 2 + fm.getHeight();
                     int     y = yCase + ( caseHeight - fm.getHeight() ) / 2 + fm.getHeight() - 2;
 
                     offGraphics.setFont( font );
                     offGraphics.setColor( FG_DAY );
 
-	                // Selection
-	                if( ( iRow == selectedRow ) && ( iCol == selectedCol ) ) {
-	                    offGraphics.setColor( SELECTION_COLOR );
-	                    offGraphics.drawRect( xCase + 2, yCase+1, caseWidth - 4, caseHeight);
-	                    offGraphics.setColor( FG_DAY );
-	                }
+                    // Selection
+                    if( ( iRow == selectedRow ) && ( iCol == selectedCol ) ) {
+                        offGraphics.setColor( SELECTION_COLOR );
+                        offGraphics.drawRect( xCase + 2, yCase+1, caseWidth - 4, caseHeight);
+                        offGraphics.setColor( FG_DAY );
+                    }
 
-	                offGraphics.drawString( strDay, x, y );
+                    offGraphics.drawString( strDay, x, y );
 
-	                int dayTemp = cal.get( Calendar.DATE );
-	                cal.add( Calendar.DATE, 1 );
-	                while( cal.get( Calendar.DATE ) == dayTemp ) {
-	                    // Cette boucle inefficace est la pour contrer le probleme de l'heure avancee
-	                    cal.add( Calendar.MINUTE, 1 );
-	                }
-	            }
-	        }
-	    }
+                    int dayTemp = cal.get( Calendar.DATE );
+                    cal.add( Calendar.DATE, 1 );
+                    while( cal.get( Calendar.DATE ) == dayTemp ) {
+                        // Cette boucle inefficace est la pour contrer le probleme de l'heure avancee
+                        cal.add( Calendar.MINUTE, 1 );
+                    }
+                }
+            }
+        }
 
-	    // Cadre
-	    offGraphics.setColor( Color.black );
+        // Cadre
+        offGraphics.setColor( Color.black );
         offGraphics.drawRect( 0, 0, width - 1, height - 6 );
 
-	    g.drawImage( offImage, 0, 5, null );
-	}
+        g.drawImage( offImage, 0, 5, null );
+    }
 
     public void selectionner(Date date) {
         selectedDate = date;
@@ -229,20 +229,20 @@ class LightCalendar extends JComponent {
     }
 
     public void deselectionner() {
-	    selectedRow = -1;
-	    selectedCol = -1;
-	    repaint();
+        selectedRow = -1;
+        selectedCol = -1;
+        repaint();
     }
 
     private Date trouveDateDebutMois(Date date) {
-	    Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         cal.set( Calendar.DATE, 1 );
-	    cal.set( Calendar.HOUR_OF_DAY, 0 );
-	    cal.set( Calendar.MINUTE, 0 );
-	    cal.set( Calendar.SECOND, 0 );
-	    cal.set( Calendar.MILLISECOND, 0 );
-	    return cal.getTime();
+        cal.set( Calendar.HOUR_OF_DAY, 0 );
+        cal.set( Calendar.MINUTE, 0 );
+        cal.set( Calendar.SECOND, 0 );
+        cal.set( Calendar.MILLISECOND, 0 );
+        return cal.getTime();
     }
 
     // CV_Variables
@@ -261,63 +261,63 @@ class LightCalendar extends JComponent {
     private     Image           offImage;
     private     Graphics        offGraphics;
 
-	class SymMouse extends java.awt.event.MouseAdapter
-	{
-		public void mousePressed(java.awt.event.MouseEvent event)
-		{
-			Object object = event.getSource();
-			if (object == LightCalendar.this)
-				LightCalendar_MousePress(event);
-		}
-	}
+    class SymMouse extends java.awt.event.MouseAdapter
+    {
+        public void mousePressed(java.awt.event.MouseEvent event)
+        {
+            Object object = event.getSource();
+            if (object == LightCalendar.this)
+                LightCalendar_MousePress(event);
+        }
+    }
 
-	// Cette fonction pourrait etre optimisee en calculant le deplacement directement
-	// Pas besoin de boucler
-	void LightCalendar_MousePress(java.awt.event.MouseEvent event)
-	{
-		int x = 1;
-	    int y = drawMonthName ? 2 * ( fm.getHeight() + 2 ) : ( fm.getHeight() );
-	    int w = getSize().width - 2;
-	    int h = getSize().height - y + 5;
+    // Cette fonction pourrait etre optimisee en calculant le deplacement directement
+    // Pas besoin de boucler
+    void LightCalendar_MousePress(java.awt.event.MouseEvent event)
+    {
+        int x = 1;
+        int y = drawMonthName ? 2 * ( fm.getHeight() + 2 ) : ( fm.getHeight() );
+        int w = getSize().width - 2;
+        int h = getSize().height - y + 5;
 
-		Rectangle r = new Rectangle( x, y, w, h  );
+        Rectangle r = new Rectangle( x, y, w, h  );
 
-		if( r.contains( event.getPoint() ) ) {		    
-    		int caseWidth = w / 7;
-    	    int caseHeight = h / 7;
+        if( r.contains( event.getPoint() ) ) {          
+            int caseWidth = w / 7;
+            int caseHeight = h / 7;
 
-    	    Calendar cal = Calendar.getInstance();
-    	    cal.setTime( dateDebutMois );
+            Calendar cal = Calendar.getInstance();
+            cal.setTime( dateDebutMois );
 
-    	    int nbJoursVides = cal.get( Calendar.DAY_OF_WEEK ) - 1;
-    	    int iJoursVides = 0;
-    	    //int iJour = 1;
+            int nbJoursVides = cal.get( Calendar.DAY_OF_WEEK ) - 1;
+            int iJoursVides = 0;
+            //int iJour = 1;
 
-    	    Cases:
-    	    for( int iRow = 0; iRow < 6; iRow++ ) {
-    	        for( int iCol = 0; iCol < 7; iCol++ ) {
-      	            //int day = cal.get( Calendar.DATE );
-    	            if( iJoursVides < nbJoursVides )
-    	                iJoursVides++;
-    	            else if( cal.get( Calendar.MONTH ) == mois ) {
-        	            int xCase = 1 + ( iCol * caseWidth );
-    	                int yCase = y + ( iRow * caseHeight );
-        	            Rectangle rCase = new Rectangle( xCase, yCase + 5, caseWidth, caseHeight);
+            Cases:
+            for( int iRow = 0; iRow < 6; iRow++ ) {
+                for( int iCol = 0; iCol < 7; iCol++ ) {
+                    //int day = cal.get( Calendar.DATE );
+                    if( iJoursVides < nbJoursVides )
+                        iJoursVides++;
+                    else if( cal.get( Calendar.MONTH ) == mois ) {
+                        int xCase = 1 + ( iCol * caseWidth );
+                        int yCase = y + ( iRow * caseHeight );
+                        Rectangle rCase = new Rectangle( xCase, yCase + 5, caseWidth, caseHeight);
 
-    	                if( rCase.contains( event.getPoint() ) ) {
-    	                    selectedDate = cal.getTime();
-    	                    selectedRow = iRow;
-    	                    selectedCol = iCol;
-    	                    parent.currentDate = selectedDate;
-    	                    repaint();
-    	                    break Cases;
-    	                }
+                        if( rCase.contains( event.getPoint() ) ) {
+                            selectedDate = cal.getTime();
+                            selectedRow = iRow;
+                            selectedCol = iCol;
+                            parent.currentDate = selectedDate;
+                            repaint();
+                            break Cases;
+                        }
 
-    	                cal.add( Calendar.DATE, 1 );
+                        cal.add( Calendar.DATE, 1 );
 
-    	            }
-    	        }
-    	    }
-		}
-	}
+                    }
+                }
+            }
+        }
+    }
 }

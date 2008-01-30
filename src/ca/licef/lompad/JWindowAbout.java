@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef.teluq.uquebec.ca)
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.ca)
  *
  * This file is part of LomPad.
  *
@@ -85,7 +85,7 @@ class JWindowAbout extends JWindow {
         jLabelContact.setBounds(106, 270, 40, 24);
         panel.add(jLabelContact);
 
-        jLabelMail = new JLabel("paloma@licef.teluq.uqam.ca");
+        jLabelMail = new JLabel("paloma@licef.ca");
         jLabelMail.setFont(jLabelBuild.getFont());
         jLabelMail.setForeground(Color.CYAN);
         jLabelMail.setBounds(150, 270, 200, 24);
@@ -127,7 +127,7 @@ class JWindowAbout extends JWindow {
         public void mousePressed(java.awt.event.MouseEvent event) {
             Object object = event.getSource();
             if (object == jPanelLicef)
-                Util.launchRessourceName("iexplore", "http://www.licef.teluq.uquebec.ca/");
+                Util.launchRessourceName("iexplore", "http://www.licef.ca/");
             else if (object == jPanelTeluq)
                 Util.launchRessourceName("iexplore", "http://www.teluq.uquebec.ca/");
             else if (object == jPanelCogigraph)
