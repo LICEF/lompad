@@ -127,13 +127,13 @@ class JWindowAbout extends JWindow {
         public void mousePressed(java.awt.event.MouseEvent event) {
             Object object = event.getSource();
             if (object == jPanelLicef)
-                Util.launchRessourceName("iexplore", "http://www.licef.ca/");
+                Util.launchFile("http://www.licef.teluq.uquebec.ca/");
             else if (object == jPanelTeluq)
-                Util.launchRessourceName("iexplore", "http://www.teluq.uquebec.ca/");
+                Util.launchFile("http://www.teluq.uquebec.ca/");
             else if (object == jPanelCogigraph)
-                Util.launchRessourceName("iexplore", "http://www.cogigraph.com/");
+                Util.launchFile("http://www.cogigraph.com/");
             else if (object == jLabelMail)
-                Util.launchRessourceName("mailto:" + jLabelMail.getText(), null);
+                Util.launchFile("mailto:" + jLabelMail.getText());
             dispose();
         }
 

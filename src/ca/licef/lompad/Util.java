@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef..ca)
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.ca)
  *
  * This file is part of LomPad.
  *
@@ -256,7 +256,7 @@ class Util {
         return (JFrame) theFrame;
     }
 
-    static void launchRessourceName(String name, String param) {
+    /*static void launchRessourceName(String name, String param) {
         String OSName = (System.getProperty("os.name")).toLowerCase();
         String commandLine =
                 (OSName.startsWith("windows 9") || OSName.startsWith("windows me")) ?
@@ -265,6 +265,24 @@ class Util {
         try {
             Runtime.getRuntime().exec(commandLine + (param == null ? "" : " " + param));
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    static void launchFile(String filePath) {
+        String osName = (System.getProperty("os.name")).toLowerCase();
+        String commandLine = null;
+        if (osName.startsWith("windows")) {
+            commandLine = (osName.startsWith("windows 9") || osName.startsWith("windows me")) ?
+                    "start " + filePath :
+                    "cmd /c start \"nom\" " + "\"" + filePath + "\"";
+        }
+        else if (osName.startsWith("mac"))
+            commandLine = "/usr/bin/open " + filePath;
+
+        try {
+            Runtime.getRuntime().exec(commandLine);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

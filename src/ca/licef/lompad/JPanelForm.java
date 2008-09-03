@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef..ca)
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.ca)
  *
  * This file is part of LomPad.
  *
@@ -356,7 +356,7 @@ class JPanelForm extends JPanel {
             dos.writeBytes(xml);
             dos.flush();
             dos.close();
-            Util.launchRessourceName("iexplore", file);
+            Util.launchFile(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -371,7 +371,7 @@ class JPanelForm extends JPanel {
             dos.writeBytes(html);
             dos.flush();
             dos.close();
-            Util.launchRessourceName("iexplore", file);
+            Util.launchFile(file);
         } catch (Exception e) {
             e.printStackTrace();
         }

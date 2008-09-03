@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef..ca)
+ * Copyright (C) 2005  Alexis Miara (amiara@licef.ca)
  *
  * This file is part of LomPad.
  *
@@ -302,7 +302,8 @@ class JFrameForm extends JFrame {
                 jPanelForm.updateProfile("Normetic (" + item343.getText() + ")");
             }
             else if (object == item41)
-                Util.launchRessourceName("iexplore", "http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
+                //Util.launchRessourceName("iexplore", "http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
+            Util.launchFile("http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
             else if (object == item42)
                 about();
         }
