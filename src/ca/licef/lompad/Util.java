@@ -24,8 +24,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class Util {
+
+    public static final String lomNSURI = "http://ltsc.ieee.org/xsd/LOM";
 
     //For UI Localization
     public static Locale locale = Locale.FRENCH;
@@ -109,7 +113,14 @@ class Util {
     }
 
     static int getPosTag(String key) throws IllegalTagException {
-        return getPosValue(resBundlePosTag, key);
+        StringBuffer altKey = new StringBuffer();
+        Pattern pattern = Pattern.compile( "(.+?):(.+?)(/|$)" );
+        Matcher matcher = pattern.matcher( key );
+        while( matcher.find() ) {
+            matcher.appendReplacement( altKey, matcher.group( 2 ) + matcher.group( 3 ) );
+        }
+        matcher.appendTail( altKey );
+        return getPosValue(resBundlePosTag, altKey.toString());
     }
 
     static String getVocabulary(String key) {
@@ -216,6 +227,19 @@ class Util {
                     int bytesRead = in.read(buffer);
                     if (bytesRead == -1) break;
                     out.write(buffer, 0, bytesRead);
+                }
+            }
+        }
+    }
+
+    public static void copy(Reader in, Writer out) throws IOException {
+        synchronized (in) {
+            synchronized (out) {
+                char[] buffer = new char[1024];
+                while (true) {
+                    int charRead = in.read(buffer);
+                    if (charRead == -1) break;
+                    out.write(buffer, 0, charRead);
                 }
             }
         }

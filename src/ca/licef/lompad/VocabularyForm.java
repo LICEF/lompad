@@ -214,7 +214,7 @@ class VocabularyForm extends FormContainer {
     private boolean isControlValueMediatorNeeded(Element e) {
         if (!isLomVocabulary)
             return true;
-        NodeList listSrc = e.getElementsByTagName("source");
+        NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
         Element childSrc = (Element) listSrc.item(0);
         String source = childSrc.getFirstChild().getNodeValue();
         if (source.equals("LOMv1.0"))

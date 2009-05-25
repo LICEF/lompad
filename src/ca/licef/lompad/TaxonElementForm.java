@@ -94,7 +94,7 @@ class TaxonElementForm extends FormContainer {
                             c = (TaxonComponent) vComponents.lastElement();
                         }
 
-                        NodeList list2 = child.getElementsByTagName("string");
+                        NodeList list2 = child.getElementsByTagNameNS(Util.lomNSURI,"string");
                         for (int i2 = 0; i2 < list2.getLength(); i2++) {
                             Node node2 = list2.item(i2);
                             if (node2.getNodeType() == Node.ELEMENT_NODE) {

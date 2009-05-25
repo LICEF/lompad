@@ -132,11 +132,11 @@ class VocabularyComponent extends FormComponent {
 
     void fromXML(String path, Element e, Hashtable tableImportXML, boolean firstField) {
         if (isLomVocabulary) {
-            NodeList listSrc = e.getElementsByTagName("source");
+            NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
             Element childSrc = (Element) listSrc.item(0);
             String source = childSrc.getFirstChild().getNodeValue();
 
-            NodeList list = e.getElementsByTagName("value");
+            NodeList list = e.getElementsByTagNameNS(Util.lomNSURI,"value");
             Element child = (Element) list.item(0);
             String value = child.getFirstChild().getNodeValue().trim();
 

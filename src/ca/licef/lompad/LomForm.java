@@ -30,6 +30,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -343,6 +344,7 @@ class LomForm extends JPanel {
 
     void fromXML(InputStream is) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
         factory.setCoalescing(true); //convert CDATA node to Text node
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(is);

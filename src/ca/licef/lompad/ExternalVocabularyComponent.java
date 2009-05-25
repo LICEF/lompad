@@ -37,11 +37,11 @@ public class ExternalVocabularyComponent extends FormComponent{
     }
 
     void fromXML(String path, Element e, boolean firstField) {
-        NodeList listSrc = e.getElementsByTagName("source");
+        NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
         Element childSrc = (Element) listSrc.item(0);
         source = childSrc.getFirstChild().getNodeValue();
 
-        NodeList list = e.getElementsByTagName("value");
+        NodeList list = e.getElementsByTagNameNS(Util.lomNSURI,"value");
         Element child = (Element) list.item(0);
         value = child.getFirstChild().getNodeValue().trim();
 

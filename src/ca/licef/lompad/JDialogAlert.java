@@ -61,12 +61,14 @@ class JDialogAlert extends JDialog {
         ok.setText(resBundle.getString(ok.getText()));
     }
 
-    public void show() {
-        Rectangle bounds = getParent().getBounds();
-        Rectangle abounds = getBounds();
-        setLocation(bounds.x + (bounds.width - abounds.width) / 2,
-                bounds.y + (bounds.height - abounds.height) / 2);
-        super.show();
+    public void setVisible( boolean isVisible ) {
+        if( isVisible ) {
+            Rectangle bounds = getParent().getBounds();
+            Rectangle abounds = getBounds();
+            setLocation(bounds.x + (bounds.width - abounds.width) / 2,
+                    bounds.y + (bounds.height - abounds.height) / 2);
+        }
+        super.setVisible( isVisible );
     }
 
 }

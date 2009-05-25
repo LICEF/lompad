@@ -2,11 +2,13 @@ How to build LomPad
 -------------------
 
 To compile and build LomPad, you must have Apache Ant build tool (http://ant.apache.org/)
-Once ant is installed, you just need to type, at the command line in current directory :
+Once ant is installed, make a build.properties file from sample-build.properties.
+If needed, you can change some property values.
+To build the application, at the command line, in current directory, type :
 
 ant 
 
-This action produce an executable Jar (LomPad.jar) that can be launch on differnt OS.
+This action produce an executable Jar (LomPad.jar) that can be launched on different OS.
 
 
 

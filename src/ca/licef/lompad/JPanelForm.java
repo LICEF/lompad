@@ -204,7 +204,7 @@ class JPanelForm extends JPanel {
     boolean manageCurrentLom() {
         if (lomForm.hasChanged()) {
             JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text1");
-            dialog.show();
+            dialog.setVisible( true );
             int res = dialog.res;
             dialog.dispose();
             if (res == JDialogQuestion.CANCEL)
@@ -268,7 +268,7 @@ class JPanelForm extends JPanel {
             lomForm.fromXML(new FileInputStream(file));
         } catch (Exception e) {
             JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
-            dialog.show();
+            dialog.setVisible( true );
         }
         lomForm.initiateHasChanged();
         updateFrameTitle();
@@ -349,31 +349,19 @@ class JPanelForm extends JPanel {
 
     void popXML(String xml) {
         try {
-            String java_tmp = System.getProperty("java.io.tmpdir").replace('\\', '/');
-            if (!java_tmp.endsWith("/")) java_tmp += "/";
-            String file = java_tmp + "output.xml";
-            java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(file));
-            dos.writeBytes(xml);
-            dos.flush();
-            dos.close();
-            Util.launchFile(file);
-        } catch (Exception e) {
-            e.printStackTrace();
+            popLomFromTempFile( xml, "lom.xml" );
+        }
+        catch( Exception ignore ) {
+            ignore.printStackTrace();
         }
     }
 
     void popHTML(String html) {
         try {
-            String java_tmp = System.getProperty("java.io.tmpdir").replace('\\', '/');
-            if (!java_tmp.endsWith("/")) java_tmp += "/";
-            String file = java_tmp + "output.html";
-            java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(file));
-            dos.writeBytes(html);
-            dos.flush();
-            dos.close();
-            Util.launchFile(file);
-        } catch (Exception e) {
-            e.printStackTrace();
+            popLomFromTempFile( html, "lom.html" );
+        }
+        catch( Exception ignore ) {
+            ignore.printStackTrace();
         }
     }
 
@@ -422,4 +410,44 @@ class JPanelForm extends JPanel {
         if (isNormeticProfile)
             jLabelProfileIcon.setIcon(normeticIcon);
     }
+
+    private void popLomFromTempFile( String lom, String tempFile ) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+        String file = null;
+        try {
+            String tempDir = System.getProperty("java.io.tmpdir").replace('\\', '/');
+            if (!tempDir.endsWith("/")) tempDir += "/";
+            file = tempDir + tempFile;
+
+            reader = new BufferedReader( new StringReader( lom ) );
+            writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( file ), "UTF-8" ) );
+            Util.copy( reader, writer );
+        } 
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedEncodingException e2 ) {
+            e2.printStackTrace();
+        }
+        catch( IOException e3 ) {
+            e3.printStackTrace();
+        }
+        finally {
+            try {
+                reader.close();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            try {
+                writer.close();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        Util.launchFile(file);
+    }
+
 }

@@ -29,6 +29,13 @@ import java.awt.*;
  * Date: 2004-11-25
  */
 class JWindowAbout extends JWindow {
+
+    private static final String revision        = "37";
+    private static final String contactEmail    = "paloma@licef.ca";
+    private static final String licefSite       = "http://www.licef.ca/";
+    private static final String teluqSite       = "http://www.teluq.uquebec.ca/";
+    private static final String cogigraphSite   = "http://www.cogigraph.com/";
+
     JPanel jPanelLicef;
     JPanel jPanelTeluq;
     JPanel jPanelCogigraph;
@@ -73,7 +80,7 @@ class JWindowAbout extends JWindow {
         jPanelCogigraph.addMouseListener(aSymMouse);
         panel.add(jPanelCogigraph);
 
-        jLabelBuild = new JLabel("(revision 34)");
+        jLabelBuild = new JLabel("(revision " + revision + ")");
         jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 10));
         jLabelBuild.setForeground(Color.LIGHT_GRAY);
         jLabelBuild.setBounds(260, 97, 150, 24);
@@ -85,7 +92,7 @@ class JWindowAbout extends JWindow {
         jLabelContact.setBounds(106, 270, 40, 24);
         panel.add(jLabelContact);
 
-        jLabelMail = new JLabel("paloma@licef.ca");
+        jLabelMail = new JLabel(contactEmail);
         jLabelMail.setFont(jLabelBuild.getFont());
         jLabelMail.setForeground(Color.CYAN);
         jLabelMail.setBounds(150, 270, 200, 24);
@@ -127,11 +134,11 @@ class JWindowAbout extends JWindow {
         public void mousePressed(java.awt.event.MouseEvent event) {
             Object object = event.getSource();
             if (object == jPanelLicef)
-                Util.launchFile("http://www.licef.teluq.uquebec.ca/");
+                Util.launchFile(licefSite);
             else if (object == jPanelTeluq)
-                Util.launchFile("http://www.teluq.uquebec.ca/");
+                Util.launchFile(teluqSite);
             else if (object == jPanelCogigraph)
-                Util.launchFile("http://www.cogigraph.com/");
+                Util.launchFile(cogigraphSite);
             else if (object == jLabelMail)
                 Util.launchFile("mailto:" + jLabelMail.getText());
             dispose();

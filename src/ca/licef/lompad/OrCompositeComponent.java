@@ -183,7 +183,7 @@ class OrCompositeComponent extends FormComponent {
                 try {
                     int pos = Util.getPosTag(path + "/" + child.getTagName().toLowerCase());
                     if (pos == 1) {
-                        NodeList nl = child.getElementsByTagName("value");
+                        NodeList nl = child.getElementsByTagNameNS(Util.lomNSURI,"value");
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null) {
@@ -193,7 +193,7 @@ class OrCompositeComponent extends FormComponent {
                         }
                     }
                     if (pos == 2) {
-                        NodeList nl = child.getElementsByTagName("value");
+                        NodeList nl = child.getElementsByTagNameNS(Util.lomNSURI,"value");
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null)

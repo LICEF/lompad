@@ -1,10 +1,13 @@
 <project name="LomPad" default="dist" basedir=".">
 
-<property name="src" 	    	location="src"/>
-<property name="properties" 	value="properties"/>
-<property name="images" 	value="images"/>
-<property name="res" 		value="res"/>
-<property name="build" 		location="build"/>
+<property name="src"            location="src"/>
+<property name="properties"     value="properties"/>
+<property name="images"     value="images"/>
+<property name="res"        value="res"/>
+<property name="build"      location="build"/>
+
+<!-- Custom properties -->
+<property file="build.properties"/>
 
 <target name="clean">
     <delete dir="${build}"/>
@@ -18,7 +21,10 @@
 </target>
 
 <target name="compile" depends="init">    
-    <javac srcdir="${src}" destdir="${build}" source="1.4"/>
+    <javac srcdir="${src}" destdir="${build}" 
+        source="${build.compiler.source}" target="${build.compiler.target}"
+        debug="${build.compiler.debug}"
+        nowarn="${build.compiler.nowarn}" deprecation="${build.compiler.deprecation}"/>
 </target>
 
 <target name="copyRes">    
