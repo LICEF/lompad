@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005  Alexis Miara (amiara@licef.ca)
+ * Copyright (C) 2005  Alexis Miara (alexis.miara@licef.ca)
  *
  * This file is part of LomPad.
  *
