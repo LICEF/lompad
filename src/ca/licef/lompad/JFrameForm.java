@@ -61,7 +61,7 @@ class JFrameForm extends JFrame {
         setJMenuBar(createMenu(lSymAction));
 
         getContentPane().setLayout(new BorderLayout(0, 0));
-        setSize(650, 650);
+        setSize(1024, 800);
 
         jPanelForm = new JPanelForm();
         getContentPane().add(jPanelForm);

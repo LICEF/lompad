@@ -43,4 +43,8 @@
     <jar destfile="LomPad.jar" manifest="${src}/manifest.txt" basedir="${build}"/>
 </target>
 
+<target name="run" depends="dist">
+    <java jar="LomPad.jar" fork="true" spawn="true"/>
+</target>
+
 </project>
