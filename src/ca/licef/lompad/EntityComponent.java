@@ -218,13 +218,11 @@ class EntityComponent extends FormComponent {
 
         // Handle easy fields in the first pass.
         for( ;; ) {
-System.out.println( "vCard="+vCard );            
             int index = vCard.indexOf("\n");
             if (index == -1) 
                 break;
 
             String token = vCard.substring(0, index);
-System.out.println( "token=<"+token+"> index="+index );                
             if (token.startsWith("N:"))
                 nField = token.substring( token.indexOf( ":" ) + 1 );
             if (token.startsWith("FN:"))
@@ -238,7 +236,6 @@ System.out.println( "token=<"+token+"> index="+index );
             if (vCard.startsWith("END:")) 
                 break;
         }
-System.out.println( "Out of the if" );
 
         // Handle nField and fnField in the second pass.
         if( nField != null && !"".equals( nField ) ) {
