@@ -312,6 +312,14 @@ class EntityComponent extends FormComponent {
             jTextFieldSuffix.setText( suffix );
             jTextFieldSuffix.setCaretPosition( 0 );
         }
+        if( email != null ) {
+            jTextFieldEMail.setText( email );
+            jTextFieldEMail.setCaretPosition( 0 );
+        }
+        if( org != null ) {
+            jTextFieldOrg.setText( org);
+            jTextFieldOrg.setCaretPosition( 0 );
+        }
     }
 
     //HTML
