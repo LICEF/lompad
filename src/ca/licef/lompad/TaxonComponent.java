@@ -117,7 +117,7 @@ class TaxonComponent extends FormComponent {
             if (selectedItem != null && !"".equals(selectedItem))
                 lang = " language=\"" + selectedItem + "\"";
             xml = "<string" + lang + ">" +
-                    Util.convertSpecialCharactersForXML(jTextFieldEntry.getText()) + "</string>" + "\n";
+                    Util.convertSpecialCharactersForXML(jTextFieldEntry.getText()) + "</string>";
         }
         if (xml.equals("")) xml = null;
         return xml;

@@ -393,7 +393,7 @@ abstract class FormContainer extends FormComponent {
         }
 
         if (!xml.equals(""))
-            xml = "<" + Util.getTag(key) + ">\n" + xml + "</" + Util.getTag(key) + ">\n";
+            xml = "<" + Util.getTag(key) + ">" + xml + "</" + Util.getTag(key) + ">\n";
         else
             xml = null;
 

@@ -55,7 +55,7 @@ class TaxonPathForm extends FormContainer {
             FormComponent c = (FormComponent) e.nextElement();
             String res = ((FormWrapper) c).toXML(key, true);
             if (res != null)
-                xml += "<" + Util.getTag(key) + ">\n" + res + "</" + Util.getTag(key) + ">\n";
+                xml += "<" + Util.getTag(key) + ">" + res + "</" + Util.getTag(key) + ">\n";
         }
 
         if (xml.equals(""))

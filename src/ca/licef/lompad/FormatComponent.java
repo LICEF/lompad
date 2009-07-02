@@ -108,7 +108,7 @@ class FormatComponent extends FormComponent {
     String toXML(String key) {
         String xml = null;
         if (!jTextField.getText().equals(""))
-            xml = Util.convertSpecialCharactersForXML(jTextField.getText()) + "\n";
+            xml = Util.convertSpecialCharactersForXML(jTextField.getText());
         return xml;
     }
 

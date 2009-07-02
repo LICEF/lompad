@@ -125,7 +125,7 @@ class VocabularyComponent extends FormComponent {
                 xml = "<source>" + source + "</source>\n" +
                         "<value>" + value + "</value>\n";
             } else
-                xml = Util.convertSpecialCharactersForXML(getSelectedValue().toString()) + "\n";
+                xml = Util.convertSpecialCharactersForXML(getSelectedValue().toString());
         }
         return xml;
     }

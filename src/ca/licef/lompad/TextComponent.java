@@ -70,7 +70,7 @@ class TextComponent extends FormComponent {
     String toXML(String key) {
         String xml = null;
         if (!currentJTextComponent.getText().equals(""))
-            xml = Util.convertSpecialCharactersForXML(currentJTextComponent.getText()) + "\n";
+            xml = Util.convertSpecialCharactersForXML(currentJTextComponent.getText());
         return xml;
     }
 
