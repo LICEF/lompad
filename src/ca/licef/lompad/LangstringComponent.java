@@ -61,10 +61,10 @@ class LangstringComponent extends TextComponent {
         String xml = null;
         if (isFilled()) {
             String lang = "";
-            if (getSelectedValue() != null && !"".equals(getSelectedValue()))
-                    lang = " language=\"" + getSelectedValue() + "\"";
+            if (getSelectedValue() != null && !"".equals(getSelectedValue().toString().trim()))
+                    lang = " language=\"" + getSelectedValue().toString().trim() + "\"";
             xml = "<string" + lang + ">" +
-                    Util.convertSpecialCharactersForXML(currentJTextComponent.getText()) + "</string>" + "\n";
+                    Util.convertSpecialCharactersForXML(currentJTextComponent.getText().trim()) + "</string>" + "\n";
         }
         return xml;
     }

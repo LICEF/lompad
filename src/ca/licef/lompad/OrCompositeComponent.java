@@ -104,8 +104,8 @@ class OrCompositeComponent extends FormComponent {
 
     boolean isFilled() {
         return !(jComboBoxName.getSelectedItem() == null &&
-                jTextFieldMinVer.getText().equals("") &&
-                jTextFieldMaxVer.getText().equals(""));
+                jTextFieldMinVer.getText().trim().equals("") &&
+                jTextFieldMaxVer.getText().trim().equals(""));
     }
 
     public void setEnabled(boolean b) {
@@ -161,13 +161,13 @@ class OrCompositeComponent extends FormComponent {
                     "<value>" + jComboBoxName.getSelectedItem() + "</value>\n" +
                     "</" + Util.getTag(key + ".2") + ">\n";
         }
-        if (!jTextFieldMinVer.getText().equals(""))
+        if (!jTextFieldMinVer.getText().trim().equals(""))
             xml += "<" + Util.getTag(key + ".3") + ">" +
-                    Util.convertSpecialCharactersForXML(jTextFieldMinVer.getText()) +
+                    Util.convertSpecialCharactersForXML(jTextFieldMinVer.getText().trim()) +
                     "</" + Util.getTag(key + ".3") + ">\n";
-        if (!jTextFieldMaxVer.getText().equals(""))
+        if (!jTextFieldMaxVer.getText().trim().equals(""))
             xml += "<" + Util.getTag(key + ".4") + ">" +
-                    Util.convertSpecialCharactersForXML(jTextFieldMaxVer.getText()) +
+                    Util.convertSpecialCharactersForXML(jTextFieldMaxVer.getText().trim()) +
                     "</" + Util.getTag(key + ".4") + ">\n";
 
         if (xml.equals("")) xml = null;
@@ -222,11 +222,11 @@ class OrCompositeComponent extends FormComponent {
             html += Util.getVocabulary(((OrderedValue) jComboBoxType.getSelectedItem()).value.toString()) + " : " +
                         jComboBoxName.getSelectedItem() + "<br>";
         }
-        if (!jTextFieldMinVer.getText().equals(""))
-            html += Util.getLabel(key + ".1.3") + " : " + jTextFieldMinVer.getText() + "<br>";
+        if (!jTextFieldMinVer.getText().trim().equals(""))
+            html += Util.getLabel(key + ".1.3") + " : " + jTextFieldMinVer.getText().trim() + "<br>";
 
-        if (!jTextFieldMaxVer.getText().equals(""))
-            html += Util.getLabel(key + ".1.4") + " : " + jTextFieldMaxVer.getText() + "<br>";
+        if (!jTextFieldMaxVer.getText().trim().equals(""))
+            html += Util.getLabel(key + ".1.4") + " : " + jTextFieldMaxVer.getText().trim() + "<br>";
 
         if (html.equals("")) html = null;
         return html;

@@ -48,7 +48,7 @@ class NumericTextField extends JTextFieldPopup {
     boolean isFilled() {
         return (length != -1) ?
                 getText().length() == length :
-                !getText().equals("");
+                !getText().trim().equals("");
     }
 
     boolean isPermitted(char c) {

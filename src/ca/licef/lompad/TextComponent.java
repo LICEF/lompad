@@ -46,7 +46,7 @@ class TextComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return !currentJTextComponent.getText().equals("");
+        return !currentJTextComponent.getText().trim().equals("");
     }
 
     public void setEnabled(boolean b) {

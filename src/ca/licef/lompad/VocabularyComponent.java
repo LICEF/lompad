@@ -58,7 +58,7 @@ class VocabularyComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return getSelectedValue().value != null && !getSelectedValue().value.equals("");
+        return getSelectedValue().value != null && !getSelectedValue().value.toString().trim().equals("");
     }
 
     public void setEnabled(boolean b) {

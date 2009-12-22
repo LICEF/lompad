@@ -156,8 +156,8 @@ class VocabularyForm extends FormContainer {
         for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
             FormComponent c = (FormComponent) e.nextElement();
             String res = c.toXML(key);
-            if (res != null)
-                xml += "<" + Util.getTag(key) + ">" + res + "</" + Util.getTag(key) + ">\n";
+            if (res != null && !"".equals( res.trim()))
+                xml += "<" + Util.getTag(key) + ">" + res.trim() + "</" + Util.getTag(key) + ">\n";
         }
 
         if (xml.equals(""))

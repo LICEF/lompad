@@ -53,7 +53,7 @@ class FormatComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return !jTextField.getText().equals("");
+        return !jTextField.getText().trim().equals("");
     }
 
     public void setEnabled(boolean b) {
@@ -107,8 +107,8 @@ class FormatComponent extends FormComponent {
     //XML
     String toXML(String key) {
         String xml = null;
-        if (!jTextField.getText().equals(""))
-            xml = Util.convertSpecialCharactersForXML(jTextField.getText());
+        if (!jTextField.getText().trim().equals(""))
+            xml = Util.convertSpecialCharactersForXML(jTextField.getText().trim());
         return xml;
     }
 
@@ -122,7 +122,7 @@ class FormatComponent extends FormComponent {
     //HTML
     String toHTML(String key) {
         String html = null;
-        if (!jTextField.getText().equals(""))
+        if (!jTextField.getText().trim().equals(""))
             html = jTextField.getText() + "<br>";
         return html;
     }

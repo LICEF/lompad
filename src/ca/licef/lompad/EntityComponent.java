@@ -126,10 +126,10 @@ class EntityComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return !(jTextFieldGivenName.getText().equals("") &&
-                jTextFieldFamilyName.getText().equals("") &&
-                jTextFieldEMail.getText().equals("") &&
-                jTextFieldOrg.getText().equals(""));
+        return !(jTextFieldGivenName.getText().trim().equals("") &&
+                jTextFieldFamilyName.getText().trim().equals("") &&
+                jTextFieldEMail.getText().trim().equals("") &&
+                jTextFieldOrg.getText().trim().equals(""));
     }
 
     public void setEnabled(boolean b) {
@@ -191,9 +191,9 @@ class EntityComponent extends FormComponent {
         fnValue.append( suffix );
         vCard += "FN:" + fnValue.toString() + "\n";
 
-        if (!jTextFieldEMail.getText().equals(""))
+        if (!jTextFieldEMail.getText().trim().equals(""))
             vCard += "EMAIL;TYPE=INTERNET:" + email + "\n";
-        if (!jTextFieldOrg.getText().equals(""))
+        if (!jTextFieldOrg.getText().trim().equals(""))
             vCard += "ORG:" + org + "\n";
 
         vCard = "BEGIN:VCARD\nVERSION:3.0\n" + vCard + "END:VCARD";

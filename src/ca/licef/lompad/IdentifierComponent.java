@@ -72,8 +72,8 @@ class IdentifierComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return !(jTextFieldCatalog.getText().equals("") &&
-                jTextFieldEntry.getText().equals(""));
+        return !(jTextFieldCatalog.getText().trim().equals("") &&
+                jTextFieldEntry.getText().trim().equals(""));
     }
 
     public void setEnabled(boolean b) {
@@ -87,11 +87,11 @@ class IdentifierComponent extends FormComponent {
     //XML
     String toXML(String key) {
         String xml = "";
-        if (!jTextFieldCatalog.getText().equals(""))
-            xml += "<" + Util.getTag(key + ".1") + ">" + Util.convertSpecialCharactersForXML(jTextFieldCatalog.getText()) +
+        if (!jTextFieldCatalog.getText().trim().equals(""))
+            xml += "<" + Util.getTag(key + ".1") + ">" + Util.convertSpecialCharactersForXML(jTextFieldCatalog.getText().trim()) +
                     "</" + Util.getTag(key + ".1") + ">\n";
-        if (!jTextFieldEntry.getText().equals(""))
-            xml += "<" + Util.getTag(key + ".2") + ">" + Util.convertSpecialCharactersForXML(jTextFieldEntry.getText()) +
+        if (!jTextFieldEntry.getText().trim().equals(""))
+            xml += "<" + Util.getTag(key + ".2") + ">" + Util.convertSpecialCharactersForXML(jTextFieldEntry.getText().trim()) +
                     "</" + Util.getTag(key + ".2") + ">\n";
 
         if (xml.equals("")) xml = null;
@@ -131,10 +131,10 @@ class IdentifierComponent extends FormComponent {
         if (key.startsWith("7.2"))
             key += ".1";
         
-        if (!jTextFieldCatalog.getText().equals(""))
-            html += Util.getLabel(key + ".1") + " : " + jTextFieldCatalog.getText() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        if (!jTextFieldEntry.getText().equals(""))
-            html += Util.getLabel(key + ".2") + " : " + jTextFieldEntry.getText() + "<br>";
+        if (!jTextFieldCatalog.getText().trim().equals(""))
+            html += Util.getLabel(key + ".1") + " : " + jTextFieldCatalog.getText().trim() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        if (!jTextFieldEntry.getText().trim().equals(""))
+            html += Util.getLabel(key + ".2") + " : " + jTextFieldEntry.getText().trim() + "<br>";
 
         if (html.equals("")) html = null;
         return html;

@@ -85,7 +85,7 @@ class TaxonComponent extends FormComponent {
     }
 
     boolean isFilled() {
-        return !jTextFieldEntry.getText().equals("");
+        return !jTextFieldEntry.getText().trim().equals("");
     }
 
     public void setEnabled(boolean b) {
@@ -100,9 +100,9 @@ class TaxonComponent extends FormComponent {
     //XML
     String toXML_Id(String key) {
         String xml = "";
-        if (!jTextFieldId.getText().equals(""))
+        if (!jTextFieldId.getText().trim().equals(""))
             xml += "<" + Util.getTag(key + ".1") + ">" +
-                    Util.convertSpecialCharactersForXML(jTextFieldId.getText()) +
+                    Util.convertSpecialCharactersForXML(jTextFieldId.getText().trim()) +
                     "</" + Util.getTag(key + ".1") + ">\n";
         if (xml.equals("")) xml = null;
         return xml;
@@ -111,13 +111,13 @@ class TaxonComponent extends FormComponent {
     String toXML_Entry() {
         String xml = "";
 
-        if (!jTextFieldEntry.getText().equals("")) {
+        if (!jTextFieldEntry.getText().trim().equals("")) {
             String lang = "";
             String selectedItem = (String)jComboBoxLang.getSelectedItem();
             if (selectedItem != null && !"".equals(selectedItem))
                 lang = " language=\"" + selectedItem + "\"";
             xml = "<string" + lang + ">" +
-                    Util.convertSpecialCharactersForXML(jTextFieldEntry.getText()) + "</string>";
+                    Util.convertSpecialCharactersForXML(jTextFieldEntry.getText().trim()) + "</string>";
         }
         if (xml.equals("")) xml = null;
         return xml;
@@ -140,18 +140,18 @@ class TaxonComponent extends FormComponent {
     String toHTML(String key) {
         String html = "";
 
-        if (isFirst && !jTextFieldId.getText().equals(""))
-            html += jTextFieldId.getText();
+        if (isFirst && !jTextFieldId.getText().trim().equals(""))
+            html += jTextFieldId.getText().trim();
 
-        if (!jTextFieldEntry.getText().equals("")) {
+        if (!jTextFieldEntry.getText().trim().equals("")) {
             String lang = "";
             if (jComboBoxLang.getSelectedItem() != null && !"".equals(jComboBoxLang.getSelectedItem()))
                 lang = " (" + jComboBoxLang.getSelectedItem() + ")";
 
             if (!html.equals(""))
-                html += ":" + jTextFieldEntry.getText() + lang;
+                html += ":" + jTextFieldEntry.getText().trim() + lang;
             else
-                html = jTextFieldEntry.getText() + lang;
+                html = jTextFieldEntry.getText().trim() + lang;
         }
 
         if (html.equals(""))
