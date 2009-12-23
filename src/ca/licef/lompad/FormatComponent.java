@@ -123,7 +123,7 @@ class FormatComponent extends FormComponent {
     String toHTML(String key) {
         String html = null;
         if (!jTextField.getText().trim().equals(""))
-            html = jTextField.getText() + "<br>";
+            html = jTextField.getText().trim() + "<br>";
         return html;
     }
 }
