@@ -189,6 +189,8 @@ class Util {
     static ImageIcon redIcon;
     static ImageIcon yellowIcon;
     static ImageIcon greenIcon;
+    static ImageIcon folderIcon;
+    static ImageIcon fileIcon;
 
     static void initImageIcon(Class cl) {
         imageApp = getImage(cl, "app.gif");
@@ -204,6 +206,8 @@ class Util {
         redIcon = new ImageIcon(getImage(cl, "red.gif"));
         yellowIcon = new ImageIcon(getImage(cl, "yellow.gif"));
         greenIcon = new ImageIcon(getImage(cl, "green.gif"));
+        folderIcon = new ImageIcon(getImage(cl, "folder.gif"));
+        fileIcon = new ImageIcon(getImage(cl, "file.gif"));
     }
 
     public static Image getImage(Class cl, String name) {

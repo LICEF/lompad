@@ -21,6 +21,7 @@
 package ca.licef.lompad;
 
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.*;
@@ -30,6 +31,7 @@ class JPanelForm extends JPanel {
 
     static JPanelForm instance;
 
+    JPanel jPanelProfile;
     JPanel jPanelNormeticProfileIcons;
     JPanel jPanelNormeticLegend;
     JLabel jLabelRequired;
@@ -39,6 +41,10 @@ class JPanelForm extends JPanel {
     JLabel jLabelProfileIcon;
     JLabel jLabelProfile;
     JLabel jLabelLegend;
+
+    JSplitPane splitPane;
+    FileBrowser browser;
+    JPanel jPanelWrapper;
 
     boolean bInit;
     LomForm lomForm;
@@ -59,7 +65,7 @@ class JPanelForm extends JPanel {
         setLayout(new BorderLayout(0, 0));
         lomForm = new LomForm();
 
-        JPanel jPanelProfile = new JPanel();
+        jPanelProfile = new JPanel();
         jPanelProfile.setLayout(new BoxLayout(jPanelProfile, BoxLayout.X_AXIS));
         add(BorderLayout.NORTH, jPanelProfile);
         jPanelProfile.add(Box.createHorizontalStrut(5));
@@ -110,11 +116,62 @@ class JPanelForm extends JPanel {
         normeticLabels.put("Normetic (" + rb.getString("normetic2") + ")", "normetic2");
         normeticLabels.put("Normetic (" + rb.getString("normetic3") + ")", "normetic3");
 
+        browser = new FileBrowser( workingFolder );
+        browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
+        browser.setVisible( false );
+        browser.addFileBrowserListener( new FileBrowserListener() {
+
+            public void fileSelected( FileBrowserEvent e ) {
+                openFileFromBrowser( e.getFile() + "" );
+            }
+
+            public void directorySelected( FileBrowserEvent e ) {
+                workingFolder = e.getFile() + "";
+            } 
+
+            public void browserClosed() {
+                hideBrowser();
+            }
+
+        } );
+
         bInit = true;
         lomForm.init();
         bInit = false;
 
         updateLocalization();
+    }
+
+    private void showBrowser() {
+        if( splitPane == null ) {
+            remove( jPanelProfile );
+            remove( lomForm ); 
+            remove( jPanelNormeticLegend );
+            validate();
+            jPanelWrapper = new JPanel( new BorderLayout( 0, 0 ) );
+            jPanelWrapper.add( BorderLayout.NORTH, jPanelProfile );
+            jPanelWrapper.add( BorderLayout.CENTER, lomForm );
+            jPanelWrapper.add( BorderLayout.SOUTH, jPanelNormeticLegend );
+            browser.setVisible( true );
+            splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, browser, jPanelWrapper ); 
+            add( BorderLayout.CENTER, splitPane );
+        }
+        else
+            hideBrowser();
+    }
+
+    private void hideBrowser() {
+        if( splitPane != null ) {
+            remove( splitPane );
+            browser.setVisible( false );
+            splitPane.remove( browser );
+            splitPane.remove( jPanelWrapper );
+            splitPane = null;
+            add( BorderLayout.NORTH, jPanelProfile );
+            add( BorderLayout.SOUTH, jPanelNormeticLegend );
+            add( BorderLayout.CENTER, lomForm );
+            validate();
+        }
     }
 
     public void updateLocalization() {
@@ -252,6 +309,23 @@ class JPanelForm extends JPanel {
         }
     }
 
+    public void openFileFromBrowser( String file ) {
+        if (!manageCurrentLom())
+            return;
+
+        newForm(false);
+
+        try {
+            lomForm.fromXML(new FileInputStream(file));
+        } catch (Exception e) {
+            JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
+            dialog.setVisible( true );
+        }
+        lomForm.initiateHasChanged();
+        updateFrameTitle();
+        updateNormeticIcon();
+    }
+
     public void openFile(String label) {
         if (!manageCurrentLom())
             return;
@@ -261,6 +335,12 @@ class JPanelForm extends JPanel {
             return;
 
         newForm(false);
+
+        if( fileTmp.isDirectory() ) {
+            browser.setDirectory( workingFolder );
+            showBrowser();
+            return;
+        }
 
         file = fileTmp;
 
@@ -278,6 +358,8 @@ class JPanelForm extends JPanel {
     File selectFile(boolean openMode, String label) {
         File f = null;
         JFileChooser fc = new JFileChooser();
+        if( openMode )
+            fc.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
         fc.setCurrentDirectory(new File(workingFolder));
         if (label != null)
             fc.setDialogTitle(" " + label);
@@ -298,7 +380,7 @@ class JPanelForm extends JPanel {
         }
 
         if (f != null)
-            workingFolder = f.getParentFile().toString();
+            workingFolder = fc.getSelectedFile().isDirectory() ? f.toString() : f.getParentFile().toString();
         return f;
     }
 
