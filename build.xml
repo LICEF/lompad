@@ -24,7 +24,7 @@
     <javac srcdir="${src}" destdir="${build}" 
         source="${build.compiler.source}" target="${build.compiler.target}"
         debug="${build.compiler.debug}"
-        nowarn="${build.compiler.nowarn}" deprecation="${build.compiler.deprecation}"/>
+        nowarn="${build.compiler.nowarn}" deprecation="${build.compiler.deprecation}" includeantruntime="false" />
 </target>
 
 <target name="copyRes">    
