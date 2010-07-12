@@ -320,6 +320,9 @@ class JPanelForm extends JPanel {
             JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
             dialog.setVisible( true );
         }
+
+        this.file = new File( file );
+
         lomForm.initiateHasChanged();
         updateFrameTitle();
         updateNormeticIcon();
