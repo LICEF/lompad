@@ -142,22 +142,21 @@ class JPanelForm extends JPanel {
         updateLocalization();
     }
 
-    private void showBrowser() {
+    public void showBrowser() {
         if( splitPane == null ) {
             remove( jPanelProfile );
             remove( lomForm ); 
             remove( jPanelNormeticLegend );
-            validate();
             jPanelWrapper = new JPanel( new BorderLayout( 0, 0 ) );
             jPanelWrapper.add( BorderLayout.NORTH, jPanelProfile );
             jPanelWrapper.add( BorderLayout.CENTER, lomForm );
             jPanelWrapper.add( BorderLayout.SOUTH, jPanelNormeticLegend );
-            browser.setVisible( true );
             splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, browser, jPanelWrapper ); 
             add( BorderLayout.CENTER, splitPane );
+            validate();
         }
-        else
-            hideBrowser();
+        browser.setDirectory( workingFolder );
+        browser.setVisible( true );
     }
 
     private void hideBrowser() {
@@ -337,7 +336,6 @@ class JPanelForm extends JPanel {
         newForm(false);
 
         if( fileTmp.isDirectory() ) {
-            browser.setDirectory( workingFolder );
             showBrowser();
             return;
         }

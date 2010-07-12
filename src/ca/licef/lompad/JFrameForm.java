@@ -32,6 +32,7 @@ class JFrameForm extends JFrame {
     private JMenuItem item12;
     private JMenuItem item13;
     private JMenuItem item14;
+    private JMenuItem itemBrowseFolder;
     private JMenuItem item15;
     private JMenuItem item16;
     private JMenuItem item17;
@@ -92,6 +93,7 @@ class JFrameForm extends JFrame {
         item12.setText(resBundle.getString("open"));
         item13.setText(resBundle.getString("save"));
         item14.setText(resBundle.getString("saveas"));
+        itemBrowseFolder.setText(resBundle.getString("browseFolder"));
         item15.setText(resBundle.getString("viewhtml"));
         item16.setText(resBundle.getString("viewxml"));
         item17.setText(resBundle.getString("quit"));
@@ -155,6 +157,13 @@ class JFrameForm extends JFrame {
         item14.addActionListener(lSymAction);
         menu1.add(item14);
         menu1.addSeparator();
+
+        itemBrowseFolder = new JMenuItem("browseFolder");
+        itemBrowseFolder.setFont(menu1.getFont());
+        itemBrowseFolder.addActionListener(lSymAction);
+        menu1.add(itemBrowseFolder);
+        menu1.addSeparator();
+
         item15 = new JMenuItem("viewhtml");
         item15.setFont(menu1.getFont());
         item15.addActionListener(lSymAction);
@@ -263,6 +272,8 @@ class JFrameForm extends JFrame {
                 jPanelForm.saveFile(item13.getText());
             else if (object == item14)
                 jPanelForm.saveAsFile(item14.getText());
+            else if (object == itemBrowseFolder)
+                jPanelForm.showBrowser();
             else if (object == item15)
                 jPanelForm.viewHTML();
             else if (object == item16)
