@@ -196,7 +196,7 @@ class EntityComponent extends FormComponent {
         if (!jTextFieldOrg.getText().trim().equals(""))
             vCard += "ORG:" + org + "\n";
 
-        vCard = "BEGIN:VCARD\nVERSION:3.0\n" + vCard + "END:VCARD";
+        vCard = "<![CDATA[BEGIN:VCARD\nVERSION:3.0\n" + vCard + "END:VCARD]]>";
         return vCard;
     }
 
@@ -274,7 +274,7 @@ class EntityComponent extends FormComponent {
         // the FN: field should not be taken into account.
         // However, in case that the N: field has not been 
         // specified (even though it's mandatory) or partially
-        // speficied, we try to use the FN: field instead.
+        // specified, we try to use the FN: field instead.
         // As it's impossible to parse this field accurately, 
         // we use an heuristic approach.
         if( fnField != null && !"".equals( fnField ) ) {
