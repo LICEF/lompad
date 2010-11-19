@@ -151,13 +151,14 @@ class EntityComponent extends FormComponent {
 
     //XML
     String toXML(String key) {
-        String familyName = Util.convertSpecialCharactersForXML(jTextFieldFamilyName.getText().trim());
-        String givenName = Util.convertSpecialCharactersForXML(jTextFieldGivenName.getText().trim());
-        String additionalName = Util.convertSpecialCharactersForXML(jTextFieldAdditionalName.getText().trim());
-        String prefix = Util.convertSpecialCharactersForXML(jTextFieldPrefix.getText().trim());
-        String suffix = Util.convertSpecialCharactersForXML(jTextFieldSuffix.getText().trim());
-        String email = Util.convertSpecialCharactersForXML(jTextFieldEMail.getText().trim());
-        String org = Util.convertSpecialCharactersForXML(jTextFieldOrg.getText().trim());
+        // No need to call convertSpecialCharactersForXML() here because the data is enclosed between CDATA delimiters.
+        String familyName = jTextFieldFamilyName.getText().trim();
+        String givenName = jTextFieldGivenName.getText().trim();
+        String additionalName = jTextFieldAdditionalName.getText().trim();
+        String prefix = jTextFieldPrefix.getText().trim();
+        String suffix = jTextFieldSuffix.getText().trim();
+        String email = jTextFieldEMail.getText().trim();
+        String org = jTextFieldOrg.getText().trim();
 
         if( ( familyName + givenName + additionalName + prefix + suffix + email + org ).length() == 0 )
             return( null );
