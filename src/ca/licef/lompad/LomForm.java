@@ -318,7 +318,7 @@ class LomForm extends JPanel {
     public String toXML() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         xml += "<lom xmlns=\"http://ltsc.ieee.org/xsd/LOM\" " +
-                "xmlns:xsi=\"http://www.w3.org/2001/XMLSchemainstance\" " +
+                "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
                 "xsi:schemaLocation=\"http://ltsc.ieee.org/xsd/LOM " +
                 "http://ltsc.ieee.org/xsd/lomv1.0/lom.xsd\">\n";
 
