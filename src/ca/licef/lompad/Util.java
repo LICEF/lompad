@@ -250,7 +250,7 @@ class Util {
     }
 
     /**
-     * Lire un fichier texte à partir
+     * Lire un fichier texte Ã  partir
      * Retourne un liste de chaque ligne
      */
     public static Object[] readFile(Class cl, String filename) {
@@ -338,8 +338,8 @@ class Util {
     }
 
     /**
-     * Retourne la même string précédée par des 0 si besoin est pour
-     * que la nouvelle string ait la taille passée en parametre
+     * Retourne la mÃªme string prÃ©cÃ©dÃ©e par des 0 si besoin est pour
+     * que la nouvelle string ait la taille passÃ©e en parametre
      */
     public static String completeDigit(String s, int length) {
         if (s.length() == length)

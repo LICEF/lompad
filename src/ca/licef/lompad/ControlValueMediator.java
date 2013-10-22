@@ -123,11 +123,11 @@ class ControlValueMediator extends FormMediator {
 
     /**
      * Cette fonction fait la gestion des valeurs disponibles.
-     * Elle retire la valeur utilisée par le nouveau composant
-     * pour les prochaines entrées. Elle notifie aussi les composants
+     * Elle retire la valeur utilisÃ©e par le nouveau composant
+     * pour les prochaines entrÃ©es. Elle notifie aussi les composants
      * existant de le retirer de leur liste.
      *
-     * @param c     le composant venant d'etre créé
+     * @param c     le composant venant d'etre crÃ©Ã©
      * @param value la valeur a retirer
      */
     void setNotAvailableValue(VocabularyComponent c, OrderedValue value, boolean forceSelf) {
@@ -144,11 +144,11 @@ class ControlValueMediator extends FormMediator {
 
     /**
      * Cette fonction fait la gestion des valeurs disponibles.
-     * Elle réintroduit la valeur libérée par le composant
-     * pour les prochaines entrées. Elle notifie aussi les composants
+     * Elle rÃ©introduit la valeur libÃ©rÃ©e par le composant
+     * pour les prochaines entrÃ©es. Elle notifie aussi les composants
      * existant de la rajouter a leur liste.
      *
-     * @param c     le composant venant d'etre supprimé, ou dont la comboBox vient d'etre modifiée
+     * @param c     le composant venant d'etre supprimÃ©, ou dont la comboBox vient d'etre modifiÃ©e
      * @param value la valeur a rajouter
      */
     void setAvailableValue(VocabularyComponent c, OrderedValue value) {

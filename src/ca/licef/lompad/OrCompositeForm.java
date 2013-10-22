@@ -72,7 +72,7 @@ class OrCompositeForm extends FormContainer {
                 String pathElem = path + "/" + child.getTagName().toLowerCase();
                 FormWrapper c = null;
                 try {
-                    int pos = Util.getPosTag(pathElem); //pour être sur que
+                    int pos = Util.getPosTag(pathElem); //pour Ãªtre sur que
                     if (isFilled()) {
                         if (!isMultipleContainer) return; //pas d'import multiple possible
                         addFormContent();
