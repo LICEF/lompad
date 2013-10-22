@@ -370,7 +370,7 @@ class LomForm extends JPanel {
 
     //HTML
     public String toHTML() {
-        String html = "<html><head>";
+        String html = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">";
 
         html += "<style TYPE=\"text/css\">"+
                 "<!-- p, td, ul, li, ol, textarea {" +

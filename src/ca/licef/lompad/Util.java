@@ -307,6 +307,8 @@ class Util {
         }
         else if (osName.startsWith("mac"))
             commandLine = "/usr/bin/open " + filePath;
+        else if (osName.startsWith("linux"))
+            commandLine = "/usr/bin/xdg-open " +filePath;
 
         try {
             Runtime.getRuntime().exec(commandLine);
