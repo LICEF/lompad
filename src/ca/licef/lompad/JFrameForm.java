@@ -264,6 +264,7 @@ class JFrameForm extends JFrame {
     class SymAction implements java.awt.event.ActionListener {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
+
             if (object == item11)
                 jPanelForm.newForm(true);
             else if (object == item12)
