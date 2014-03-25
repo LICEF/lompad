@@ -66,6 +66,15 @@ class TextComponent extends FormComponent {
         jPanelGauche.add(currentJTextComponent);
     }
 
+    public void clear() {
+        currentJTextComponent.setText(null);
+    }
+
+    void setValue(String text) {
+        currentJTextComponent.setText(text);
+        currentJTextComponent.setCaretPosition(0);
+    }
+
     //XML
     String toXML(String key) {
         String xml = null;

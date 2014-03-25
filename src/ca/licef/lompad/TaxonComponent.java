@@ -96,6 +96,20 @@ class TaxonComponent extends FormComponent {
         jComboBoxLang.setEnabled(b);
     }
 
+    public void clear() {
+        jTextFieldId.setText(null);
+        jTextFieldEntry.setText(null);
+    }
+
+    public void setValues(String id, String entry, String lang) {
+        if (isFirst) {
+            jTextFieldId.setText(id);
+            jTextFieldId.setCaretPosition(0);
+        }
+        jTextFieldEntry.setText(entry);
+        jTextFieldEntry.setCaretPosition(0);
+        jComboBoxLang.setSelectedItem(lang);
+    }
 
     //XML
     String toXML_Id(String key) {

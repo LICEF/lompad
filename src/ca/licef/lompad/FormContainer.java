@@ -321,6 +321,34 @@ abstract class FormContainer extends FormComponent {
             vComponents.removeElement((FormComponent) c.jPanelGaucheContainer.getComponent(0));
     }
 
+    //remove the index'th component.
+    public void clear(int index) {
+        FormComponent component = (FormComponent) vComponents.elementAt(index);
+        if (index != 0 && removeMapping != null) {
+            for (Enumeration e = removeMapping.elements(); e.hasMoreElements();) {
+                FormComponent c = (FormComponent) e.nextElement();
+                if (((FormWrapper) c).jPanelGaucheContainer.getComponent(0) == component)
+                    removeComponent((FormContainer) c);
+            }
+        } else
+            component.clear();
+    }
+
+    public void clear() {
+        if (removeMapping != null) {
+            for (Enumeration e = removeMapping.elements(); e.hasMoreElements();) {
+                FormComponent c = (FormComponent) e.nextElement();
+                if (c instanceof FormContainer)
+                    removeComponent((FormContainer) c);
+                else
+                    c.clear();
+            }
+        }
+
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
+            ((FormComponent) e.nextElement()).clear();
+    }
+
     class SymMouse extends java.awt.event.MouseAdapter {
         public void mouseEntered(java.awt.event.MouseEvent event) {
             Object object = event.getSource();

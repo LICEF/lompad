@@ -25,7 +25,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 class TaxonElementForm extends FormContainer {
     Object[] values = new Object[]{null, "fr", "en", "es"};
@@ -42,6 +44,35 @@ class TaxonElementForm extends FormContainer {
         c.setPreferredSize(new Dimension(10, 25));
         c.setMaximumSize(new Dimension(2000, 25));
         addComponent(c);
+    }
+
+    public void setValues(Object[] taxon) {
+        String id = (String) taxon[0];
+        ArrayList titles = (ArrayList) taxon[1];
+
+        //reorganisation with Util.locale first.
+        String lang = Util.locale.getLanguage();
+        if ("".equals(lang))
+            lang = "en";
+        int index = titles.indexOf(lang);
+        if (index != -1) {//lang exists
+            String entry = (String) titles.remove(index + 1);
+            titles.remove(index);
+            titles.add(0, lang);
+            titles.add(1, entry);
+        }
+
+        for (Iterator it = titles.iterator(); it.hasNext();) {
+            lang = (String) it.next();
+            String entry = (String) it.next();
+            TaxonComponent c = null;
+            if (isFilled()) {
+                addFormContent();
+                c = (TaxonComponent) vComponents.lastElement();
+            } else
+                c = (TaxonComponent) vComponents.firstElement();
+            c.setValues(id, entry, lang);
+        }
     }
 
     //XML

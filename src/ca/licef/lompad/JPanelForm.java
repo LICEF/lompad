@@ -58,7 +58,6 @@ class JPanelForm extends JPanel {
     String workingFolder = FileSystemView.getFileSystemView().getDefaultDirectory().toString();
 
     public JPanelForm() {
-
         instance = this;
 
         setOpaque(false);

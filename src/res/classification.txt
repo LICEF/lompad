@@ -1,0 +1,3 @@
+http://www1.licef.ca/ontology/skill/GPaquette-200506/skill.rdf#skill level
+http://www1.licef.ca/ontology/resource/licef-200506/resource.rdf#idea
+http://www1.licef.ca/ontology/DDC/licef-200506/DDC.rdf#discipline

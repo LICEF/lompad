@@ -44,6 +44,23 @@ class LangstringForm extends TextForm {
         mediator.buttonAddComponentPerformed(c);
     }
 
+    public void setValues(String[] values) {
+        for (int i = 0; i < values.length;) {
+            setValues(values[i], values[i + 1]);
+            i += 2;
+        }
+    }
+
+    public void setValues(String value, String language) {
+        LangstringComponent c = null;
+        if (isFilled()) {
+            addFormContent();
+            c = (LangstringComponent) vComponents.lastElement();
+        } else
+            c = (LangstringComponent) vComponents.firstElement();
+        c.setValues(value, language);
+    }
+
     //XML
     String toXML(String key) {
         return defaultToXML(key);

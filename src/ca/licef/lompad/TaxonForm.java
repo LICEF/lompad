@@ -41,6 +41,18 @@ class TaxonForm extends FormContainer {
         addComponent(wrapper);
     }
 
+    public void setTaxon(Object[] taxon) {
+        TaxonElementForm c = null;
+        if (isFilled()) {
+            addFormContent();
+            c = (TaxonElementForm)
+                    (((FormWrapper) vComponents.lastElement()).vComponents.firstElement());
+        } else
+            c = (TaxonElementForm)
+                    (((FormWrapper) vComponents.firstElement()).vComponents.firstElement());
+        c.setValues(taxon);
+    }
+
     //XML
     String toXML(String key) {
         String xml = "";

@@ -88,6 +88,10 @@ abstract class FormComponent extends JComponent {
     void graphicalUpdate() {
     }
 
+    public void clear() {
+        System.out.println("clear FormComponent");
+    }
+
     //XML
     String toXML(String key) {
         return "feuille\n";

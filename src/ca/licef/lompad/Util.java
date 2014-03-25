@@ -23,6 +23,7 @@ package ca.licef.lompad;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -247,6 +248,27 @@ class Util {
                 }
             }
         }
+    }
+
+
+    /**
+     * Lire un fichier texte à partir d'une url
+     * Retourne une liste de chaque ligne
+     */
+    public static Object[] readFile(String url) {
+        Object[] res = null;
+        ArrayList list = new ArrayList();
+        String nextLine = null;
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader((new URL(url)).openStream()));
+            while ((nextLine = in.readLine()) != null)
+                list.add(nextLine);
+            in.close();
+            res = list.toArray();
+        } catch (IOException e) {
+            System.out.println("e = " + e);
+        }
+        return res;
     }
 
     /**

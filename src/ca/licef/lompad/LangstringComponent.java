@@ -52,6 +52,16 @@ class LangstringComponent extends TextComponent {
         jComboBoxLang.setEditable(b);
     }                                                                  
 
+    public void clear() {
+        super.clear();
+        jComboBoxLang.setSelectedItem(null);
+    }
+
+    void setValues(String text, String language) {
+        setValue(text);
+        jComboBoxLang.setSelectedItem(language);
+    }
+
     public Object getSelectedValue() {
         return jComboBoxLang.getSelectedItem();
     }
