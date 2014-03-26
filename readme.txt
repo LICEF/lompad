@@ -14,6 +14,6 @@ This action produce an executable Jar (target/lompad-1.0-jar-with-dependencies.j
 How to make a .exe file (only for Windows)
 ------------------------------------------
 
-Copy the file lompad-1.0-jar-with-dependencies.jar on directory /misc/windows and launch makeExe.bat. 
+Copy the file target/lompad-1.0-jar-with-dependencies.jar into the directory /misc/windows and launch makeExe.bat. 
 LomPad.exe will be produced.
 This module is based on Jelude (http://www.sfu.ca/~tyuen/jelude/)
