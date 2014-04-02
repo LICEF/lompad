@@ -25,6 +25,8 @@ import org.w3c.dom.NodeList;
 
 import java.awt.*;
 
+import licef.CommonNamespaceContext;
+
 class LangstringForm extends TextForm {
     Object[] values = new Object[]{null, "fr", "en", "es"};
 
@@ -67,7 +69,7 @@ class LangstringForm extends TextForm {
     }
 
     void fromXML(String path, Element e) {
-        NodeList list = e.getElementsByTagNameNS(Util.lomNSURI,"string");
+        NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"string");
         for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             LangstringComponent c = null;

@@ -45,8 +45,8 @@ public class LocalizeTaxon {
             res = (String) titles.get(index + 1);
         } catch (IndexOutOfBoundsException e) {
         }
-        if (id != null && !"".equals(id))
-            res = id + "-" + res;
+        //if (id != null && !"".equals(id))
+        //    res = id + "-" + res;
 
         return res;
     }

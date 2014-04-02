@@ -27,6 +27,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import licef.StringUtil;
 
 
 /**
@@ -84,7 +85,7 @@ class JDialogDateSelector extends JDialog {
         DateFormatSymbols dfs = new DateFormatSymbols(Util.locale);
         String[] months = dfs.getMonths();
         for (int i = 0; i < months.length - 1; i++)
-            jComboBoxMonth.addItem(Util.capitalize(months[i]));
+            jComboBoxMonth.addItem(StringUtil.capitalize(months[i]));
         int iMonth = cal.get( Calendar.MONTH );
         jComboBoxMonth.setSelectedIndex(iMonth);
 

@@ -27,10 +27,9 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import licef.IOUtil;
 
 class Util {
-
-    public static final String lomNSURI = "http://ltsc.ieee.org/xsd/LOM";
 
     //For UI Localization
     public static Locale locale = Locale.FRENCH;
@@ -216,25 +215,12 @@ class Util {
         try {
             BufferedInputStream in = new BufferedInputStream(cl.getResourceAsStream("/images/" + name));
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            copy(in, out);
+            IOUtil.copy(in, out);
             image = Toolkit.getDefaultToolkit().createImage(out.toByteArray());
         } catch (Exception e) {
             return null;
         }
         return image;
-    }
-
-    public static void copy(InputStream in, OutputStream out) throws IOException {
-        synchronized (in) {
-            synchronized (out) {
-                byte[] buffer = new byte[1024];
-                while (true) {
-                    int bytesRead = in.read(buffer);
-                    if (bytesRead == -1) break;
-                    out.write(buffer, 0, bytesRead);
-                }
-            }
-        }
     }
 
     public static void copy(Reader in, Writer out) throws IOException {
@@ -340,26 +326,6 @@ class Util {
     }
 
     /**
-     * Retourne une chaine de caracteres commencant par une lettre majuscule.
-     */
-    public static String capitalize(String texte) {
-        return texte.substring(0, 1).toUpperCase() + texte.substring(1);
-    }
-
-    /**
-     * Retourne true si deux dates correspondent a la meme journee.
-     */
-    public static boolean memeJournee(Date date1, Date date2) {
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        return ((cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) &&
-                (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) &&
-                (cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE)));
-    }
-
-    /**
      * Retourne la même string précédée par des 0 si besoin est pour
      * que la nouvelle string ait la taille passée en parametre
      */
@@ -373,4 +339,26 @@ class Util {
             return prefix + s;
         }
     }
+
+    public static String getDataFolder() {
+        String dataFolder = null;
+        String osName = (System.getProperty("os.name")).toLowerCase();
+        if( osName.startsWith( "windows" )  )
+            dataFolder = System.getProperty( "appdata" ) + "/lompad";
+        else if( osName.startsWith( "mac" ) || osName.startsWith( "linux" ) )
+            dataFolder = System.getProperty( "user.home" ) + "/.lompad";
+        if( dataFolder != null )
+            IOUtil.createDirectory( dataFolder );
+        return( dataFolder );
+    }
+
+    public static String getClassificationFolder() {
+        String classifFolder = getDataFolder();
+        if( classifFolder == null )
+            return( null );
+        classifFolder += "/classif";
+        IOUtil.createDirectory( classifFolder );
+        return( classifFolder );
+    }
+
 }

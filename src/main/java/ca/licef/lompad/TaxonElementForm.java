@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+import licef.CommonNamespaceContext;
+
 class TaxonElementForm extends FormContainer {
     Object[] values = new Object[]{null, "fr", "en", "es"};
 
@@ -125,7 +127,7 @@ class TaxonElementForm extends FormContainer {
                             c = (TaxonComponent) vComponents.lastElement();
                         }
 
-                        NodeList list2 = child.getElementsByTagNameNS(Util.lomNSURI,"string");
+                        NodeList list2 = child.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"string");
                         for (int i2 = 0; i2 < list2.getLength(); i2++) {
                             Node node2 = list2.item(i2);
                             if (node2.getNodeType() == Node.ELEMENT_NODE) {

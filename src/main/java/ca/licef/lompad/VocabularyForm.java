@@ -31,6 +31,8 @@ import java.awt.*;
 import java.util.*;
 import java.io.ByteArrayInputStream;
 
+import licef.CommonNamespaceContext;
+
 class VocabularyForm extends FormContainer {
     Object[] values = null;
     Object[] exclusiveValues = null;
@@ -214,7 +216,7 @@ class VocabularyForm extends FormContainer {
     private boolean isControlValueMediatorNeeded(Element e) {
         if (!isLomVocabulary)
             return true;
-        NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
+        NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
         Element childSrc = (Element) listSrc.item(0);
         String source = childSrc.getFirstChild().getNodeValue();
         if (source.equals("LOMv1.0"))

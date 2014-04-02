@@ -6,6 +6,8 @@ import org.w3c.dom.NodeList;
 import javax.swing.*;
 import java.awt.*;
 
+import licef.CommonNamespaceContext;
+
 /**
  * Created by IntelliJ IDEA.
  * User: amiara
@@ -37,11 +39,11 @@ public class ExternalVocabularyComponent extends FormComponent{
     }
 
     void fromXML(String path, Element e, boolean firstField) {
-        NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
+        NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
         Element childSrc = (Element) listSrc.item(0);
         source = childSrc.getFirstChild().getNodeValue();
 
-        NodeList list = e.getElementsByTagNameNS(Util.lomNSURI,"value");
+        NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
         Element child = (Element) list.item(0);
         value = child.getFirstChild().getNodeValue().trim();
 

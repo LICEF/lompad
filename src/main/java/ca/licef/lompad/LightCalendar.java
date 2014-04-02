@@ -25,6 +25,7 @@ import java.awt.*;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
+import licef.StringUtil;
 
 class LightCalendar extends JComponent {
     public static final Color   BG_MONTH_NAME       = new Color(117, 123, 114);
@@ -104,7 +105,7 @@ class LightCalendar extends JComponent {
 
         // Nom du mois
         if( drawMonthName ) {
-            String strMonthName = Util.capitalize( dfs.getMonths()[ mois ] ) + ", " + new Integer( annee ).toString();
+            String strMonthName = StringUtil.capitalize( dfs.getMonths()[ mois ] ) + ", " + new Integer( annee ).toString();
 
             offGraphics.setColor( BG_MONTH_NAME );
             offGraphics.fillRect( xPen, yPen, (width - 1), fm.getHeight() + 2 );
@@ -121,7 +122,7 @@ class LightCalendar extends JComponent {
 
         offGraphics.setColor( FG_DAY_NAME );
         for( int i = 1; i <= 7; i++ ) {
-            String strNomJour = Util.capitalize( dfs.getWeekdays()[ i ].substring( 0, 1 ) );
+            String strNomJour = StringUtil.capitalize( dfs.getWeekdays()[ i ].substring( 0, 1 ) );
             
             int x = 1 + (i-1) * caseWidth + ( caseWidth - fm.stringWidth( strNomJour ) ) / 2;
             int y = yPen + fm.getHeight() - 1;

@@ -37,6 +37,8 @@ public class JDialogTaxonPathSelector extends JDialog {
     JButton jButtonOk;
     JButton jButtonCancel;
 
+    SymTree aSymTree;
+
     String source;
     Object[] taxonPath;
 
@@ -58,7 +60,7 @@ public class JDialogTaxonPathSelector extends JDialog {
         jPanelContent.setLayout(new BorderLayout());
         cp.add(jPanelContent, BorderLayout.CENTER);
 
-        jPanelTaxonomy = new JPanelTaxonomy(null);
+        jPanelTaxonomy = new JPanelTaxonomy( this );
         jPanelContent.add(BorderLayout.CENTER, jPanelTaxonomy);
 
         jButtonOk = new JButton("OK");
@@ -78,7 +80,7 @@ public class JDialogTaxonPathSelector extends JDialog {
 
         SymMouse aSymMouse = new SymMouse();
         jPanelTaxonomy.jComboBoxClassification.addMouseListener(aSymMouse);
-        SymTree aSymTree = new SymTree();
+        aSymTree = new SymTree();
         for (Iterator it = jPanelTaxonomy.getTrees().iterator(); it.hasNext();)
             ((JTree) it.next()).addTreeSelectionListener(aSymTree);
     }
@@ -96,6 +98,10 @@ public class JDialogTaxonPathSelector extends JDialog {
         }
         jPanelTaxonomy.setVisible(b);
         super.setVisible(b);
+    }
+
+    void addTreeListener( JTree tree ) {
+        tree.addTreeSelectionListener( aSymTree );
     }
 
     class SymAction implements java.awt.event.ActionListener {
@@ -146,7 +152,7 @@ public class JDialogTaxonPathSelector extends JDialog {
 
     void update() {
         JTree currentTree = jPanelTaxonomy.getCurrentTree();
-        jButtonOk.setEnabled(currentTree.getSelectionPath() != null &&
-                currentTree.getSelectionPath().getPathCount() != 0);
+        jButtonOk.setEnabled(currentTree != null && 
+            currentTree.getSelectionPath() != null && currentTree.getSelectionPath().getPathCount() != 0);
     }
 }

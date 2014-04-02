@@ -28,6 +28,8 @@ import java.awt.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import licef.CommonNamespaceContext;
+
 class VocabularyComponent extends FormComponent {
     JComboBox jComboBoxVocabulary;
     OrderedValue previousVocabulary;
@@ -132,11 +134,11 @@ class VocabularyComponent extends FormComponent {
 
     void fromXML(String path, Element e, Hashtable tableImportXML, boolean firstField) {
         if (isLomVocabulary) {
-            NodeList listSrc = e.getElementsByTagNameNS(Util.lomNSURI,"source");
+            NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
             Element childSrc = (Element) listSrc.item(0);
             String source = childSrc.getFirstChild().getNodeValue();
 
-            NodeList list = e.getElementsByTagNameNS(Util.lomNSURI,"value");
+            NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
             Element child = (Element) list.item(0);
             String value = child.getFirstChild().getNodeValue().trim();
 

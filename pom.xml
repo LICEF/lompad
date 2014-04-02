@@ -51,8 +51,12 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>licef</groupId>
+            <artifactId>licef-utils</artifactId>
+            <version>0.11.1</version>
+        </dependency>
     </dependencies>
-
 
     <name>lompad</name>
     <description>LOM Metadata Editor</description>

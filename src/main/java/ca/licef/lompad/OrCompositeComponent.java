@@ -27,6 +27,8 @@ import org.w3c.dom.NodeList;
 import javax.swing.*;
 import java.awt.*;
 
+import licef.CommonNamespaceContext;
+
 class OrCompositeComponent extends FormComponent {
     JPanel jPanelWrapperGauche;
     JPanel jPanelWrapperDroite;
@@ -183,7 +185,7 @@ class OrCompositeComponent extends FormComponent {
                 try {
                     int pos = Util.getPosTag(path + "/" + child.getTagName().toLowerCase());
                     if (pos == 1) {
-                        NodeList nl = child.getElementsByTagNameNS(Util.lomNSURI,"value");
+                        NodeList nl = child.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null) {
@@ -193,7 +195,7 @@ class OrCompositeComponent extends FormComponent {
                         }
                     }
                     if (pos == 2) {
-                        NodeList nl = child.getElementsByTagNameNS(Util.lomNSURI,"value");
+                        NodeList nl = child.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null)
