@@ -113,14 +113,10 @@ class TaxonPathForm extends FormContainer {
         }
 
         void jButtonWizard_actionPerformed(java.awt.event.ActionEvent event) {
-System.out.println( "Ok" );            
             Object[] res = selectClassificationPath();
-System.out.println( "res="+res );            
             if (res[0] != null) {
-System.out.println( "1" );                
                 clear();
                 setValues((String)res[0], (Object[])res[1]);
-System.out.println( "2" );                
             }
         }
     };

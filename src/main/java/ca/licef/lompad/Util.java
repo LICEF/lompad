@@ -344,7 +344,7 @@ class Util {
         String dataFolder = null;
         String osName = (System.getProperty("os.name")).toLowerCase();
         if( osName.startsWith( "windows" )  )
-            dataFolder = System.getProperty( "appdata" ) + "/lompad";
+            dataFolder = System.getenv().get( "LOCALAPPDATA" ) + "/lompad";
         else if( osName.startsWith( "mac" ) || osName.startsWith( "linux" ) )
             dataFolder = System.getProperty( "user.home" ) + "/.lompad";
         if( dataFolder != null )
