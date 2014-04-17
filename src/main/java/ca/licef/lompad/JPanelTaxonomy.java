@@ -168,7 +168,7 @@ public class JPanelTaxonomy extends JPanel {
 
                         classificationSource.add(titles);
                         classificationSource.add(node.getAttributes().getNamedItem("rdf:about").getNodeValue());
-                        classificationTree = createTree();
+                        classificationTree = ClassifUtil.createTree();
                         jPanelClassif.add(new JScrollPane(classificationTree), BorderLayout.CENTER);
                         trees.add(classificationTree);
                         parentDialog.addTreeListener( classificationTree );
@@ -206,7 +206,7 @@ public class JPanelTaxonomy extends JPanel {
                             }
                         }
 
-                        String taxonPathId = retrieveTaxonPathId( id );
+                        String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
                         DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
                         nodes.put(id, newChild);
                         if (parentId == null)
@@ -222,28 +222,6 @@ public class JPanelTaxonomy extends JPanel {
             }
         }
         classificationTree.updateUI();
-    }
-
-    public JTree createTree() {
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("hidden");
-
-        JTree tree = new JTree(top) {
-            public Insets getInsets() {
-                return new Insets(2, 2, 0, 0);
-            }
-        };
-
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-        renderer.setLeafIcon(null);
-        renderer.setClosedIcon(null);
-        renderer.setOpenIcon(null);
-        tree.setCellRenderer(renderer);
-        tree.setRootVisible(false);
-        tree.setShowsRootHandles(true);
-
-        return tree;
     }
 
     public int getSelectedIndex() {
@@ -297,11 +275,12 @@ public class JPanelTaxonomy extends JPanel {
         }
     }
 
-
     void jComboBoxClassification_actionPerformed() {
         int selectedItem = jComboBoxClassification.getSelectedIndex();
-        if( selectedItem == jComboBoxClassification.getItemCount() - 1 )
-            doImportClassification();
+        if( selectedItem == jComboBoxClassification.getItemCount() - 1 ) { 
+            if( ClassifUtil.doImportFile( Util.getTopJFrame( this ) ) != null )
+                initClassifications();
+        }
         else {
             CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
             cardLayout.show(jPanelClassifications, selectedItem + "");
@@ -312,106 +291,6 @@ public class JPanelTaxonomy extends JPanel {
                 tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
             }
         }
-    }
-
-    private void doImportClassification() {
-        int selectedItem = jComboBoxClassification.getSelectedIndex();
-        JFileChooser chooser = new JFileChooser();
-        int returnVal = chooser.showOpenDialog( this );
-        if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            String classifIdentifier = null;
-            try {
-                classifIdentifier = retrieveClassifIdentifier( chooser.getSelectedFile() );
-            }
-            catch( Exception e ) {
-                ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
-                JOptionPane.showMessageDialog( this, 
-                    resBundle.getString( "ClassifNameNotFound" ), resBundle.getString( "Error" ), 
-                        JOptionPane.ERROR_MESSAGE );
-                return;
-            }
-
-            importClassification( chooser.getSelectedFile(), classifIdentifier + ".rdf" );
-
-            initClassifications();
-        }
-    }
-
-    private void importClassification( File sourceFile, String classifFilename ) {
-        File outputFile = new File( Util.getClassificationFolder(), classifFilename );
-        BufferedInputStream bis = null;
-        BufferedOutputStream bos = null;
-        try {
-            bis = new BufferedInputStream( new FileInputStream( sourceFile ) );
-            bos = new BufferedOutputStream( new FileOutputStream( outputFile ) );
-            IOUtil.copy( bis, bos );
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if( bis != null )
-                    bis.close();
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            try {
-                if( bos != null )
-                    bos.close();
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String retrieveTaxonPathId( String id ) {
-        int indexOfHash =  id.indexOf( "#" );
-        if( indexOfHash != -1 )
-            return( id.substring( indexOfHash + 1 ) );
-        
-        int indexOfLastSlash = id.lastIndexOf( "/" );
-        if( indexOfLastSlash != -1 )
-            return( id.substring( indexOfLastSlash + 1 ) );
-
-        return( id );
-    }
-
-    private String retrieveClassifIdentifier( File classifFile ) throws Exception {
-        InputStream is = new FileInputStream( classifFile );
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setCoalescing(true); //convert CDATA node to Text node
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(is);
-        NodeList list = document.getDocumentElement().getChildNodes();
-        
-        for (int i = 0; i < list.getLength(); i++) {
-            Node node = list.item(i);
-            if( CommonNamespaceContext.skosNSURI.equals( node.getNamespaceURI() ) ) {
-                if( Node.ELEMENT_NODE == node.getNodeType() ) {
-                    if( "ConceptScheme".equals( node.getLocalName() ) ) {
-                        JPanel jPanelClassif = new JPanel(new BorderLayout());
-                        ArrayList titles = new ArrayList();
-                        NodeList childs = node.getChildNodes();
-                        for (int j = 0; j < childs.getLength(); j++) {
-                            Node child = childs.item(j);
-                            if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) && 
-                                Node.ELEMENT_NODE == child.getNodeType() &&
-                                "prefLabel".equals( child.getLocalName() ) && child.getFirstChild() != null ) {
-                                Node n = child.getAttributes().getNamedItem( "xml:lang" );
-                                String lang = ( n == null ? "" : n.getNodeValue() );
-                                String value = child.getFirstChild().getNodeValue().trim();
-                                return( value );
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return( null );
     }
 
     class LocalizeValue {

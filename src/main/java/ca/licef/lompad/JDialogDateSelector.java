@@ -210,8 +210,5 @@ class JDialogDateSelector extends JDialog {
         calendar.selectionner( newCal.getTime() );
         currentDate = newCal.getTime();
     }
+
 }
-
-
-
-

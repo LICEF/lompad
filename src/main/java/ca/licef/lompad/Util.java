@@ -238,7 +238,7 @@ class Util {
 
 
     /**
-     * Lire un fichier texte à partir d'une url
+     * Lire un fichier texte Ã  partir d'une url
      * Retourne une liste de chaque ligne
      */
     public static Object[] readFile(String url) {
@@ -258,7 +258,7 @@ class Util {
     }
 
     /**
-     * Lire un fichier texte à partir
+     * Lire un fichier texte Ã  partir
      * Retourne un liste de chaque ligne
      */
     public static Object[] readFile(Class cl, String filename) {
@@ -292,19 +292,6 @@ class Util {
         return (JFrame) theFrame;
     }
 
-    /*static void launchRessourceName(String name, String param) {
-        String OSName = (System.getProperty("os.name")).toLowerCase();
-        String commandLine =
-                (OSName.startsWith("windows 9") || OSName.startsWith("windows me")) ?
-                "start " + name :
-                "cmd /c start \"nom\" " + name;
-        try {
-            Runtime.getRuntime().exec(commandLine + (param == null ? "" : " " + param));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     static void launchFile(String filePath) {
         String osName = (System.getProperty("os.name")).toLowerCase();
         String commandLine = null;
@@ -326,8 +313,8 @@ class Util {
     }
 
     /**
-     * Retourne la même string précédée par des 0 si besoin est pour
-     * que la nouvelle string ait la taille passée en parametre
+     * Retourne la mÃªme string prÃ©cÃ©dÃ©e par des 0 si besoin est pour
+     * que la nouvelle string ait la taille passÃ©e en parametre
      */
     public static String completeDigit(String s, int length) {
         if (s.length() == length)

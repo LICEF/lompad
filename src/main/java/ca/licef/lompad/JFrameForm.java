@@ -28,32 +28,35 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 class JFrameForm extends JFrame {
-    private JMenuItem item11;
-    private JMenuItem item12;
-    private JMenuItem item13;
-    private JMenuItem item14;
+    private JMenuItem itemNewFile;
+    private JMenuItem itemOpenFile;
+    private JMenuItem itemSaveFile;
+    private JMenuItem itemSaveFileAs;
     private JMenuItem itemBrowseFolder;
-    private JMenuItem item15;
-    private JMenuItem item16;
-    private JMenuItem item17;
-    private JRadioButtonMenuItem item21;
-    private JRadioButtonMenuItem item22;
-    private JMenuItem item31;
-    private JMenuItem item32;
-    private JMenuItem item33;
-    private JMenuItem item341;
-    private JMenuItem item342;
-    private JMenuItem item343;
+    private JMenuItem itemViewHtml;
+    private JMenuItem itemViewXml;
+    private JMenuItem itemQuit;
+    private JRadioButtonMenuItem itemLanguageFrench;
+    private JRadioButtonMenuItem itemLanguageEnglish;
+    private JMenuItem itemProfileNone;
+    private JMenuItem itemProfileCanCore;
+    private JMenuItem itemProfileScorm;
+    private JMenuItem itemProfileNormetic1;
+    private JMenuItem itemProfileNormetic2;
+    private JMenuItem itemProfileNormetic3;
 
-    private JMenuItem item41;
-    private JMenuItem item42;
+    private JMenuItem itemPreferencesManageLocalClassifs;
+
+    private JMenuItem itemHelpRefDoc;
+    private JMenuItem itemAbout;
 
     private JPanelForm jPanelForm;
-    private JMenu menu1;
-    private JMenu menu2;
-    private JMenu menu3;
-    private JMenu menu34;
-    private JMenu menu4;
+    private JMenu menuFile;
+    private JMenu menuLanguage;
+    private JMenu menuProfiles;
+    private JMenu menuProfilesNormetic;
+    private JMenu menuPreferences;
+    private JMenu menuHelp;
 
     public JFrameForm() {
         setTitle("title");
@@ -88,26 +91,28 @@ class JFrameForm extends JFrame {
         setTitle(" " + resBundle.getString("title") + s);
         //
 
-        menu1.setText(resBundle.getString("file"));
-        item11.setText(resBundle.getString("new"));
-        item12.setText(resBundle.getString("open"));
-        item13.setText(resBundle.getString("save"));
-        item14.setText(resBundle.getString("saveas"));
+        menuFile.setText(resBundle.getString("file"));
+        itemNewFile.setText(resBundle.getString("new"));
+        itemOpenFile.setText(resBundle.getString("open"));
+        itemSaveFile.setText(resBundle.getString("save"));
+        itemSaveFileAs.setText(resBundle.getString("saveas"));
         itemBrowseFolder.setText(resBundle.getString("browseFolder"));
-        item15.setText(resBundle.getString("viewhtml"));
-        item16.setText(resBundle.getString("viewxml"));
-        item17.setText(resBundle.getString("quit"));
-        menu2.setText(resBundle.getString("language"));
-        item21.setText(resBundle.getString("french"));
-        item22.setText(resBundle.getString("english"));
-        menu3.setText(resBundle.getString("standards"));
-        item31.setText(resBundle.getString("none"));
-        item341.setText(resBundle.getString("normetic1"));
-        item342.setText(resBundle.getString("normetic2"));
-        item343.setText(resBundle.getString("normetic3"));
-        menu4.setText(resBundle.getString("help"));
-        item41.setText(resBundle.getString("ref"));
-        item42.setText(resBundle.getString("about"));
+        itemViewHtml.setText(resBundle.getString("viewhtml"));
+        itemViewXml.setText(resBundle.getString("viewxml"));
+        itemQuit.setText(resBundle.getString("quit"));
+        menuLanguage.setText(resBundle.getString("language"));
+        itemLanguageFrench.setText(resBundle.getString("french"));
+        itemLanguageEnglish.setText(resBundle.getString("english"));
+        menuProfiles.setText(resBundle.getString("standards"));
+        itemProfileNone.setText(resBundle.getString("none"));
+        itemProfileNormetic1.setText(resBundle.getString("normetic1"));
+        itemProfileNormetic2.setText(resBundle.getString("normetic2"));
+        itemProfileNormetic3.setText(resBundle.getString("normetic3"));
+        menuPreferences.setText(resBundle.getString("preferences"));
+        itemPreferencesManageLocalClassifs.setText(resBundle.getString("manageLocalClassifs"));
+        menuHelp.setText(resBundle.getString("help"));
+        itemHelpRefDoc.setText(resBundle.getString("ref"));
+        itemAbout.setText(resBundle.getString("about"));
 
         jPanelForm.updateLocalization();
     }
@@ -135,111 +140,119 @@ class JFrameForm extends JFrame {
     JMenuBar createMenu(SymAction lSymAction) {
         JMenuBar mb = new JMenuBar();
 
-        menu1 = new JMenu("file");
-        menu1.setFont(new Font("Dialog", Font.PLAIN, 12));
-        item11 = new JMenuItem("new");
-        item11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        item11.setFont(menu1.getFont());
-        item11.addActionListener(lSymAction);
-        menu1.add(item11);
-        item12 = new JMenuItem("open");
-        item12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-        item12.setFont(menu1.getFont());
-        item12.addActionListener(lSymAction);
-        menu1.add(item12);
-        item13 = new JMenuItem("save");
-        item13.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        item13.setFont(menu1.getFont());
-        item13.addActionListener(lSymAction);
-        menu1.add(item13);
-        item14 = new JMenuItem("saveas");
-        item14.setFont(menu1.getFont());
-        item14.addActionListener(lSymAction);
-        menu1.add(item14);
-        menu1.addSeparator();
+        menuFile = new JMenu("file");
+        menuFile.setFont(new Font("Dialog", Font.PLAIN, 12));
+        itemNewFile = new JMenuItem("new");
+        itemNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+        itemNewFile.setFont(menuFile.getFont());
+        itemNewFile.addActionListener(lSymAction);
+        menuFile.add(itemNewFile);
+        itemOpenFile = new JMenuItem("open");
+        itemOpenFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+        itemOpenFile.setFont(menuFile.getFont());
+        itemOpenFile.addActionListener(lSymAction);
+        menuFile.add(itemOpenFile);
+        itemSaveFile = new JMenuItem("save");
+        itemSaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+        itemSaveFile.setFont(menuFile.getFont());
+        itemSaveFile.addActionListener(lSymAction);
+        menuFile.add(itemSaveFile);
+        itemSaveFileAs = new JMenuItem("saveas");
+        itemSaveFileAs.setFont(menuFile.getFont());
+        itemSaveFileAs.addActionListener(lSymAction);
+        menuFile.add(itemSaveFileAs);
+        menuFile.addSeparator();
 
         itemBrowseFolder = new JMenuItem("browseFolder");
-        itemBrowseFolder.setFont(menu1.getFont());
+        itemBrowseFolder.setFont(menuFile.getFont());
         itemBrowseFolder.addActionListener(lSymAction);
-        menu1.add(itemBrowseFolder);
-        menu1.addSeparator();
+        menuFile.add(itemBrowseFolder);
+        menuFile.addSeparator();
 
-        item15 = new JMenuItem("viewhtml");
-        item15.setFont(menu1.getFont());
-        item15.addActionListener(lSymAction);
-        menu1.add(item15);
-        item16 = new JMenuItem("viewxml");
-        item16.setFont(menu1.getFont());
-        item16.addActionListener(lSymAction);
-        menu1.add(item16);
-        menu1.addSeparator();
-        item17 = new JMenuItem("quit");
-        item17.setFont(menu1.getFont());
-        item17.addActionListener(lSymAction);
-        menu1.add(item17);
-        mb.add(menu1);
+        itemViewHtml = new JMenuItem("viewhtml");
+        itemViewHtml.setFont(menuFile.getFont());
+        itemViewHtml.addActionListener(lSymAction);
+        menuFile.add(itemViewHtml);
+        itemViewXml = new JMenuItem("viewxml");
+        itemViewXml.setFont(menuFile.getFont());
+        itemViewXml.addActionListener(lSymAction);
+        menuFile.add(itemViewXml);
+        menuFile.addSeparator();
+        itemQuit = new JMenuItem("quit");
+        itemQuit.setFont(menuFile.getFont());
+        itemQuit.addActionListener(lSymAction);
+        menuFile.add(itemQuit);
+        mb.add(menuFile);
 
-        menu2 = new JMenu("language");
-        menu2.setFont(menu1.getFont());
-        item21 = new JRadioButtonMenuItem("french");
-        item21.setFont(menu1.getFont());
-        item21.setSelected(true);
-        item21.addActionListener(lSymAction);
-        menu2.add(item21);
-        item22 = new JRadioButtonMenuItem("english");
-        item22.setFont(menu1.getFont());
-        item22.addActionListener(lSymAction);
-        menu2.add(item22);
-        ButtonGroup groupMenu2 = new ButtonGroup();
-        groupMenu2.add(item21);
-        groupMenu2.add(item22);
-        mb.add(menu2);
+        menuLanguage = new JMenu("language");
+        menuLanguage.setFont(menuFile.getFont());
+        itemLanguageFrench = new JRadioButtonMenuItem("french");
+        itemLanguageFrench.setFont(menuFile.getFont());
+        itemLanguageFrench.setSelected(true);
+        itemLanguageFrench.addActionListener(lSymAction);
+        menuLanguage.add(itemLanguageFrench);
+        itemLanguageEnglish = new JRadioButtonMenuItem("english");
+        itemLanguageEnglish.setFont(menuFile.getFont());
+        itemLanguageEnglish.addActionListener(lSymAction);
+        menuLanguage.add(itemLanguageEnglish);
+        ButtonGroup groupmenuLanguage = new ButtonGroup();
+        groupmenuLanguage.add(itemLanguageFrench);
+        groupmenuLanguage.add(itemLanguageEnglish);
+        mb.add(menuLanguage);
 
-        menu3 = new JMenu("standards");
-        menu3.setFont(menu1.getFont());
-        item31 = new JMenuItem("none");
-        item31.setFont(menu1.getFont());
-        item31.setSelected(true);
-        item31.addActionListener(lSymAction);
-        menu3.add(item31);
-        menu3.addSeparator();
-        item32 = new JMenuItem("CanCore");
-        item32.setFont(menu1.getFont());
-        item32.addActionListener(lSymAction);
-        menu3.add(item32);
-        item33 = new JMenuItem("SCORM");
-        item33.setFont(menu1.getFont());
-        item33.addActionListener(lSymAction);
-        menu3.add(item33);
-        menu34 = new JMenu("Normetic");
-        menu34.setFont(menu1.getFont());
-        item341 = new JMenuItem("normetic1");
-        item341.setFont(menu1.getFont());
-        item341.addActionListener(lSymAction);
-        menu34.add(item341);
-        item342 = new JMenuItem("normetic2");
-        item342.setFont(menu1.getFont());
-        item342.addActionListener(lSymAction);
-        menu34.add(item342);
-        item343 = new JMenuItem("normetic3");
-        item343.setFont(menu1.getFont());
-        item343.addActionListener(lSymAction);
-        menu34.add(item343);
-        menu3.add(menu34);
-        mb.add(menu3);
+        menuProfiles = new JMenu("standards");
+        menuProfiles.setFont(menuFile.getFont());
+        itemProfileNone = new JMenuItem("none");
+        itemProfileNone.setFont(menuFile.getFont());
+        itemProfileNone.setSelected(true);
+        itemProfileNone.addActionListener(lSymAction);
+        menuProfiles.add(itemProfileNone);
+        menuProfiles.addSeparator();
+        itemProfileCanCore = new JMenuItem("CanCore");
+        itemProfileCanCore.setFont(menuFile.getFont());
+        itemProfileCanCore.addActionListener(lSymAction);
+        menuProfiles.add(itemProfileCanCore);
+        itemProfileScorm = new JMenuItem("SCORM");
+        itemProfileScorm.setFont(menuFile.getFont());
+        itemProfileScorm.addActionListener(lSymAction);
+        menuProfiles.add(itemProfileScorm);
+        menuProfilesNormetic = new JMenu("Normetic");
+        menuProfilesNormetic.setFont(menuFile.getFont());
+        itemProfileNormetic1 = new JMenuItem("normetic1");
+        itemProfileNormetic1.setFont(menuFile.getFont());
+        itemProfileNormetic1.addActionListener(lSymAction);
+        menuProfilesNormetic.add(itemProfileNormetic1);
+        itemProfileNormetic2 = new JMenuItem("normetic2");
+        itemProfileNormetic2.setFont(menuFile.getFont());
+        itemProfileNormetic2.addActionListener(lSymAction);
+        menuProfilesNormetic.add(itemProfileNormetic2);
+        itemProfileNormetic3 = new JMenuItem("normetic3");
+        itemProfileNormetic3.setFont(menuFile.getFont());
+        itemProfileNormetic3.addActionListener(lSymAction);
+        menuProfilesNormetic.add(itemProfileNormetic3);
+        menuProfiles.add(menuProfilesNormetic);
+        mb.add(menuProfiles);
 
-        menu4 = new JMenu("help");
-        menu4.setFont(menu1.getFont());
-        item41 = new JMenuItem("ref");
-        item41.setFont(menu1.getFont());
-        item41.addActionListener(lSymAction);
-        menu4.add(item41);
-        menu4.addSeparator();
-        item42 = new JMenuItem("about");
-        item42.setFont(menu1.getFont());
-        item42.addActionListener(lSymAction);
-        menu4.add(item42);
-        mb.add(menu4);
+        menuPreferences = new JMenu("preferences");
+        menuPreferences.setFont(menuFile.getFont());
+        itemPreferencesManageLocalClassifs = new JMenuItem("manageLocalClassifs");
+        itemPreferencesManageLocalClassifs.setFont(menuFile.getFont());
+        itemPreferencesManageLocalClassifs.addActionListener(lSymAction);
+        menuPreferences.add(itemPreferencesManageLocalClassifs);
+        mb.add(menuPreferences);
+
+        menuHelp = new JMenu("help");
+        menuHelp.setFont(menuFile.getFont());
+        itemHelpRefDoc = new JMenuItem("ref");
+        itemHelpRefDoc.setFont(menuFile.getFont());
+        itemHelpRefDoc.addActionListener(lSymAction);
+        menuHelp.add(itemHelpRefDoc);
+        menuHelp.addSeparator();
+        itemAbout = new JMenuItem("about");
+        itemAbout.setFont(menuFile.getFont());
+        itemAbout.addActionListener(lSymAction);
+        menuHelp.add(itemAbout);
+        mb.add(menuHelp);
 
         return mb;
     }
@@ -265,58 +278,60 @@ class JFrameForm extends JFrame {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
 
-            if (object == item11)
+            if (object == itemNewFile)
                 jPanelForm.newForm(true);
-            else if (object == item12)
-                jPanelForm.openFile(item12.getText());
-            else if (object == item13)
-                jPanelForm.saveFile(item13.getText());
-            else if (object == item14)
-                jPanelForm.saveAsFile(item14.getText());
+            else if (object == itemOpenFile)
+                jPanelForm.openFile(itemOpenFile.getText());
+            else if (object == itemSaveFile)
+                jPanelForm.saveFile(itemSaveFile.getText());
+            else if (object == itemSaveFileAs)
+                jPanelForm.saveAsFile(itemSaveFileAs.getText());
             else if (object == itemBrowseFolder)
                 jPanelForm.showBrowser();
-            else if (object == item15)
+            else if (object == itemViewHtml)
                 jPanelForm.viewHTML();
-            else if (object == item16)
+            else if (object == itemViewXml)
                 jPanelForm.viewXML();
-            else if (object == item17)
+            else if (object == itemQuit)
                 JFrame1_windowClosing(null);
-            else if (object == item21) {
+            else if (object == itemLanguageFrench) {
                 Util.locale = Locale.FRENCH;
                 updateLocalization();
                 jPanelForm.changeLanguage("fr");
-            } else if (object == item22) {
+            } else if (object == itemLanguageEnglish) {
                 Util.locale = Locale.ENGLISH;
                 updateLocalization();
                 jPanelForm.changeLanguage("en");
-            } else if (object == item31) {
+            } else if (object == itemProfileNone) {
                 jPanelForm.changeToIEEE();
-                jPanelForm.updateProfile(item31.getText());
+                jPanelForm.updateProfile(itemProfileNone.getText());
             }
-            else if (object == item32) {
+            else if (object == itemProfileCanCore) {
                 jPanelForm.changeStandardActionPerformed("CANCORE", false);
-                jPanelForm.updateProfile(item32.getText());
+                jPanelForm.updateProfile(itemProfileCanCore.getText());
             }
-            else if (object == item33) {
+            else if (object == itemProfileScorm) {
                 jPanelForm.changeStandardActionPerformed("SCORM", false);
-                jPanelForm.updateProfile(item33.getText());
+                jPanelForm.updateProfile(itemProfileScorm.getText());
             }
-            else if (object == item341) {
+            else if (object == itemProfileNormetic1) {
                 jPanelForm.changeStandardActionPerformed("NORMETIC1", false);
-                jPanelForm.updateProfile("Normetic (" + item341.getText() + ")");
+                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic1.getText() + ")");
             }
-            else if (object == item342) {
+            else if (object == itemProfileNormetic2) {
                 jPanelForm.changeStandardActionPerformed("NORMETIC2", false);
-                jPanelForm.updateProfile("Normetic (" + item342.getText() + ")");
+                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic2.getText() + ")");
             }
-            else if (object == item343) {
+            else if (object == itemProfileNormetic3) {
                 jPanelForm.changeStandardActionPerformed("NORMETIC3", false);
-                jPanelForm.updateProfile("Normetic (" + item343.getText() + ")");
+                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic3.getText() + ")");
             }
-            else if (object == item41)
-                //Util.launchRessourceName("iexplore", "http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
-            Util.launchFile("http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
-            else if (object == item42)
+            else if (object == itemPreferencesManageLocalClassifs ) {
+                manageLocalClassifications();
+            }
+            else if (object == itemHelpRefDoc)
+                Util.launchFile("http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
+            else if (object == itemAbout)
                 about();
         }
     }
@@ -326,4 +341,11 @@ class JFrameForm extends JFrame {
         w.setSize(376, 314);
         w.setVisible(true);
     }
+
+    private void manageLocalClassifications() {
+        JDialogManageClassifications dialogManageClassif = new JDialogManageClassifications( this );
+        dialogManageClassif.setSize( 500, 400 );
+        dialogManageClassif.setVisible( true );
+    }
+
 }
