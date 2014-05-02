@@ -32,8 +32,9 @@ import java.awt.*;
  */
 public class IconTitledBorder extends TitledBorder {
 
-    ImageIcon icon;
+    private ImageIcon icon;
     private Point textLoc = new Point();
+    private Point iconLoc = new Point();
 
     public IconTitledBorder(String title) {
         super(title);
@@ -47,9 +48,21 @@ public class IconTitledBorder extends TitledBorder {
         this.icon = icon;
     }
 
+    public ImageIcon getIcon() {
+        return( icon );
+    }
+
+    public Point getIconLocation() {
+        return( iconLoc );
+    }
+
+    public Point getTextLocation() {
+        return( textLoc );
+    }
+
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 
-        if (!JPanelForm.instance.isNormeticProfile || icon == null) {
+        if ( !JPanelForm.instance.isNormeticProfile || icon == null) {
             super.paintBorder(c, g, x, y, width, height);
             return;
         }
@@ -154,7 +167,9 @@ public class IconTitledBorder extends TitledBorder {
                 break;
         }
 
-        g.drawImage(im, textLoc.x + 2,  textLoc.y - im.getHeight(null) + 2, null);
+        iconLoc.x = textLoc.x + 2;
+        iconLoc.y = textLoc.y - im.getHeight(null) + 2;
+        boolean res = g.drawImage(im, iconLoc.x, iconLoc.y, null);
 
         // If title is positioned in middle of border AND its fontsize
         // is greater than the border's thickness, we'll need to paint

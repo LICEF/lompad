@@ -244,12 +244,58 @@ class LomForm extends JPanel {
             Object c = vComponents.elementAt(pos - 1);
             if (c instanceof FormContainer)
                 ((FormContainer) c).setFormVisible(key.substring(index + 1), isVisible);
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 ((MultiFormContainer) c).setFormVisible(key.substring(index + 1), isVisible);
         }
 
         if (!jTabbedPaneLom.isEnabledAt(jTabbedPaneLom.getSelectedIndex()))
             jTabbedPaneLom.setSelectedIndex(0);
+    }
+
+    void clearFormIcon() {
+        for( int i = 0; i < vComponents.size();  i++ ) {
+            Object c = vComponents.elementAt(i);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).clearFormIcon();
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).clearFormIcon();
+        }
+    }
+
+    void setFormIcon(String key, ImageIcon icon) {
+        int index = key.indexOf(".");
+        if (index != -1) // sous element seulement
+        {
+            int pos = Integer.parseInt(key.substring(0, index));
+            Object c = vComponents.elementAt(pos - 1);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).setFormIcon(key.substring(index + 1), icon);
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).setFormIcon(key.substring(index + 1), icon);
+        }
+    }
+
+    void clearFormToolTipText() {
+        for( int i = 0; i < vComponents.size(); i++ ) {
+            Object c = vComponents.elementAt(i);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).clearFormToolTipText();
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).clearFormToolTipText();
+        }
+    }
+
+    void setFormToolTipText( String key, String text ) {
+        int index = key.indexOf(".");
+        if (index != -1) // sous element seulement
+        {
+            int pos = Integer.parseInt(key.substring(0, index));
+            Object c = vComponents.elementAt(pos - 1);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).setFormToolTipText(key.substring(index + 1), text);
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).setFormToolTipText(key.substring(index + 1), text);
+        }
     }
 
     boolean isComplete(String key) {
@@ -259,7 +305,7 @@ class LomForm extends JPanel {
         Object c = vComponents.elementAt(pos - 1);
         if (c instanceof FormContainer)
             res = ((FormContainer) c).isComplete(key.substring(index + 1));
-        if (c instanceof MultiFormContainer)
+        else if (c instanceof MultiFormContainer)
             res = ((MultiFormContainer) c).isComplete(key.substring(index + 1));
         return res;
     }
@@ -269,7 +315,7 @@ class LomForm extends JPanel {
             Object c = e.nextElement();
             if (c instanceof FormContainer)
                 ((FormContainer) c).setEnabled(b);
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 ((MultiFormContainer) c).setEnabled(b);
         }
     }
@@ -279,7 +325,7 @@ class LomForm extends JPanel {
             Object c = e.nextElement();
             if (c instanceof FormContainer)
                 ((FormContainer) c).preUpdateVocabularies();
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 ((MultiFormContainer) c).preUpdateVocabularies();
         }
     }
@@ -289,7 +335,7 @@ class LomForm extends JPanel {
             Object c = e.nextElement();
             if (c instanceof FormContainer)
                 ((FormContainer) c).updateVocabularies();
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 ((MultiFormContainer) c).updateVocabularies();
         }
     }
@@ -309,7 +355,7 @@ class LomForm extends JPanel {
             Object c = e.nextElement();
             if (c instanceof FormContainer)
                 ((FormContainer) c).graphicalUpdate();
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 ((MultiFormContainer) c).graphicalUpdate();
         }
     }
@@ -328,7 +374,7 @@ class LomForm extends JPanel {
             String res = null;
             if (c instanceof FormContainer)
                 res = ((FormContainer) c).toXML(i + "");
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 res = ((MultiFormContainer) c).toXML(i + "");
 
             if (res != null)
@@ -360,7 +406,7 @@ class LomForm extends JPanel {
                     Object c = vComponents.elementAt(pos - 1);
                     if (c instanceof FormContainer)
                         ((FormContainer) c).fromXML(tagName, e);
-                    if (c instanceof MultiFormContainer)
+                    else if (c instanceof MultiFormContainer)
                         ((MultiFormContainer) c).fromXML(tagName, e);
                 } catch (IllegalTagException ite) {
                 }
@@ -386,7 +432,7 @@ class LomForm extends JPanel {
             String res = null;
             if (c instanceof FormContainer)
                 res = ((FormContainer) c).toHTML(i + "");
-            if (c instanceof MultiFormContainer)
+            else if (c instanceof MultiFormContainer)
                 res = ((MultiFormContainer) c).toHTML(i + "");
 
             if (res != null)

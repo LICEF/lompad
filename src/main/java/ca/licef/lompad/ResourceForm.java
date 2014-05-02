@@ -27,9 +27,14 @@ class ResourceForm extends FormContainer {
         super(title, isLine, isMultiple);
     }
 
+    public void clearFormIcon() {
+        // Always keep the icon for this special element.
+        // It's hard-coded for Normetic.  Should be cleaner eventually.
+    }
+
     void addFormContent() {
         IdentifierForm identifier = new IdentifierForm("7.2.1", true, true);
-        identifier.setIcon(Util.yellowIcon);
+        identifier.setIcon(Util.greenIcon);
         identifier.addToggle();
         identifier.addFormContent();
         addComponent(identifier);

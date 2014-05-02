@@ -27,14 +27,12 @@ class RelationForm extends FormContainer {
 
     void addFormContent() {
         VocabularyForm kind = new VocabularyForm("7.1", true, false, null, true);
-        kind.setIcon(Util.yellowIcon);
         kind.addToggle();
         kind.setAlignRight();
         kind.addFormContent();
         addComponent(kind);
 
         ResourceForm resource = new ResourceForm("7.2", true, false);
-        resource.setIcon(Util.yellowIcon);
         resource.addToggle();
         resource.addFormContent();
         addComponent(resource);

@@ -27,20 +27,17 @@ class LifeCycleForm extends FormContainer {
 
     void addFormContent() {
         LangstringForm version = new LangstringForm("2.1", true, true, true);
-        version.setIcon(Util.redIcon);
         version.addToggle();
         version.addFormContent();
         addComponent(version);
 
         VocabularyForm status = new VocabularyForm("2.2", true, false, null, true);
-        status.setIcon(Util.yellowIcon);
         status.addToggle();
         status.setAlignRight();
         status.addFormContent();
         addComponent(status);
 
-        ContributeForm contribute = new ContributeForm("2.3", true, Util.redIcon, true);
-        contribute.setIcon(Util.redIcon);
+        ContributeForm contribute = new ContributeForm("2.3", true, Util.greenIcon, true);
         contribute.addToggle();
         contribute.addFormContent();
         addComponent(contribute);

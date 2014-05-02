@@ -171,44 +171,44 @@ class VocabularyForm extends FormContainer {
     boolean isControlValueMediatorNeeded = true;
 
     void fromXML(String path, Element e) {
-            if (e.getFirstChild() == null) return;
+        if (e.getFirstChild() == null) return;
 
-            boolean firstField = false;
-            FormComponent c = (FormComponent) vComponents.firstElement();
-            isControlValueMediatorNeeded = isControlValueMediatorNeeded(e);
+        boolean firstField = false;
+        FormComponent c = (FormComponent) vComponents.firstElement();
+        isControlValueMediatorNeeded = isControlValueMediatorNeeded(e);
 
-            if (isFilled()) {
-                if (!isMultipleContainer) return; //pas d'import multiple possible
-                addFormContent();
-                c = (FormComponent) vComponents.lastElement();
-            } else {
-                if (isLomVocabulary) {
-                    tableImportXML = new Hashtable();
-                    for (int i = 1; i < values.length; i++)
-                        tableImportXML.put(new Integer(i), new Integer(i));
+        if (isFilled()) {
+            if (!isMultipleContainer) return; //pas d'import multiple possible
+            addFormContent();
+            c = (FormComponent) vComponents.lastElement();
+        } else {
+            if (isLomVocabulary) {
+                tableImportXML = new Hashtable();
+                for (int i = 1; i < values.length; i++)
+                    tableImportXML.put(new Integer(i), new Integer(i));
 
-                    if (!isControlValueMediatorNeeded) {
-                        //permut first component with an extenal vocabulary component
-                        removeFirstComponent();
-                        c = new ExternalVocabularyComponent();
-                        c.setMinimumSize(new Dimension(10, 25));
-                        c.setPreferredSize(new Dimension(10, 25));
-                        c.setMaximumSize(new Dimension(2000, 25));
-                        addComponent(c);
-                        if (isMultipleContainer)
-                            setEnabledButtonAdd(true);
-                    }
-
-                    firstField = true;
+                if (!isControlValueMediatorNeeded) {
+                    //permut first component with an extenal vocabulary component
+                    removeFirstComponent();
+                    c = new ExternalVocabularyComponent();
+                    c.setMinimumSize(new Dimension(10, 25));
+                    c.setPreferredSize(new Dimension(10, 25));
+                    c.setMaximumSize(new Dimension(2000, 25));
+                    addComponent(c);
+                    if (isMultipleContainer)
+                        setEnabledButtonAdd(true);
                 }
 
-                c = (FormComponent) vComponents.firstElement();
+                firstField = true;
             }
 
-            if (isControlValueMediatorNeeded)
-                ((VocabularyComponent)c).fromXML(path, e, tableImportXML, firstField);
-            else
-                ((ExternalVocabularyComponent)c).fromXML(path, e, firstField);
+            c = (FormComponent) vComponents.firstElement();
+        }
+
+        if (isControlValueMediatorNeeded)
+            ((VocabularyComponent)c).fromXML(path, e, tableImportXML, firstField);
+        else
+            ((ExternalVocabularyComponent)c).fromXML(path, e, firstField);
 
         isControlValueMediatorNeeded = true;
     }

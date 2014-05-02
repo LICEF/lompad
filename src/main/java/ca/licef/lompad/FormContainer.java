@@ -27,6 +27,7 @@ import org.w3c.dom.NodeList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -103,7 +104,9 @@ abstract class FormContainer extends FormComponent {
     }
 
     void setIcon(ImageIcon icon) {
-        ((IconTitledBorder)jPanelContent.getBorder()).setIcon(icon);
+        IconTitledBorder border = (IconTitledBorder)jPanelContent.getBorder();
+        if( border != null )
+            border.setIcon(icon);
     }
 
     boolean isFilled() {
@@ -179,6 +182,74 @@ abstract class FormContainer extends FormComponent {
             getSpace().setVisible(b);
         setVisible(b);
     }
+    
+    public void clearFormIcon() {
+        for( int i = 0; i < vComponents.size(); i++ ) {
+            Object c = vComponents.elementAt(i);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).clearFormIcon();
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).clearFormIcon();
+        }
+        setFormIcon( null );
+    }
+
+    public void setFormIcon(ImageIcon icon) {
+        setIcon(icon);
+    }
+
+    public void clearFormToolTipText() {
+        for( int i = 0; i < vComponents.size(); i++ ) {
+            Object c = vComponents.elementAt(i);
+            if (c instanceof FormContainer)
+                ((FormContainer) c).clearFormToolTipText();
+            else if (c instanceof MultiFormContainer)
+                ((MultiFormContainer) c).clearFormToolTipText();
+        }
+        setToolTipText( null );
+    }
+
+    public void setFormToolTipText( String text ) {
+        setToolTipText( text );
+    }
+
+    public String getToolTipText( MouseEvent evt ) {
+        Rectangle rect = null;
+        IconTitledBorder border = (IconTitledBorder)jPanelContent.getBorder();
+        if( border != null ) {
+            ImageIcon icon = border.getIcon();
+            if( icon != null ) {
+                Point iconLoc = border.getIconLocation();
+                rect = new Rectangle( jPanelContent.getLocation().x + iconLoc.x, 
+                    jPanelContent.getLocation().y + iconLoc.y, icon.getIconWidth(), icon.getIconHeight() );
+            }
+        }
+        return( rect != null && rect.contains( evt.getX(), evt.getY() ) ? getToolTipText() : null );
+    }
+
+    public void setFormIconEff(String key, ImageIcon icon) {
+        if (key.indexOf(".") == -1) {
+            int pos = Integer.parseInt(key);
+            FormContainer c = (FormContainer) vComponents.elementAt(pos - 1);
+            c.setFormIcon(icon);
+        } else {
+            int pos = Integer.parseInt(key.substring(0, key.indexOf(".")));
+            FormContainer c = (FormContainer) vComponents.elementAt(pos - 1);
+            c.setFormIcon(key.substring(key.indexOf(".") + 1), icon);
+        }
+    }
+
+    public void setFormToolTipTextEff(String key, String text) {
+        if (key.indexOf(".") == -1) {
+            int pos = Integer.parseInt(key);
+            FormContainer c = (FormContainer) vComponents.elementAt(pos - 1);
+            c.setFormToolTipText(text);
+        } else {
+            int pos = Integer.parseInt(key.substring(0, key.indexOf(".")));
+            FormContainer c = (FormContainer) vComponents.elementAt(pos - 1);
+            c.setFormToolTipText(key.substring(key.indexOf(".") + 1), text);
+        }
+    }
 
     public void setFormVisibleEff(String key, boolean isVisible) {
         if (key.indexOf(".") == -1) {
@@ -200,6 +271,26 @@ abstract class FormContainer extends FormComponent {
             }
         } else
             setFormVisibleEff(key, isVisible);
+    }
+
+    public void setFormIcon(String key, ImageIcon icon) {
+        if (isMultipleContainer) {
+            for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+                FormContainer c1 = (FormContainer) e.nextElement();
+                c1.setFormIconEff(key, icon);
+            }
+        } else
+            setFormIconEff(key, icon);
+    }
+
+    public void setFormToolTipText(String key, String text) {
+        if (isMultipleContainer) {
+            for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+                FormContainer c1 = (FormContainer) e.nextElement();
+                c1.setFormToolTipTextEff(key, text);
+            }
+        } else
+            setFormToolTipTextEff(key, text);
     }
 
     public boolean isCompleteEff(String key) {

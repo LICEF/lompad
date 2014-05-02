@@ -27,26 +27,22 @@ class ClassificationForm extends FormContainer {
 
     void addFormContent() {
         VocabularyForm purpose = new VocabularyForm("9.1", true, false, null, true);
-        purpose.setIcon(Util.redIcon);
         purpose.addToggle();
         purpose.setAlignRight();
         purpose.addFormContent();
         addComponent(purpose);
 
         TaxonPathForm taxonPath = new TaxonPathForm("9.2", true, true);
-        taxonPath.setIcon(Util.redIcon);
         taxonPath.addToggle();
         taxonPath.addFormContent();
         addComponent(taxonPath);
 
         LangstringForm description = new LangstringForm("9.3", true, true, false);
-        description.setIcon(Util.greenIcon);
         description.addToggle();
         description.addFormContent();
         addComponent(description);
 
         MultiLangstringForm keyword = new MultiLangstringForm("9.4", true, true, true, "", true);
-        keyword.setIcon(Util.greenIcon);
         keyword.addToggle();
         keyword.addFormContent();
         addComponent(keyword);

@@ -50,6 +50,8 @@ class Util {
     static ResourceBundle resBundleProfileVocabularySource;
 
     static {
+        ToolTipManager.sharedInstance().setDismissDelay( 8000 ); // 8 seconds.
+
         try {
             resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
             resBundleTag = ResourceBundle.getBundle("properties.LomTag");
@@ -65,11 +67,11 @@ class Util {
     static void setExternalVocabulary(String profile) {
         try {
             externalProfile = profile;
-            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", locale);
-            resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "Vocabulary", new Locale(""));
-            resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "PosVocabulary");
-            resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "VocabularySource");
-        } catch (Exception e) { //no externeal vocabularies for this profile
+            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "_Vocabulary", locale);
+            resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "_Vocabulary", new Locale(""));
+            resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "_PosVocabulary");
+            resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "_VocabularySource");
+        } catch (Exception e) { //no complete external vocabularies for this profile
             externalProfile = null;
             resBundleProfileVocabulary = null;
             resBundleProfileXMLVocabulary = null;
@@ -101,7 +103,7 @@ class Util {
         resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
         resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
         if (externalProfile != null)
-            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + externalProfile + "Vocabulary", locale);
+            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + externalProfile + "_Vocabulary", locale);
     }
 
     static String getLabel(String key) {
@@ -124,8 +126,15 @@ class Util {
     }
 
     static String getVocabulary(String key) {
-        if (key.startsWith("x"))
-            return externalProfile + ": " + getBundleValue(resBundleProfileVocabulary, key);
+        if (key.startsWith("x")) {
+            String profileLabel = externalProfile;
+            int indexOfUnderscore = externalProfile.indexOf( "_" );
+            if( indexOfUnderscore != -1 ) {
+                profileLabel = externalProfile.substring( 0, indexOfUnderscore ) + " " + 
+                    externalProfile.substring( indexOfUnderscore + 1 ).replaceAll( "p", "." );
+            }
+            return profileLabel + ": " + getBundleValue(resBundleProfileVocabulary, key);
+        }
         else
             return getBundleValue(resBundleVocabulary, key);
     }
@@ -138,8 +147,6 @@ class Util {
     }
 
     static int getPosVocabulary(String key, boolean isProfileKey) throws IllegalTagException {
-        key = key.replace(' ', '_');
-        key = key.replace(':', '_');
         if (isProfileKey)
             return getPosValue(resBundleProfilePosVocabulary, key);
         else
@@ -151,8 +158,6 @@ class Util {
     }
 
     static String getExternalProfileFromVocabularySource(String key) {
-        key = key.replace(' ', '_');
-        key = key.replace(':', '_');
         return getBundleValue(resBundleExternalVocabularySource, key);
     }
 
@@ -189,6 +194,9 @@ class Util {
     static ImageIcon redIcon;
     static ImageIcon yellowIcon;
     static ImageIcon greenIcon;
+    static ImageIcon greenRedIcon;
+    static ImageIcon yellowRedIcon;
+    static ImageIcon greenYellowRedIcon;
     static ImageIcon folderIcon;
     static ImageIcon fileIcon;
 
@@ -206,6 +214,9 @@ class Util {
         redIcon = new ImageIcon(getImage(cl, "red.gif"));
         yellowIcon = new ImageIcon(getImage(cl, "yellow.gif"));
         greenIcon = new ImageIcon(getImage(cl, "green.gif"));
+        greenRedIcon = new ImageIcon(getImage(cl, "greenRed.gif"));
+        yellowRedIcon = new ImageIcon(getImage(cl, "yellowRed.gif"));
+        greenYellowRedIcon = new ImageIcon(getImage(cl, "greenYellowRed.gif"));
         folderIcon = new ImageIcon(getImage(cl, "folder.gif"));
         fileIcon = new ImageIcon(getImage(cl, "file.gif"));
     }
@@ -238,8 +249,7 @@ class Util {
 
 
     /**
-     * Lire un fichier texte Ã  partir d'une url
-     * Retourne une liste de chaque ligne
+     * Read a file from an URL and return its content as an array of lines.
      */
     public static Object[] readFile(String url) {
         Object[] res = null;
@@ -258,8 +268,7 @@ class Util {
     }
 
     /**
-     * Lire un fichier texte Ã  partir
-     * Retourne un liste de chaque ligne
+     * Read a file found in the classpath and return its content as an array of lines.
      */
     public static Object[] readFile(Class cl, String filename) {
         Object[] res = null;
@@ -313,8 +322,7 @@ class Util {
     }
 
     /**
-     * Retourne la mÃªme string prÃ©cÃ©dÃ©e par des 0 si besoin est pour
-     * que la nouvelle string ait la taille passÃ©e en parametre
+     * Return the same string with padded 0s if needed in function of the passed length.
      */
     public static String completeDigit(String s, int length) {
         if (s.length() == length)

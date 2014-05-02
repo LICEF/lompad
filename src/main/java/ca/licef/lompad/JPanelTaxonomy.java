@@ -32,6 +32,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -51,6 +52,8 @@ import org.xml.sax.SAXException;
 
 import licef.CommonNamespaceContext;
 import licef.IOUtil;
+import licef.reflection.Invoker;
+import licef.reflection.ThreadInvoker;
 import licef.StringUtil;
 import licef.XMLUtil;
 
@@ -268,17 +271,18 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     class SymAction implements java.awt.event.ActionListener {
-        public void actionPerformed(java.awt.event.ActionEvent event) {
+        public void actionPerformed(ActionEvent event) {
             Object object = event.getSource();
             if (object == jComboBoxClassification)
-                jComboBoxClassification_actionPerformed();
+                jComboBoxClassification_actionPerformed( event );
         }
     }
 
-    void jComboBoxClassification_actionPerformed() {
+    void jComboBoxClassification_actionPerformed( ActionEvent event ) {
         int selectedItem = jComboBoxClassification.getSelectedIndex();
         if( selectedItem == jComboBoxClassification.getItemCount() - 1 ) { 
-            if( ClassifUtil.doImportFile( Util.getTopJFrame( this ) ) != null )
+            jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
+            if( ClassifUtil.doImportFile( this ) != null )
                 initClassifications();
         }
         else {

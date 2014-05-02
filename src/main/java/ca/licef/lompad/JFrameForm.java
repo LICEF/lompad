@@ -41,9 +41,12 @@ class JFrameForm extends JFrame {
     private JMenuItem itemProfileNone;
     private JMenuItem itemProfileCanCore;
     private JMenuItem itemProfileScorm;
-    private JMenuItem itemProfileNormetic1;
-    private JMenuItem itemProfileNormetic2;
-    private JMenuItem itemProfileNormetic3;
+    private JMenuItem itemProfileNormetic_1_1_MandatoryElements;
+    private JMenuItem itemProfileNormetic_1_1_MandatoryAndRecommendedElements;
+    private JMenuItem itemProfileNormetic_1_1_AllElements;
+    private JMenuItem itemProfileNormetic_1_2_MandatoryElements;
+    private JMenuItem itemProfileNormetic_1_2_MandatoryAndRecommendedElements;
+    private JMenuItem itemProfileNormetic_1_2_AllElements;
 
     private JMenuItem itemPreferencesManageLocalClassifs;
 
@@ -54,7 +57,8 @@ class JFrameForm extends JFrame {
     private JMenu menuFile;
     private JMenu menuLanguage;
     private JMenu menuProfiles;
-    private JMenu menuProfilesNormetic;
+    private JMenu menuProfilesNormetic_1_1;
+    private JMenu menuProfilesNormetic_1_2;
     private JMenu menuPreferences;
     private JMenu menuHelp;
 
@@ -105,9 +109,12 @@ class JFrameForm extends JFrame {
         itemLanguageEnglish.setText(resBundle.getString("english"));
         menuProfiles.setText(resBundle.getString("standards"));
         itemProfileNone.setText(resBundle.getString("none"));
-        itemProfileNormetic1.setText(resBundle.getString("normetic1"));
-        itemProfileNormetic2.setText(resBundle.getString("normetic2"));
-        itemProfileNormetic3.setText(resBundle.getString("normetic3"));
+        itemProfileNormetic_1_1_MandatoryElements.setText(resBundle.getString("normetic_1.1_MandatoryElements"));
+        itemProfileNormetic_1_1_MandatoryAndRecommendedElements.setText(resBundle.getString("normetic_1.1_MandatoryAndRecommendedElements"));
+        itemProfileNormetic_1_1_AllElements.setText(resBundle.getString("normetic_1.1_AllElements"));
+        itemProfileNormetic_1_2_MandatoryElements.setText(resBundle.getString("normetic_1.2_MandatoryElements"));
+        itemProfileNormetic_1_2_MandatoryAndRecommendedElements.setText(resBundle.getString("normetic_1.2_MandatoryAndRecommendedElements"));
+        itemProfileNormetic_1_2_AllElements.setText(resBundle.getString("normetic_1.2_AllElements"));
         menuPreferences.setText(resBundle.getString("preferences"));
         itemPreferencesManageLocalClassifs.setText(resBundle.getString("manageLocalClassifs"));
         menuHelp.setText(resBundle.getString("help"));
@@ -216,21 +223,36 @@ class JFrameForm extends JFrame {
         itemProfileScorm.setFont(menuFile.getFont());
         itemProfileScorm.addActionListener(lSymAction);
         menuProfiles.add(itemProfileScorm);
-        menuProfilesNormetic = new JMenu("Normetic");
-        menuProfilesNormetic.setFont(menuFile.getFont());
-        itemProfileNormetic1 = new JMenuItem("normetic1");
-        itemProfileNormetic1.setFont(menuFile.getFont());
-        itemProfileNormetic1.addActionListener(lSymAction);
-        menuProfilesNormetic.add(itemProfileNormetic1);
-        itemProfileNormetic2 = new JMenuItem("normetic2");
-        itemProfileNormetic2.setFont(menuFile.getFont());
-        itemProfileNormetic2.addActionListener(lSymAction);
-        menuProfilesNormetic.add(itemProfileNormetic2);
-        itemProfileNormetic3 = new JMenuItem("normetic3");
-        itemProfileNormetic3.setFont(menuFile.getFont());
-        itemProfileNormetic3.addActionListener(lSymAction);
-        menuProfilesNormetic.add(itemProfileNormetic3);
-        menuProfiles.add(menuProfilesNormetic);
+        menuProfilesNormetic_1_1 = new JMenu("Normetic 1.1");
+        menuProfilesNormetic_1_1.setFont(menuFile.getFont());
+        itemProfileNormetic_1_1_MandatoryElements = new JMenuItem("normetic_1.1_MandatoryElements");
+        itemProfileNormetic_1_1_MandatoryElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_1_MandatoryElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_1.add(itemProfileNormetic_1_1_MandatoryElements);
+        itemProfileNormetic_1_1_MandatoryAndRecommendedElements = new JMenuItem("normetic_1.1_MandatoryAndRecommendedElements");
+        itemProfileNormetic_1_1_MandatoryAndRecommendedElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_1_MandatoryAndRecommendedElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_1.add(itemProfileNormetic_1_1_MandatoryAndRecommendedElements);
+        itemProfileNormetic_1_1_AllElements = new JMenuItem("normetic_1.1_AllElements");
+        itemProfileNormetic_1_1_AllElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_1_AllElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_1.add(itemProfileNormetic_1_1_AllElements);
+        menuProfiles.add(menuProfilesNormetic_1_1);
+        menuProfilesNormetic_1_2 = new JMenu("Normetic 1.2");
+        menuProfilesNormetic_1_2.setFont(menuFile.getFont());
+        itemProfileNormetic_1_2_MandatoryElements = new JMenuItem("normetic_1.2_MandatoryElements");
+        itemProfileNormetic_1_2_MandatoryElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_2_MandatoryElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_2.add(itemProfileNormetic_1_2_MandatoryElements);
+        itemProfileNormetic_1_2_MandatoryAndRecommendedElements = new JMenuItem("normetic_1.2_MandatoryAndRecommendedElements");
+        itemProfileNormetic_1_2_MandatoryAndRecommendedElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_2_MandatoryAndRecommendedElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_2.add(itemProfileNormetic_1_2_MandatoryAndRecommendedElements);
+        itemProfileNormetic_1_2_AllElements = new JMenuItem("normetic_1.2_AllElements");
+        itemProfileNormetic_1_2_AllElements.setFont(menuFile.getFont());
+        itemProfileNormetic_1_2_AllElements.addActionListener(lSymAction);
+        menuProfilesNormetic_1_2.add(itemProfileNormetic_1_2_AllElements);
+        menuProfiles.add(menuProfilesNormetic_1_2);
         mb.add(menuProfiles);
 
         menuPreferences = new JMenu("preferences");
@@ -314,17 +336,29 @@ class JFrameForm extends JFrame {
                 jPanelForm.changeStandardActionPerformed("SCORM", false);
                 jPanelForm.updateProfile(itemProfileScorm.getText());
             }
-            else if (object == itemProfileNormetic1) {
-                jPanelForm.changeStandardActionPerformed("NORMETIC1", false);
-                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic1.getText() + ")");
+            else if (object == itemProfileNormetic_1_1_MandatoryElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p1_MandatoryElements", false);
+                jPanelForm.updateProfile("Normetic 1.1 (" + itemProfileNormetic_1_1_MandatoryElements.getText() + ")");
             }
-            else if (object == itemProfileNormetic2) {
-                jPanelForm.changeStandardActionPerformed("NORMETIC2", false);
-                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic2.getText() + ")");
+            else if (object == itemProfileNormetic_1_1_MandatoryAndRecommendedElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p1_MandatoryAndRecommendedElements", false);
+                jPanelForm.updateProfile("Normetic 1.1 (" + itemProfileNormetic_1_1_MandatoryAndRecommendedElements.getText() + ")");
             }
-            else if (object == itemProfileNormetic3) {
-                jPanelForm.changeStandardActionPerformed("NORMETIC3", false);
-                jPanelForm.updateProfile("Normetic (" + itemProfileNormetic3.getText() + ")");
+            else if (object == itemProfileNormetic_1_1_AllElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p1_AllElements", false);
+                jPanelForm.updateProfile("Normetic 1.1 (" + itemProfileNormetic_1_1_AllElements.getText() + ")");
+            }
+            else if (object == itemProfileNormetic_1_2_MandatoryElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p2_MandatoryElements", false);
+                jPanelForm.updateProfile("Normetic 1.2 (" + itemProfileNormetic_1_2_MandatoryElements.getText() + ")");
+            }
+            else if (object == itemProfileNormetic_1_2_MandatoryAndRecommendedElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p2_MandatoryAndRecommendedElements", false);
+                jPanelForm.updateProfile("Normetic 1.2 (" + itemProfileNormetic_1_2_MandatoryAndRecommendedElements.getText() + ")");
+            }
+            else if (object == itemProfileNormetic_1_2_AllElements) {
+                jPanelForm.changeStandardActionPerformed("NORMETIC_1p2_AllElements", false);
+                jPanelForm.updateProfile("Normetic 1.2 (" + itemProfileNormetic_1_2_AllElements.getText() + ")");
             }
             else if (object == itemPreferencesManageLocalClassifs ) {
                 manageLocalClassifications();

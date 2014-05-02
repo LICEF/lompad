@@ -31,6 +31,11 @@ class TaxonPathForm extends FormContainer {
         super(title, isLine, isMultiple);
     }
 
+    public void clearFormIcon() {
+        // Always keep the icon for this special element.
+        // It's hard-coded for Normetic.  Should be cleaner eventually.
+    }
+
     void addFormContent() {
         FormWrapperTP wrapper = new FormWrapperTP("", true);
         wrapper.addToggle();

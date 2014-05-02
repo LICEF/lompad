@@ -26,6 +26,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import licef.StringUtil;
 
 class JPanelForm extends JPanel {
 
@@ -37,6 +38,7 @@ class JPanelForm extends JPanel {
     JLabel jLabelRequired;
     JLabel jLabelRecommended;
     JLabel jLabelOptional;
+    JLabel jLabelConditionalMandatory;
     JLabel jLabelProfileName;
     JLabel jLabelProfileIcon;
     JLabel jLabelProfile;
@@ -102,18 +104,27 @@ class JPanelForm extends JPanel {
         jLabelOptional = new JLabel("optional", Util.greenIcon, SwingConstants.LEADING);
         jLabelOptional.setFont(jLabelProfile.getFont());
         jPanelNormeticLegend.add(jLabelOptional);
+        jLabelConditionalMandatory = new JLabel("conditionalMandatory", Util.greenYellowRedIcon, SwingConstants.LEADING);
+        jLabelConditionalMandatory.setFont(jLabelProfile.getFont());
+        jPanelNormeticLegend.add(jLabelConditionalMandatory);
 
         updateProfile("IEEE LOM");
         normeticIcon = Util.normeticDisabledIcon;
         normeticLabels = new Hashtable();
-        ResourceBundle rb = ResourceBundle.getBundle("properties.JFrameFormRes", new Locale(""));
-        normeticLabels.put("Normetic (" + rb.getString("normetic1") + ")", "normetic1");
-        normeticLabels.put("Normetic (" + rb.getString("normetic2") + ")", "normetic2");
-        normeticLabels.put("Normetic (" + rb.getString("normetic3") + ")", "normetic3");
+        ResourceBundle rb = ResourceBundle.getBundle("properties.JFrameFormRes", Locale.ENGLISH);
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryElements") + ")", "normetic_1.1_MandatoryElements");
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryAndRecommendedElements") + ")", "normetic_1.1_MandatoryAndRecommendedElements");
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_AllElements") + ")", "normetic_1.1_AllElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryElements") + ")", "normetic_1.2_MandatoryElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryAndRecommendedElements") + ")", "normetic_1.2_MandatoryAndRecommendedElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_AllElements") + ")", "normetic_1.2_AllElements");
         rb = ResourceBundle.getBundle("properties.JFrameFormRes", Locale.FRENCH);
-        normeticLabels.put("Normetic (" + rb.getString("normetic1") + ")", "normetic1");
-        normeticLabels.put("Normetic (" + rb.getString("normetic2") + ")", "normetic2");
-        normeticLabels.put("Normetic (" + rb.getString("normetic3") + ")", "normetic3");
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryElements") + ")", "normetic_1.1_MandatoryElements");
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryAndRecommendedElements") + ")", "normetic_1.1_MandatoryAndRecommendedElements");
+        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_AllElements") + ")", "normetic_1.1_AllElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryElements") + ")", "normetic_1.2_MandatoryElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryAndRecommendedElements") + ")", "normetic_1.2_MandatoryAndRecommendedElements");
+        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_AllElements") + ")", "normetic_1.2_AllElements");
 
         browser = new FileBrowser( workingFolder );
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
@@ -179,10 +190,12 @@ class JPanelForm extends JPanel {
         jLabelRequired.setText(resBundle.getString("required"));
         jLabelRecommended.setText(resBundle.getString("recommended"));
         jLabelOptional.setText(resBundle.getString("optional"));
+        jLabelConditionalMandatory.setText(resBundle.getString("conditionalMandatory"));
 
         if (jLabelProfileName.getText().startsWith("Normetic")) {
+            String version = jLabelProfileName.getText().substring( 9, 12 );
             String key = (String)normeticLabels.get(jLabelProfileName.getText());
-            jLabelProfileName.setText("Normetic (" + resBundle.getString(key) + ")");
+            jLabelProfileName.setText("Normetic " + version + " (" + resBundle.getString(key) + ")");
         }
     }
 
@@ -223,37 +236,57 @@ class JPanelForm extends JPanel {
             currentSelectedProfile = profile;
         }
 
-        ResourceBundle resBundle = null;
         try {
-            resBundle = ResourceBundle.getBundle("properties." + profile);
-        } catch (Exception e) {
+            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + currentSelectedProfile);
+
+            StringTokenizer st = new StringTokenizer(resBundle.getString("hideComponent"), ",");
+            while (st.hasMoreTokens())
+                lomForm.setFormVisible(st.nextToken(), isVisible);
+        } 
+        catch (Exception ignore) {
         }
-        StringTokenizer st =
-                new StringTokenizer(resBundle.getString("hideComponent"), ",");
-        while (st.hasMoreTokens())
-            lomForm.setFormVisible(st.nextToken(), isVisible);
+
+        updateIcons();
+    }
+
+    public void updateIcons() {
+        lomForm.clearFormIcon();
+        lomForm.clearFormToolTipText();
+        try {
+            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + currentSelectedProfile);
+            setFormIcons( resBundle, "mandatoryComponent", Util.redIcon );
+            setFormIcons( resBundle, "conditionalMandatoryComponent", Util.greenYellowRedIcon );
+            setFormIcons( resBundle, "recommendedComponent", Util.yellowIcon );
+            setFormIcons( resBundle, "optionalComponent", Util.greenIcon );
+        } 
+        catch (Exception ignore) {
+ignore.printStackTrace();
+        }
     }
 
     public String getCurrentSelectedProfile() {
         String res = currentSelectedProfile;
-        if (res.startsWith("NORMETIC"))
-            res = "NORMETIC";
+        if (res.startsWith("NORMETIC_1p1"))
+            res = "NORMETIC_1p1";
+        else if (res.startsWith("NORMETIC_1p2"))
+            res = "NORMETIC_1p2";
         return res;
     }
 
     public boolean isValidNormetic() {
-        ResourceBundle resBundle = null;
-        try {
-            resBundle = ResourceBundle.getBundle("properties.NORMETIC1");
-        } catch (Exception e) {
-        }
-        StringTokenizer st =
-                new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
-        while (st.hasMoreTokens()) {
-            boolean res = lomForm.isComplete(st.nextToken());
-            if (!res) return false;
-        }
-        return true;
+        //ResourceBundle resBundle = null;
+        //try {
+        //    resBundle = ResourceBundle.getBundle("properties.NORMETIC1");
+        //} catch (Exception e) {
+        //}
+        //StringTokenizer st =
+        //        new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
+        //while (st.hasMoreTokens()) {
+        //    boolean res = lomForm.isComplete(st.nextToken());
+        //    if (!res) return false;
+        //}
+        //return true;
+        return false;
     }
 
     boolean manageCurrentLom() {
@@ -459,13 +492,14 @@ class JPanelForm extends JPanel {
             }
 
             lomForm.update();
+            updateIcons();
         } catch (Exception e) {
         }
     }
 
     void updateProfile(String profile) {
-        isNormeticProfile = profile.startsWith("Normetic");
-        jPanelNormeticLegend.setVisible(isNormeticProfile);
+        isNormeticProfile = profile.startsWith( "Normetic" );
+        jPanelNormeticLegend.setVisible( isNormeticProfile );
 
         //profil name
         jLabelProfileName.setText(profile);
@@ -530,6 +564,22 @@ class JPanelForm extends JPanel {
             }
         }
         Util.launchFile(file);
+    }
+
+    private void setFormIcons( ResourceBundle bundle, String keyGroupLabel, ImageIcon icon ) {
+        if( bundle.containsKey( keyGroupLabel )  ) {
+            String keys = bundle.getString(  keyGroupLabel );
+            if( !StringUtil.isEmpty( keys ) ) {
+                ResourceBundle bundleToolTipText = ResourceBundle.getBundle( "properties." + getCurrentSelectedProfile() + "_ToolTipText", Util.locale );
+                StringTokenizer st = new StringTokenizer( keys, ",");
+                while (st.hasMoreTokens()) {
+                    String key = st.nextToken();
+                    String toolTipText = ( bundleToolTipText == null || !bundleToolTipText.containsKey( key ) ? null : bundleToolTipText.getString( key ) );
+                    lomForm.setFormIcon(key, icon);
+                    lomForm.setFormToolTipText(key, toolTipText);
+                }
+            }
+        }
     }
 
 }

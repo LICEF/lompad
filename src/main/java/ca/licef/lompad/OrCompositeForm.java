@@ -32,6 +32,11 @@ class OrCompositeForm extends FormContainer {
         super(isMultiple);
     }
 
+    public void clearFormIcon() {
+        // Always keep the icon for this special element.
+        // It's hard-coded for Normetic.  Should be cleaner eventually.
+    }
+
     void addFormContent() {
         FormWrapper wrapper = new FormWrapper("4.4.1", true);
         wrapper.setIcon(Util.greenIcon);

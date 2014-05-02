@@ -107,6 +107,34 @@ class MultiFormContainer extends JPanel {
         }
     }
 
+    public void clearFormIcon() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormContainer c = (FormContainer) e.nextElement();
+            c.clearFormIcon();
+        }
+    }
+
+    public void setFormIcon(String key, ImageIcon icon) {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormContainer c = (FormContainer) e.nextElement();
+            c.setFormIcon(key, icon);
+        }
+    }
+
+    public void clearFormToolTipText() {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormContainer c = (FormContainer) e.nextElement();
+            c.clearFormToolTipText();
+        }
+    }
+
+    public void setFormToolTipText(String key, String text) {
+        for (Enumeration e = vComponents.elements(); e.hasMoreElements();) {
+            FormContainer c = (FormContainer) e.nextElement();
+            c.setFormToolTipText(key, text);
+        }
+    }
+
     public void preUpdateVocabularies() {
         for (Enumeration e = vComponents.elements(); e.hasMoreElements();)
             ((FormContainer) e.nextElement()).preUpdateVocabularies();

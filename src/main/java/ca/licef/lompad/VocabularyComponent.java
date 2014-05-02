@@ -51,8 +51,10 @@ class VocabularyComponent extends FormComponent {
         jComboBoxVocabulary.setEditable(isEditable);
 
         if (mediator != null) {
-            for (Enumeration e = mediator.getAvailableValues().elements(); e.hasMoreElements();)
-                jComboBoxVocabulary.addItem(e.nextElement());
+            for (Enumeration e = mediator.getAvailableValues().elements(); e.hasMoreElements();) {
+                Object obj = e.nextElement();
+                jComboBoxVocabulary.addItem(obj);
+            }
             previousVocabulary = getSelectedValue();
         }
         SymAction lSymAction = new SymAction();
@@ -147,6 +149,7 @@ class VocabularyComponent extends FormComponent {
                     int pos = Util.getPosVocabulary(value, !source.equals("LOMv1.0"));
                     Integer index = (Integer) tableImportXML.remove(new Integer(pos));
                     if (index == null) return;
+
                     jComboBoxVocabulary.setSelectedIndex(index.intValue());
                     for (Enumeration en = tableImportXML.keys(); en.hasMoreElements();) {
                         Integer i = (Integer) en.nextElement();

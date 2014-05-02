@@ -27,21 +27,18 @@ class RightsForm extends FormContainer {
 
     void addFormContent() {
         VocabularyForm cost = new VocabularyForm("6.1", true, false, null, true);
-        cost.setIcon(Util.redIcon);
         cost.addToggle();
         cost.setAlignRight();
         cost.addFormContent();
         addComponent(cost);
 
         VocabularyForm copyright = new VocabularyForm("6.2", true, false, null, true);
-        copyright.setIcon(Util.redIcon);
         copyright.addToggle();
         copyright.setAlignRight();
         copyright.addFormContent();
         addComponent(copyright);
 
         LangstringForm description = new LangstringForm("6.3", true, true, false);
-        description.setIcon(Util.redIcon);
         description.addToggle();
         description.addFormContent();
         addComponent(description);

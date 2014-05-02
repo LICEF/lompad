@@ -79,7 +79,7 @@ class ClassifUtil {
                 classifIdentifier = retrieveIdentifier( chooser.getSelectedFile() );
             }
             catch( Exception e ) {
-                ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
+                ResourceBundle resBundle = ResourceBundle.getBundle("properties.ClassifUtilRes", Util.locale);
                 JOptionPane.showMessageDialog( parent, 
                     resBundle.getString( "ClassifNameNotFound" ), resBundle.getString( "Error" ), 
                         JOptionPane.ERROR_MESSAGE );
@@ -146,7 +146,7 @@ class ClassifUtil {
                                 "prefLabel".equals( child.getLocalName() ) && child.getFirstChild() != null ) {
                                 String value = child.getFirstChild().getNodeValue().trim();
                                 // Make sure that the identifier can be a proper filename.
-                                value = value.replaceAll( "/", "_" ).replaceAll( "\\", "_" ).replaceAll( "*", "_" ).replaceAll( "?", "_" );
+                                value = value.replaceAll( "/", "_" ).replaceAll( "\\\\", "_" ).replaceAll( "\\*", "_" ).replaceAll( "\\?", "_" );
                                 return( value );
                             }
                         }
