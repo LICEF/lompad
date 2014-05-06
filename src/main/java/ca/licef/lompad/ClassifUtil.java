@@ -28,6 +28,7 @@ import javax.swing.tree.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -137,19 +138,10 @@ class ClassifUtil {
             if( CommonNamespaceContext.skosNSURI.equals( node.getNamespaceURI() ) ) {
                 if( Node.ELEMENT_NODE == node.getNodeType() ) {
                     if( "ConceptScheme".equals( node.getLocalName() ) ) {
-                        ArrayList titles = new ArrayList();
-                        NodeList childs = node.getChildNodes();
-                        for (int j = 0; j < childs.getLength(); j++) {
-                            Node child = childs.item(j);
-                            if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) && 
-                                Node.ELEMENT_NODE == child.getNodeType() &&
-                                "prefLabel".equals( child.getLocalName() ) && child.getFirstChild() != null ) {
-                                String value = child.getFirstChild().getNodeValue().trim();
-                                // Make sure that the identifier can be a proper filename.
-                                value = value.replaceAll( "/", "_" ).replaceAll( "\\\\", "_" ).replaceAll( "\\*", "_" ).replaceAll( "\\?", "_" );
-                                return( value );
-                            }
-                        }
+                        Node aboutNode = node.getAttributes().getNamedItem( "rdf:about" );
+                        String uri = aboutNode.getNodeValue();
+                        String sha1 = DigestUtils.shaHex( uri );
+                        return( sha1 );
                     }
                 }
             }
