@@ -245,7 +245,7 @@ public class JPanelTaxonomy extends JPanel {
 
     public JTree getCurrentTree() {
         int index = getSelectedIndex();
-        if (index != -1 && index <= jComboBoxClassification.getItemCount() - 1 ) {
+        if (index != -1 && index < jComboBoxClassification.getItemCount() - 1 ) {
             JTree tree =  (JTree)trees.get(index);
             // bug fix: in jre7 , JTree.setRootVisible(false) renders whole tree invisible, must add a expandPath to reender tree
             tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
