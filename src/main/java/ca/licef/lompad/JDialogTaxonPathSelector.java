@@ -93,6 +93,10 @@ public class JDialogTaxonPathSelector extends JDialog {
 
     public void setVisible(boolean b) {
         if (b) {
+            Rectangle bounds = getParent().getBounds();
+            Rectangle abounds = getBounds();
+            setLocation(bounds.x + (bounds.width - abounds.width) / 2,
+                    bounds.y + (bounds.height - abounds.height) / 2);
             bOk = false;
             updateLocalization();
         }
