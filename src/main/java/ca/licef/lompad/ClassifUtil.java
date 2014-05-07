@@ -32,6 +32,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import licef.CommonNamespaceContext;
 import licef.IOUtil;
 
@@ -81,9 +82,10 @@ class ClassifUtil {
             }
             catch( Exception e ) {
                 ResourceBundle resBundle = ResourceBundle.getBundle("properties.ClassifUtilRes", Util.locale);
-                JOptionPane.showMessageDialog( parent, 
-                    resBundle.getString( "ClassifNameNotFound" ), resBundle.getString( "Error" ), 
-                        JOptionPane.ERROR_MESSAGE );
+                String msg = "ClassifImportFailed";
+                if( "Classification identifier not found.".equals( e.getMessage() ) )
+                    msg = "ClassifIdentifierNotFound";
+                JOptionPane.showMessageDialog( parent, resBundle.getString( msg ), resBundle.getString( "Error" ), JOptionPane.ERROR_MESSAGE );
                 return( null );
             }
 
@@ -124,7 +126,7 @@ class ClassifUtil {
         }
     }
 
-    public static String retrieveIdentifier( File classifFile ) throws Exception {
+    public static String retrieveIdentifier( File classifFile ) throws FileNotFoundException, ParserConfigurationException, SAXException, Exception {
         InputStream is = new FileInputStream( classifFile );
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -146,7 +148,7 @@ class ClassifUtil {
                 }
             }
         }
-        return( null );
+        throw( new Exception( "Classification identifier not found." ) );
     }
 
 }
