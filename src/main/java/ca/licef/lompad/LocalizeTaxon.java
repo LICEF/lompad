@@ -47,7 +47,7 @@ public class LocalizeTaxon {
         }
         if( Preferences.getInstance().isShowTaxumId() ) {
             if (id != null && !"".equals(id))
-                res = id + "-" + res;
+                res = id + " " + res;
         }
 
         return res;
