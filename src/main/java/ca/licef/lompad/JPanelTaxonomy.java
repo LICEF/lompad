@@ -101,6 +101,8 @@ public class JPanelTaxonomy extends JPanel {
 
         SymAction lSymAction = new SymAction();
         jComboBoxClassification.addActionListener(lSymAction);
+        if( Preferences.getInstance().getPrevSelectedClassif() != -1 ) 
+            jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
 
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
@@ -304,6 +306,7 @@ public class JPanelTaxonomy extends JPanel {
                 initClassifications();
         }
         else {
+            Preferences.getInstance().setPrevSelectedClassif( selectedItem );
             CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
             cardLayout.show(jPanelClassifications, selectedItem + "");
             for (Iterator it = trees.iterator(); it.hasNext();) {

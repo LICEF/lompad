@@ -46,11 +46,20 @@ public class Preferences {
         this.prevClassifDir = prevClassifDir;
     }
 
+    public int getPrevSelectedClassif() {
+        return( prevSelectedClassif );
+    }
+
+    public void setPrevSelectedClassif( int prevSelectedClassif ) {
+        this.prevSelectedClassif = prevSelectedClassif;
+    }
+
     private Preferences() {
     }
 
     private boolean isShowTaxumIdEnabled;
-    private static File prevClassifDir = null;
+    private File prevClassifDir = null;
+    private int prevSelectedClassif = -1; 
 
     private static Preferences instance;
 
