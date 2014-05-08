@@ -100,14 +100,14 @@ class ClassifUtil {
                 return( null );
             }
 
-            importFile( chooser.getSelectedFile(), classifIdentifier + ".rdf" );
-            return( chooser.getSelectedFile() );
+            File localFile = importFile( chooser.getSelectedFile(), classifIdentifier + ".rdf" );
+            return( localFile );
         }
         else
             return( null );
     }
     
-    public static void importFile( File sourceFile, String classifFilename ) {
+    public static File importFile( File sourceFile, String classifFilename ) {
         File outputFile = new File( Util.getClassificationFolder(), classifFilename );
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
@@ -135,6 +135,7 @@ class ClassifUtil {
                 e.printStackTrace();
             }
         }
+        return( outputFile );
     }
 
     public static String retrieveIdentifier( File classifFile ) throws FileNotFoundException, ParserConfigurationException, SAXException, Exception {
