@@ -26,10 +26,12 @@ public class LocalizeTaxon {
 
     public String id;
     public ArrayList titles;
+    private ShowTaxumIdController showTaxumIdController;
 
-    public LocalizeTaxon(String id, ArrayList titles) {
+    public LocalizeTaxon(String id, ArrayList titles, ShowTaxumIdController showTaxumIdController) {
         this.id = id;
         this.titles = titles;
+        this.showTaxumIdController = showTaxumIdController;
     }
 
     public String toString() {
@@ -45,8 +47,10 @@ public class LocalizeTaxon {
             res = (String) titles.get(index + 1);
         } catch (IndexOutOfBoundsException e) {
         }
-        //if (id != null && !"".equals(id))
-        //    res = id + "-" + res;
+        if( showTaxumIdController != null && showTaxumIdController.isShowTaxumId() ) {
+            if (id != null && !"".equals(id))
+                res = id + "-" + res;
+        }
 
         return res;
     }

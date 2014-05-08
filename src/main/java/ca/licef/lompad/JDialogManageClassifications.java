@@ -27,6 +27,8 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
@@ -46,7 +48,7 @@ import org.w3c.dom.NodeList;
 
 import licef.CommonNamespaceContext;
 
-class JDialogManageClassifications extends JDialog {
+class JDialogManageClassifications extends JDialog implements ShowTaxumIdController {
 
     public JDialogManageClassifications(JFrame parent) {
         super(parent);
@@ -64,8 +66,16 @@ class JDialogManageClassifications extends JDialog {
         jPanelClassifs.add( BorderLayout.CENTER, jScrollPaneClassifs );
         jTreeClassif = ClassifUtil.createTree();
         JScrollPane jScrollPaneClassifTree = new JScrollPane( jTreeClassif );
+        jCheckBoxShowTaxumId = new JCheckBox( "", false );
+        jCheckBoxShowTaxumId.setFont(defaultFont);
+        jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                update();
+            }
+        } );
         JPanel jPanelClassifTree = new JPanel( new BorderLayout(5,5) );
         jPanelClassifTree.add( BorderLayout.CENTER, jScrollPaneClassifTree);
+        jPanelClassifTree.add( BorderLayout.SOUTH, jCheckBoxShowTaxumId );
         jPanelCenter.add( jPanelClassifs );
         jPanelCenter.add( jPanelClassifTree );
         JPanel jPanelSouth = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
@@ -106,9 +116,14 @@ class JDialogManageClassifications extends JDialog {
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogManageClassificationsRes", Util.locale);
         setTitle(resBundle.getString("title"));
+        jCheckBoxShowTaxumId.setText(resBundle.getString("showTaxumId"));
         actionAddClassif.putValue( Action.NAME, resBundle.getString("addClassif") );
         actionRemoveClassif.putValue( Action.NAME, resBundle.getString("removeClassif") );
         ok.setText(resBundle.getString("ok"));
+    }
+
+    public boolean isShowTaxumId() {
+        return( jCheckBoxShowTaxumId.isSelected() );
     }
 
     public void setVisible( boolean isVisible ) {
@@ -172,14 +187,15 @@ class JDialogManageClassifications extends JDialog {
                                         int indexOfDash = lang.indexOf( "-" );
                                         if( indexOfDash != -1 )
                                             lang = lang.substring( 0, indexOfDash );
+                                        String title = child.getFirstChild().getNodeValue().trim();
                                         titles.add(lang);
-                                        titles.add(child.getFirstChild().getNodeValue().trim());
+                                        titles.add(title);
                                     }
                                 }
                             }
 
                             String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
+                            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles, this));
                             nodes.put(id, newChild);
                             if (parentId == null)
                                 rootNode.add(newChild);
@@ -375,5 +391,6 @@ class JDialogManageClassifications extends JDialog {
     private ListSelectionListener listSelectionListenerClassifs;
     private JList jListClassifs;
     private JTree jTreeClassif;
+    private JCheckBox jCheckBoxShowTaxumId;
 
 }

@@ -33,6 +33,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -57,11 +59,12 @@ import licef.reflection.ThreadInvoker;
 import licef.StringUtil;
 import licef.XMLUtil;
 
-public class JPanelTaxonomy extends JPanel {
+public class JPanelTaxonomy extends JPanel implements ShowTaxumIdController {
 
     private JDialogTaxonPathSelector parentDialog;
     JPanel jPanelClassifications;
     public JComboBox jComboBoxClassification;
+    private JCheckBox jCheckBoxShowTaxumId;
     ArrayList trees;
     ArrayList classificationSource;
 
@@ -69,8 +72,8 @@ public class JPanelTaxonomy extends JPanel {
 
     public JPanelTaxonomy( JDialogTaxonPathSelector parentDialog ) {
         this.parentDialog = parentDialog;
-
         setLayout(new BorderLayout());
+        Font defaultFont = new Font("Dialog", Font.PLAIN, 12);
 
         jComboBoxClassification = new JComboBox() {
             public Insets getInsets() {
@@ -79,15 +82,32 @@ public class JPanelTaxonomy extends JPanel {
         };
         jComboBoxClassification.setFocusable(false);
         jComboBoxClassification.setFont(new Font("Dialog", Font.PLAIN, 12));
+        jCheckBoxShowTaxumId = new JCheckBox( "", false );
+        jCheckBoxShowTaxumId.setFont(defaultFont);
+        jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                update();
+            }
+        } );
+
         add(BorderLayout.NORTH, jComboBoxClassification);
 
         jPanelClassifications = new JPanel(new CardLayout());
         add(BorderLayout.CENTER, jPanelClassifications);
+        add(BorderLayout.SOUTH, jCheckBoxShowTaxumId);
 
         initClassifications();
 
         SymAction lSymAction = new SymAction();
         jComboBoxClassification.addActionListener(lSymAction);
+
+        //Localization
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
+        jCheckBoxShowTaxumId.setText(resBundle.getString("showTaxumId"));
+    }
+
+    public boolean isShowTaxumId() {
+        return( jCheckBoxShowTaxumId.isSelected() );
     }
 
     public void setVisible(boolean b) {
@@ -203,14 +223,15 @@ public class JPanelTaxonomy extends JPanel {
                                     int indexOfDash = lang.indexOf( "-" );
                                     if( indexOfDash != -1 )
                                         lang = lang.substring( 0, indexOfDash );
+                                    String title = child.getFirstChild().getNodeValue().trim();
                                     titles.add(lang);
-                                    titles.add(child.getFirstChild().getNodeValue().trim());
+                                    titles.add(title);
                                 }
                             }
                         }
 
                         String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                        DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
+                        DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles, this));
                         nodes.put(id, newChild);
                         if (parentId == null)
                             root.add(newChild);
