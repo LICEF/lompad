@@ -74,11 +74,11 @@ class ClassifUtil {
 
     public static File doImportFile( Component parent ) {
         JFileChooser chooser = new JFileChooser();
-        if( prevClassifDir != null )
-            chooser.setCurrentDirectory( prevClassifDir );
+        if( Preferences.getInstance().getPrevClassifDir() != null )
+            chooser.setCurrentDirectory( Preferences.getInstance().getPrevClassifDir() );
         int returnVal = chooser.showOpenDialog( parent );
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            prevClassifDir = chooser.getCurrentDirectory();
+            Preferences.getInstance().setPrevClassifDir( chooser.getCurrentDirectory() );
             String classifIdentifier = null;
             try {
                 classifIdentifier = retrieveIdentifier( chooser.getSelectedFile() );
@@ -153,8 +153,6 @@ class ClassifUtil {
         }
         throw( new Exception( "Classification identifier not found." ) );
     }
-
-    private static File prevClassifDir = null;
 
 }
 

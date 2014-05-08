@@ -48,7 +48,7 @@ import org.w3c.dom.NodeList;
 
 import licef.CommonNamespaceContext;
 
-class JDialogManageClassifications extends JDialog implements ShowTaxumIdController {
+class JDialogManageClassifications extends JDialog {
 
     public JDialogManageClassifications(JFrame parent) {
         super(parent);
@@ -66,10 +66,11 @@ class JDialogManageClassifications extends JDialog implements ShowTaxumIdControl
         jPanelClassifs.add( BorderLayout.CENTER, jScrollPaneClassifs );
         jTreeClassif = ClassifUtil.createTree();
         JScrollPane jScrollPaneClassifTree = new JScrollPane( jTreeClassif );
-        jCheckBoxShowTaxumId = new JCheckBox( "", false );
+        jCheckBoxShowTaxumId = new JCheckBox( "", Preferences.getInstance().isShowTaxumId() );
         jCheckBoxShowTaxumId.setFont(defaultFont);
         jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
+                Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
                 update();
             }
         } );
@@ -120,10 +121,6 @@ class JDialogManageClassifications extends JDialog implements ShowTaxumIdControl
         actionAddClassif.putValue( Action.NAME, resBundle.getString("addClassif") );
         actionRemoveClassif.putValue( Action.NAME, resBundle.getString("removeClassif") );
         ok.setText(resBundle.getString("ok"));
-    }
-
-    public boolean isShowTaxumId() {
-        return( jCheckBoxShowTaxumId.isSelected() );
     }
 
     public void setVisible( boolean isVisible ) {
@@ -195,7 +192,7 @@ class JDialogManageClassifications extends JDialog implements ShowTaxumIdControl
                             }
 
                             String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles, this));
+                            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
                             nodes.put(id, newChild);
                             if (parentId == null)
                                 rootNode.add(newChild);

@@ -59,7 +59,7 @@ import licef.reflection.ThreadInvoker;
 import licef.StringUtil;
 import licef.XMLUtil;
 
-public class JPanelTaxonomy extends JPanel implements ShowTaxumIdController {
+public class JPanelTaxonomy extends JPanel {
 
     private JDialogTaxonPathSelector parentDialog;
     JPanel jPanelClassifications;
@@ -82,10 +82,11 @@ public class JPanelTaxonomy extends JPanel implements ShowTaxumIdController {
         };
         jComboBoxClassification.setFocusable(false);
         jComboBoxClassification.setFont(new Font("Dialog", Font.PLAIN, 12));
-        jCheckBoxShowTaxumId = new JCheckBox( "", false );
+        jCheckBoxShowTaxumId = new JCheckBox( "", Preferences.getInstance().isShowTaxumId() );
         jCheckBoxShowTaxumId.setFont(defaultFont);
         jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
+                Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
                 update();
             }
         } );
@@ -104,10 +105,6 @@ public class JPanelTaxonomy extends JPanel implements ShowTaxumIdController {
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
         jCheckBoxShowTaxumId.setText(resBundle.getString("showTaxumId"));
-    }
-
-    public boolean isShowTaxumId() {
-        return( jCheckBoxShowTaxumId.isSelected() );
     }
 
     public void setVisible(boolean b) {
@@ -231,7 +228,7 @@ public class JPanelTaxonomy extends JPanel implements ShowTaxumIdController {
                         }
 
                         String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                        DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles, this));
+                        DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
                         nodes.put(id, newChild);
                         if (parentId == null)
                             root.add(newChild);

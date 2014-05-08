@@ -260,7 +260,6 @@ class JPanelForm extends JPanel {
             setFormIcons( resBundle, "optionalComponent", Util.greenIcon );
         } 
         catch (Exception ignore) {
-ignore.printStackTrace();
         }
     }
 
