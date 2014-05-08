@@ -28,6 +28,8 @@ import javax.swing.tree.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import licef.StringUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -61,13 +63,19 @@ class ClassifUtil {
     }
 
     public static String retrieveTaxonPathId( String id ) {
-        int indexOfHash =  id.indexOf( "#" );
+        int indexOfHash =  id.indexOf( "#" ); //uri like http://domain/voc#concept
         if( indexOfHash != -1 )
             return( id.substring( indexOfHash + 1 ) );
         
-        int indexOfLastSlash = id.lastIndexOf( "/" );
-        if( indexOfLastSlash != -1 )
-            return( id.substring( indexOfLastSlash + 1 ) );
+        String[] array = StringUtil.split(id, '/');
+        int size = array.length;
+        if( size > 0 ) {
+            if (!"".equals(array[size - 1]))
+                return (array[size - 1]);  //uri like http://domain/voc/concept
+            else if (size > 1) {
+                return (array[size - 2]);  //uri like http://domain/voc/concept/
+            }
+        }
 
         return( id );
     }
