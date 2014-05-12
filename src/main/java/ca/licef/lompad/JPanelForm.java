@@ -273,14 +273,15 @@ class JPanelForm extends JPanel {
     }
 
     public boolean isValidNormetic() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties." + getCurrentSelectedProfile() + "_MandatoryElements");
-        StringTokenizer st =
-            new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
-        while (st.hasMoreTokens()) {
-            boolean res = lomForm.isComplete(st.nextToken());
-            if (!res) return false;
-        }
-        return true;
+        //ResourceBundle resBundle = ResourceBundle.getBundle("properties." + getCurrentSelectedProfile() + "_MandatoryElements");
+        //StringTokenizer st =
+        //    new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
+        //while (st.hasMoreTokens()) {
+        //    boolean res = lomForm.isComplete(st.nextToken());
+        //    if (!res) return false;
+        //}
+        //return true;
+        return( true );
     }
 
     boolean manageCurrentLom() {
@@ -516,9 +517,10 @@ class JPanelForm extends JPanel {
     }
 
     private void updateNormeticIcon() {
-        normeticIcon = (isValidNormetic())?Util.normeticIcon:Util.normeticDisabledIcon;
-        if (isNormeticProfile)
+        if (isNormeticProfile) {
+            normeticIcon = (isValidNormetic())?Util.normeticIcon:Util.normeticDisabledIcon;
             jLabelProfileIcon.setIcon(normeticIcon);
+        }
     }
 
     private void popLomFromTempFile( String lom, String tempFile ) throws FileNotFoundException, UnsupportedEncodingException, IOException {
