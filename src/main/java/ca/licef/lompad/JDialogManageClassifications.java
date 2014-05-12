@@ -354,25 +354,31 @@ class JDialogManageClassifications extends JDialog {
         }
 
         public void actionPerformed( ActionEvent evt ) {
-            List<ClassifEntry> itemsToRemove = new ArrayList<ClassifEntry>();
-            int[] indices = jListClassifs.getSelectedIndices();
-            for( int i = 0; i < indices.length; i++ ) {
-                try {
-                    ClassifEntry entry = (ClassifEntry)jListClassifs.getModel().getElementAt( indices[ i ] );
-                    File file = new File( new URI( entry.getUrl().toString() ) );
-                    if( file.toString().indexOf( Util.getClassificationFolder() ) == -1 || file.delete() ) 
-                        itemsToRemove.add( entry );
+            ResourceBundle bundle = ResourceBundle.getBundle("properties.JDialogManageClassificationsRes", Util.locale);
+            String message = bundle.getString( "confirmRemoveClassif" );
+            String title = bundle.getString( "removeClassifTitle" );
+            int resp = JOptionPane.showConfirmDialog( JDialogManageClassifications.this, message, title, JOptionPane.YES_NO_OPTION );
+            if( resp == JOptionPane.YES_OPTION ) {
+                List<ClassifEntry> itemsToRemove = new ArrayList<ClassifEntry>();
+                int[] indices = jListClassifs.getSelectedIndices();
+                for( int i = 0; i < indices.length; i++ ) {
+                    try {
+                        ClassifEntry entry = (ClassifEntry)jListClassifs.getModel().getElementAt( indices[ i ] );
+                        File file = new File( new URI( entry.getUrl().toString() ) );
+                        if( file.toString().indexOf( Util.getClassificationFolder() ) == -1 || file.delete() ) 
+                            itemsToRemove.add( entry );
+                    }
+                    catch( URISyntaxException e ) {
+                        e.printStackTrace();
+                    }
                 }
-                catch( URISyntaxException e ) {
-                    e.printStackTrace();
-                }
+                
+                jListClassifs.removeListSelectionListener( listSelectionListenerClassifs );
+                for( ClassifEntry entry : itemsToRemove )
+                    listModelClassifs.removeElement( entry );
+                jListClassifs.addListSelectionListener( listSelectionListenerClassifs );
+                update();
             }
-            
-            jListClassifs.removeListSelectionListener( listSelectionListenerClassifs );
-            for( ClassifEntry entry : itemsToRemove )
-                listModelClassifs.removeElement( entry );
-            jListClassifs.addListSelectionListener( listSelectionListenerClassifs );
-            update();
         }
 
     }
