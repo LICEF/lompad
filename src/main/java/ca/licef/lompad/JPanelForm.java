@@ -273,15 +273,14 @@ class JPanelForm extends JPanel {
     }
 
     public boolean isValidNormetic() {
-        //ResourceBundle resBundle = ResourceBundle.getBundle("properties." + getCurrentSelectedProfile() + "_MandatoryElements");
-        //StringTokenizer st =
-        //    new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
-        //while (st.hasMoreTokens()) {
-        //    boolean res = lomForm.isComplete(st.nextToken());
-        //    if (!res) return false;
-        //}
-        //return true;
-        return( true );
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties." + getCurrentSelectedProfile() + "_MandatoryElements");
+        StringTokenizer st =
+            new StringTokenizer(resBundle.getString("mandatoryComponent"), ",");
+        while (st.hasMoreTokens()) {
+            boolean res = lomForm.isComplete(st.nextToken());
+            if (!res) return false;
+        }
+        return true;
     }
 
     boolean manageCurrentLom() {
