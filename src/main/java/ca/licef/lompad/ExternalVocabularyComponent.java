@@ -49,7 +49,7 @@ public class ExternalVocabularyComponent extends FormComponent{
 
         String profile = Util.getExternalProfileFromVocabularySource(source);
         String src = source;
-        if (profile != null) //an application known profile ?
+        if (profile != null && profile.equals( Util.externalProfile ) )
             src = profile;
         String item = src + ": " + value;
 
