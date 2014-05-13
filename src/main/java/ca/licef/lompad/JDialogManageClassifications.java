@@ -365,7 +365,7 @@ class JDialogManageClassifications extends JDialog {
                     try {
                         ClassifEntry entry = (ClassifEntry)jListClassifs.getModel().getElementAt( indices[ i ] );
                         File file = new File( new URI( entry.getUrl().toString() ) );
-                        if( file.toString().indexOf( Util.getClassificationFolder() ) == -1 || file.delete() ) 
+                        if( file.delete() ) 
                             itemsToRemove.add( entry );
                     }
                     catch( URISyntaxException e ) {
