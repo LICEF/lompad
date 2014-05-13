@@ -113,12 +113,14 @@ class FileBrowser extends JPanel {
 
         File dir = new File( currDir ); 
         File[] entries = dir.listFiles( new XMLFileFilter() );
-        java.util.Arrays.sort( entries );
        
         DefaultListModel model = new DefaultListModel();
         model.addElement( new File( ".." ) );
-        for( int i = 0; i < entries.length; i++ )
-            model.addElement( entries[ i ] );
+        if( entries != null ) {
+            java.util.Arrays.sort( entries );
+            for( int i = 0; i < entries.length; i++ )
+                model.addElement( entries[ i ] );
+        }
 
         listEntries.setModel( model );
     }
