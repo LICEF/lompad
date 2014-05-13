@@ -335,6 +335,11 @@ class Util {
         }
     }
 
+    public static boolean isShowHiddenDirectoryOptionAvailable() {
+        String osName = (System.getProperty("os.name")).toLowerCase();
+        return( osName.startsWith( "mac" ) || osName.startsWith( "linux" ) );
+    }
+
     public static String getDataFolder() {
         String dataFolder = null;
         String osName = (System.getProperty("os.name")).toLowerCase();

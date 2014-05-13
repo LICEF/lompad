@@ -72,7 +72,8 @@ class FileBrowser extends JPanel {
 
         add( BorderLayout.CENTER, scrollPaneEntries );
         add( BorderLayout.NORTH, panelLocation );
-        add( BorderLayout.SOUTH, checkBoxShowHiddenFolders );
+        if( Util.isShowHiddenDirectoryOptionAvailable() )
+            add( BorderLayout.SOUTH, checkBoxShowHiddenFolders );
 
         setDirectory( currDir );
         
