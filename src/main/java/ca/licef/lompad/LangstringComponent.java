@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 class LangstringComponent extends TextComponent {
     JComboBox jComboBoxLang;
@@ -79,9 +80,9 @@ class LangstringComponent extends TextComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() != null) {
-            super.fromXML(path, e);
+            super.fromXML(path, e, observations);
             jComboBoxLang.setSelectedItem(e.getAttribute("language"));
         }
     }

@@ -26,6 +26,7 @@ import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 import licef.CommonNamespaceContext;
 
@@ -176,7 +177,7 @@ class OrCompositeComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         NodeList list = e.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);

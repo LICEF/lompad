@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.List;
 
 class FormatForm extends FormContainer {
 
@@ -60,7 +61,7 @@ class FormatForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         FormatComponent c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -69,7 +70,7 @@ class FormatForm extends FormContainer {
         } else
             c = (FormatComponent) vComponents.firstElement();
 
-        c.fromXML(path, e);
+        c.fromXML(path, e, observations);
     }
 
     //HTML

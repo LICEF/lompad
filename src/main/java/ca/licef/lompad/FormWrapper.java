@@ -23,6 +23,7 @@ package ca.licef.lompad;
 import org.w3c.dom.Element;
 
 import java.util.Enumeration;
+import java.util.List;
 
 class FormWrapper extends FormContainer {
     public FormWrapper() {
@@ -54,12 +55,12 @@ class FormWrapper extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e, boolean loop) {
+    void fromXML(String path, Element e, boolean loop, List<String> observations) {
         if (loop)
-            fromXML(path, e);
+            fromXML(path, e, observations);
         else {
             FormComponent c = (FormComponent) vComponents.firstElement();
-            c.fromXML(path, e);
+            c.fromXML(path, e, observations);
         }
     }
 

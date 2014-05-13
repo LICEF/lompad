@@ -31,7 +31,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 class LomForm extends JPanel {
@@ -395,6 +398,7 @@ class LomForm extends JPanel {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(is);
 
+        List<String> observations = new ArrayList<String>();
         NodeList list = document.getDocumentElement().getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
@@ -405,12 +409,18 @@ class LomForm extends JPanel {
                     int pos = Util.getPosTag(tagName);
                     Object c = vComponents.elementAt(pos - 1);
                     if (c instanceof FormContainer)
-                        ((FormContainer) c).fromXML(tagName, e);
+                        ((FormContainer) c).fromXML(tagName, e, observations);
                     else if (c instanceof MultiFormContainer)
-                        ((MultiFormContainer) c).fromXML(tagName, e);
+                        ((MultiFormContainer) c).fromXML(tagName, e, observations);
                 } catch (IllegalTagException ite) {
                 }
             }
+        }
+        if( observations.contains( "mismatchProfileVersionDetected" ) ) {
+            ResourceBundle bundle = ResourceBundle.getBundle( "properties.LomFormRes", Util.locale );
+            String title = bundle.getString( "warning" );
+            String msg = bundle.getString( "mismatchProfileVersionDetected" );
+            JOptionPane.showMessageDialog( getParent(), msg, title, JOptionPane.WARNING_MESSAGE );
         }
     }
 

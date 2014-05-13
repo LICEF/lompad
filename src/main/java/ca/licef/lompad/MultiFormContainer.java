@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 
 class MultiFormContainer extends JPanel {
@@ -256,7 +257,7 @@ class MultiFormContainer extends JPanel {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         FormContainer c = null;
         if (isFilled()) {
             addFormContent();
@@ -264,7 +265,7 @@ class MultiFormContainer extends JPanel {
         } else
             c = (FormContainer) vComponents.firstElement();
 
-        c.fromXML(path, e);
+        c.fromXML(path, e, observations);
 
         jListForms.setSelectedIndex(0);
     }

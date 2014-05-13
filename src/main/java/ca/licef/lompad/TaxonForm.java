@@ -23,6 +23,7 @@ package ca.licef.lompad;
 import org.w3c.dom.Element;
 
 import java.util.Enumeration;
+import java.util.List;
 
 class TaxonForm extends FormContainer {
     public TaxonForm(String title, boolean isLine, boolean isMultiple) {
@@ -70,7 +71,7 @@ class TaxonForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         FormWrapper c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -79,7 +80,7 @@ class TaxonForm extends FormContainer {
         } else
             c = (FormWrapper) vComponents.firstElement();
 
-        c.fromXML(path, e, false);
+        c.fromXML(path, e, false, observations);
     }
 
     //HTML

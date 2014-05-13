@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 class DurationComponent extends FormComponent {
     JPanel jPanelDuration;
@@ -199,7 +200,7 @@ class DurationComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() == null) return;
 
         String value = e.getFirstChild().getNodeValue();

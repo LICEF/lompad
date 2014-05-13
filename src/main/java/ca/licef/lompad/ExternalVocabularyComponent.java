@@ -5,6 +5,7 @@ import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 import licef.CommonNamespaceContext;
 
@@ -38,7 +39,7 @@ public class ExternalVocabularyComponent extends FormComponent{
         return xml;
     }
 
-    void fromXML(String path, Element e, boolean firstField) {
+    void fromXML(String path, Element e, boolean firstField, List<String> observations) {
         NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
         Element childSrc = (Element) listSrc.item(0);
         source = childSrc.getFirstChild().getNodeValue();
@@ -48,6 +49,12 @@ public class ExternalVocabularyComponent extends FormComponent{
         value = child.getFirstChild().getNodeValue().trim();
 
         String profile = Util.getExternalProfileFromVocabularySource(source);
+        if( profile != null && profile.startsWith( "NORMETIC" ) && 
+                Util.externalProfile != null && Util.externalProfile.startsWith( "NORMETIC" ) &&
+                    !profile.equals( Util.externalProfile ) ) {
+            if( observations != null ) 
+                observations.add( "mismatchProfileVersionDetected" );
+        }
         String src = source;
         if (profile != null && profile.equals( Util.externalProfile ) )
             src = profile;
@@ -57,6 +64,7 @@ public class ExternalVocabularyComponent extends FormComponent{
             jComboBoxVocabulary.addItem(null);
         jComboBoxVocabulary.addItem(item);
         jComboBoxVocabulary.setSelectedIndex(firstField?1:0);
+        
     }
 
     //HTML

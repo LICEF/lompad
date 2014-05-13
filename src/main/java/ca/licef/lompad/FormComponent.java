@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 abstract class FormComponent extends JComponent {
     JPanel jPanelContent;
@@ -97,7 +98,8 @@ abstract class FormComponent extends JComponent {
         return "feuille\n";
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
+        System.out.println( "cla="+getClass());
         System.out.println("feuille");
     }
 

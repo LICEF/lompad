@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.List;
 
 class IdentifierForm extends FormContainer {
     public IdentifierForm(String title, boolean isLine, boolean isMultipleContainer) {
@@ -56,7 +57,7 @@ class IdentifierForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         IdentifierComponent c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -65,7 +66,7 @@ class IdentifierForm extends FormContainer {
         } else
             c = (IdentifierComponent) vComponents.firstElement();
 
-        c.fromXML(path, e);
+        c.fromXML(path, e, observations);
     }
 
     //HTML

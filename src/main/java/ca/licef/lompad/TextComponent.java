@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.util.List;
 
 class TextComponent extends FormComponent {
     JScrollPane jScrollPaneTextArea;
@@ -83,7 +84,7 @@ class TextComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() != null) {
             currentJTextComponent.setText(e.getFirstChild().getNodeValue().trim());
             currentJTextComponent.setCaretPosition(0);

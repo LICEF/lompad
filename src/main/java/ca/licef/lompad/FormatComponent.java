@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 class FormatComponent extends FormComponent {
     JTextFieldPopup jTextField;
@@ -112,7 +113,7 @@ class FormatComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() != null) {
             jTextField.setText(e.getFirstChild().getNodeValue().trim());
             jTextField.setCaretPosition(0);

@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Calendar;
+import java.util.List;
 
 class DatetimeComponent extends FormComponent {
     JButton jButtonWizard;
@@ -405,7 +406,7 @@ class DatetimeComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() == null) return;
 
         String value = e.getFirstChild().getNodeValue();

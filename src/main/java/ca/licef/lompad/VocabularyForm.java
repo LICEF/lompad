@@ -28,7 +28,12 @@ import org.w3c.dom.Node;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.io.ByteArrayInputStream;
 
 import licef.CommonNamespaceContext;
@@ -105,7 +110,7 @@ class VocabularyForm extends FormContainer {
                     Node node = list.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element e = (Element) node;
-                        fromXML(null, e);
+                        fromXML(null, e, null);
                     }
                 }
             } catch (Exception e) {
@@ -170,7 +175,7 @@ class VocabularyForm extends FormContainer {
 
     boolean isControlValueMediatorNeeded = true;
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         if (e.getFirstChild() == null) return;
 
         boolean firstField = false;
@@ -206,9 +211,9 @@ class VocabularyForm extends FormContainer {
         }
 
         if (isControlValueMediatorNeeded)
-            ((VocabularyComponent)c).fromXML(path, e, tableImportXML, firstField);
+            ((VocabularyComponent)c).fromXML(path, e, tableImportXML, firstField, observations);
         else
-            ((ExternalVocabularyComponent)c).fromXML(path, e, firstField);
+            ((ExternalVocabularyComponent)c).fromXML(path, e, firstField, observations);
 
         isControlValueMediatorNeeded = true;
     }

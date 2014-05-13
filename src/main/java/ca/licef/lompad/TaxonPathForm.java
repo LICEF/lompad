@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.List;
 
 class TaxonPathForm extends FormContainer {
     public TaxonPathForm(String title, boolean isLine, boolean isMultiple) {
@@ -153,7 +154,7 @@ class TaxonPathForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         FormWrapper c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -162,7 +163,7 @@ class TaxonPathForm extends FormContainer {
         } else
             c = (FormWrapper) vComponents.firstElement();
 
-        c.fromXML(path, e, true);
+        c.fromXML(path, e, true, observations);
     }
 
     //HTML

@@ -27,6 +27,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import licef.CommonNamespaceContext;
 
@@ -134,7 +135,7 @@ class VocabularyComponent extends FormComponent {
         return xml;
     }
 
-    void fromXML(String path, Element e, Hashtable tableImportXML, boolean firstField) {
+    void fromXML(String path, Element e, Hashtable tableImportXML, boolean firstField, List<String> observations) {
         if (isLomVocabulary) {
             NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
             Element childSrc = (Element) listSrc.item(0);

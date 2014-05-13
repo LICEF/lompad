@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.List;
 
 class TextForm extends FormContainer {
     boolean isOneLine;
@@ -74,7 +75,7 @@ class TextForm extends FormContainer {
         return super.toXML(key);
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         TextComponent c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -83,7 +84,7 @@ class TextForm extends FormContainer {
         } else
             c = (TextComponent) vComponents.firstElement();
 
-        c.fromXML(path, e);
+        c.fromXML(path, e, observations);
     }
 
     //HTML

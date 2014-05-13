@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.awt.*;
+import java.util.List;
 
 import licef.CommonNamespaceContext;
 
@@ -68,7 +69,7 @@ class LangstringForm extends TextForm {
         return defaultToXML(key);
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"string");
         for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
@@ -80,7 +81,7 @@ class LangstringForm extends TextForm {
             } else
                 c = (LangstringComponent) vComponents.firstElement();
 
-            c.fromXML(path, child);
+            c.fromXML(path, child, observations);
         }
     }
 }

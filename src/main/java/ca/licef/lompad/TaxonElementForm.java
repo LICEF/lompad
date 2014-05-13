@@ -28,6 +28,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 
 import licef.CommonNamespaceContext;
 
@@ -107,7 +108,7 @@ class TaxonElementForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         NodeList list = e.getChildNodes();
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);

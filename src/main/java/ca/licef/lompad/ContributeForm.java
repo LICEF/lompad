@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.util.Enumeration;
+import java.util.List;
 
 class ContributeForm extends FormContainer {
     String rootNumber;
@@ -76,7 +77,7 @@ class ContributeForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         FormWrapper c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
@@ -85,7 +86,7 @@ class ContributeForm extends FormContainer {
         } else
             c = (FormWrapper) vComponents.firstElement();
 
-        c.fromXML(path, e, true);
+        c.fromXML(path, e, true, observations);
     }
 
     //HTML
