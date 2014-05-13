@@ -29,9 +29,8 @@ class XMLFileFilter implements FileFilter {
     public boolean accept(File f) {
 
         String ext = null;
-        if (f.isDirectory()) {
-            return true;
-        }
+        if (f.isDirectory())
+            return( Preferences.getInstance().isShowHiddenFolders() || !f.getName().startsWith( "." ) );
 
         ext = null;
         String s = f.getName();

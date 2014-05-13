@@ -197,6 +197,9 @@ class JPanelForm extends JPanel {
             String key = (String)normeticLabels.get(jLabelProfileName.getText());
             jLabelProfileName.setText("Normetic " + version + " (" + resBundle.getString(key) + ")");
         }
+
+        if( browser != null )
+            browser.updateLocalization();
     }
 
     void doFilter() {

@@ -30,6 +30,14 @@ public class Preferences {
         return( instance );
     }
 
+    public boolean isShowHiddenFolders() {
+        return( isShowHiddenFoldersEnabled );
+    }
+
+    public void setShowHiddenFolders( boolean isShowHiddenFoldersEnabled ) {
+        this.isShowHiddenFoldersEnabled = isShowHiddenFoldersEnabled;
+    }
+
     public boolean isShowTaxumId() {
         return( isShowTaxumIdEnabled );
     }
@@ -57,6 +65,7 @@ public class Preferences {
     private Preferences() {
     }
 
+    private boolean isShowHiddenFoldersEnabled;
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
     private int prevSelectedClassif = -1; 
