@@ -92,11 +92,12 @@ class ClassifUtil {
                 classifIdentifier = retrieveIdentifier( chooser.getSelectedFile() );
             }
             catch( Exception e ) {
-                ResourceBundle resBundle = ResourceBundle.getBundle("properties.ClassifUtilRes", Util.locale);
-                String msg = "ClassifImportFailed";
+                String msg = "classifImportFailed";
                 if( "Classification identifier not found.".equals( e.getMessage() ) )
-                    msg = "ClassifIdentifierNotFound";
-                JOptionPane.showMessageDialog( parent, resBundle.getString( msg ), resBundle.getString( "Error" ), JOptionPane.ERROR_MESSAGE );
+                    msg = "classifIdentifierNotFound";
+                JDialogAlert dialog = new JDialogAlert( Util.getTopJFrame( (Container)parent ), "titleErr", msg );
+                dialog.setSize( 320, 140 ); 
+                dialog.setVisible( true );
                 return( null );
             }
 
@@ -153,9 +154,11 @@ class ClassifUtil {
                 if( Node.ELEMENT_NODE == node.getNodeType() ) {
                     if( "ConceptScheme".equals( node.getLocalName() ) ) {
                         Node aboutNode = node.getAttributes().getNamedItem( "rdf:about" );
-                        String uri = aboutNode.getNodeValue();
-                        String sha1 = DigestUtils.shaHex( uri );
-                        return( sha1 );
+                        if( aboutNode != null ) {
+                            String uri = aboutNode.getNodeValue();
+                            String sha1 = DigestUtils.shaHex( uri );
+                            return( sha1 );
+                        }
                     }
                 }
             }

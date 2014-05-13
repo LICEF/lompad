@@ -42,6 +42,15 @@ class JDialogQuestion extends JDialog {
 
     public JDialogQuestion(JFrame parent, String title, String text) {
         super(parent, title, true);
+        init( text );
+    }
+
+    public JDialogQuestion(JDialog parent, String title, String text) {
+        super(parent, title, true);
+        init( text );
+    }
+
+    private void init( String text ) {
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
         JPanel jPanelNorth = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 15));

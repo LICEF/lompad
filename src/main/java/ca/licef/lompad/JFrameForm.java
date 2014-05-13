@@ -121,8 +121,6 @@ class JFrameForm extends JFrame {
         itemHelpRefDoc.setText(resBundle.getString("ref"));
         itemAbout.setText(resBundle.getString("about"));
 
-        localizeJOptionPane();
-
         jPanelForm.updateLocalization();
     }
 
@@ -382,26 +380,6 @@ class JFrameForm extends JFrame {
         JDialogManageClassifications dialogManageClassif = new JDialogManageClassifications( this );
         dialogManageClassif.setSize( 500, 400 );
         dialogManageClassif.setVisible( true );
-    }
-
-    private void localizeJOptionPane() {
-        ResourceBundle bundle = ResourceBundle.getBundle("properties.JFrameFormRes", Util.locale);
-        String[] strings = {
-            "OptionPane.cancelButtonMnemonic",
-            "OptionPane.cancelButtonText",
-            "OptionPane.inputDialogTitle",
-            "OptionPane.messageDialogTitle",
-            "OptionPane.noButtonMnemonic",
-            "OptionPane.noButtonText",
-            "OptionPane.okButtonMnemonic",
-            "OptionPane.okButtonText",
-            "OptionPane.titleText",
-            "OptionPane.yesButtonMnemonic",
-            "OptionPane.yesButtonText"
-        };
-        for (int i = 0; i < strings.length; i++) {
-            UIManager.put(strings[i], bundle.getString(strings[i]));
-        }
     }
 
 }

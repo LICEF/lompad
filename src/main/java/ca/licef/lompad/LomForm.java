@@ -34,7 +34,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Vector;
 
 class LomForm extends JPanel {
@@ -417,10 +416,9 @@ class LomForm extends JPanel {
             }
         }
         if( observations.contains( "mismatchProfileVersionDetected" ) ) {
-            ResourceBundle bundle = ResourceBundle.getBundle( "properties.LomFormRes", Util.locale );
-            String title = bundle.getString( "warning" );
-            String msg = bundle.getString( "mismatchProfileVersionDetected" );
-            JOptionPane.showMessageDialog( getParent(), msg, title, JOptionPane.WARNING_MESSAGE );
+            JDialogAlert dialog = new JDialogAlert( Util.getTopJFrame( this ), "titleWarning", "mismatchProfileVersionDetected" );
+            dialog.setSize( 380, 140 );
+            dialog.setVisible( true );
         }
     }
 

@@ -354,11 +354,9 @@ class JDialogManageClassifications extends JDialog {
         }
 
         public void actionPerformed( ActionEvent evt ) {
-            ResourceBundle bundle = ResourceBundle.getBundle("properties.JDialogManageClassificationsRes", Util.locale);
-            String message = bundle.getString( "confirmRemoveClassif" );
-            String title = bundle.getString( "removeClassifTitle" );
-            int resp = JOptionPane.showConfirmDialog( JDialogManageClassifications.this, message, title, JOptionPane.YES_NO_OPTION );
-            if( resp == JOptionPane.YES_OPTION ) {
+            JDialogQuestion dialog = new JDialogQuestion( JDialogManageClassifications.this, "title", "confirmRemoveClassif" );
+            dialog.setVisible( true );
+            if( dialog.res == JDialogQuestion.YES ) {
                 List<ClassifEntry> itemsToRemove = new ArrayList<ClassifEntry>();
                 int[] indices = jListClassifs.getSelectedIndices();
                 for( int i = 0; i < indices.length; i++ ) {
