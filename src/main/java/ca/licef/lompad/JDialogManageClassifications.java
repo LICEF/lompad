@@ -336,7 +336,9 @@ class JDialogManageClassifications extends JDialog {
             if( classifFile != null ) {
                 try {
                     ClassifEntry entry = retrieveClassifEntry( classifFile );
-                    listModelClassifs.addElement( entry );
+                    if( !listModelClassifs.contains( entry ) )
+                        listModelClassifs.addElement( entry );
+                    update();
                 }
                 catch( Exception e ) {
                     // Ignore files that we cannot handle properly.
