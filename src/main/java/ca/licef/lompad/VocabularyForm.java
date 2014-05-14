@@ -98,9 +98,10 @@ class VocabularyForm extends FormContainer {
         //reinit
         addFormContent();
         if (currentXML != null) {
-            currentXML = "<vocabularies>" + currentXML + "</vocabularies>";
+            currentXML = "<vocabularies xmlns=\"" + CommonNamespaceContext.lomNSURI + "\">" + currentXML + "</vocabularies>";
             try {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                factory.setNamespaceAware(true);
                 factory.setCoalescing(true); //convert CDATA node to Text node
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new ByteArrayInputStream(currentXML.getBytes()));
