@@ -63,6 +63,13 @@ class JFrameForm extends JFrame {
     private JMenu menuHelp;
 
     public JFrameForm() {
+        try {
+            Preferences.getInstance().load();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+
         setTitle("title");
 
         SymAction lSymAction = new SymAction();
@@ -315,7 +322,7 @@ class JFrameForm extends JFrame {
             else if (object == itemViewXml)
                 jPanelForm.viewXML();
             else if (object == itemQuit)
-                JFrame1_windowClosing(null);
+                quit();
             else if (object == itemLanguageFrench) {
                 Util.locale = Locale.FRENCH;
                 updateLocalization();
@@ -368,6 +375,16 @@ class JFrameForm extends JFrame {
             else if (object == itemAbout)
                 about();
         }
+    }
+
+    private void quit() {
+        try {
+            Preferences.getInstance().save();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+        JFrame1_windowClosing(null);
     }
 
     private void about() {
