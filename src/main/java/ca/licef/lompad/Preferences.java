@@ -101,6 +101,14 @@ public class Preferences {
         this.locale = locale;
     }
 
+    public String getApplicationProfileView() {
+        return( applProfileView );
+    }
+
+    public void setApplicationProfileView( String applProfileView ) {
+        this.applProfileView = applProfileView;
+    }
+
     public String toXML() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         xml += "<prefs>\n";
@@ -109,6 +117,7 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
         xml += "</prefs>\n";
         return xml;
     }
@@ -147,6 +156,8 @@ public class Preferences {
                             else
                                 locale = Locale.ENGLISH;
                         }
+                        else if( "applProfView".equals( key ) )
+                            applProfileView = value;
                     }
                 }
             }
@@ -165,6 +176,7 @@ public class Preferences {
     private File prevClassifDir = null;
     private int prevSelectedClassif = -1; 
     private Locale locale = Locale.FRENCH;
+    private String applProfileView = "IEEE";
 
     private static Preferences instance;
 

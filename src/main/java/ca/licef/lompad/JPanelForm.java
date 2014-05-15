@@ -51,10 +51,9 @@ class JPanelForm extends JPanel {
     boolean bInit;
     LomForm lomForm;
 
-    String currentSelectedProfile = "IEEE";
     boolean isNormeticProfile = false;
     Icon normeticIcon;
-    Hashtable normeticLabels;
+    //Hashtable normeticLabels;
 
     File file = null;
     String workingFolder = FileSystemView.getFileSystemView().getDefaultDirectory().toString();
@@ -108,23 +107,7 @@ class JPanelForm extends JPanel {
         jLabelConditionalMandatory.setFont(jLabelProfile.getFont());
         jPanelNormeticLegend.add(jLabelConditionalMandatory);
 
-        updateProfile("IEEE LOM");
         normeticIcon = Util.normeticDisabledIcon;
-        normeticLabels = new Hashtable();
-        ResourceBundle rb = ResourceBundle.getBundle("properties.JFrameFormRes", Locale.ENGLISH);
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryElements") + ")", "normetic_1.1_MandatoryElements");
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryAndRecommendedElements") + ")", "normetic_1.1_MandatoryAndRecommendedElements");
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_AllElements") + ")", "normetic_1.1_AllElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryElements") + ")", "normetic_1.2_MandatoryElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryAndRecommendedElements") + ")", "normetic_1.2_MandatoryAndRecommendedElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_AllElements") + ")", "normetic_1.2_AllElements");
-        rb = ResourceBundle.getBundle("properties.JFrameFormRes", Locale.FRENCH);
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryElements") + ")", "normetic_1.1_MandatoryElements");
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_MandatoryAndRecommendedElements") + ")", "normetic_1.1_MandatoryAndRecommendedElements");
-        normeticLabels.put("Normetic 1.1 (" + rb.getString("normetic_1.1_AllElements") + ")", "normetic_1.1_AllElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryElements") + ")", "normetic_1.2_MandatoryElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_MandatoryAndRecommendedElements") + ")", "normetic_1.2_MandatoryAndRecommendedElements");
-        normeticLabels.put("Normetic 1.2 (" + rb.getString("normetic_1.2_AllElements") + ")", "normetic_1.2_AllElements");
 
         browser = new FileBrowser( workingFolder );
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
@@ -191,12 +174,7 @@ class JPanelForm extends JPanel {
         jLabelRecommended.setText(resBundle.getString("recommended"));
         jLabelOptional.setText(resBundle.getString("optional"));
         jLabelConditionalMandatory.setText(resBundle.getString("conditionalMandatory"));
-
-        if (jLabelProfileName.getText().startsWith("Normetic")) {
-            String version = jLabelProfileName.getText().substring( 9, 12 );
-            String key = (String)normeticLabels.get(jLabelProfileName.getText());
-            jLabelProfileName.setText("Normetic " + version + " (" + resBundle.getString(key) + ")");
-        }
+        jLabelProfileName.setText(resBundle.getString(Preferences.getInstance().getApplicationProfileView() + "Label"));    
 
         if( browser != null )
             browser.updateLocalization();
@@ -204,15 +182,15 @@ class JPanelForm extends JPanel {
 
     void doFilter() {
         if (bInit) return;
-        if (!currentSelectedProfile.equals("IEEE"))
-            changeStandard(currentSelectedProfile, false);
+        if (!Preferences.getInstance().getApplicationProfileView().equals("IEEE"))
+            changeStandard(Preferences.getInstance().getApplicationProfileView(), false);
     }
 
     void changeToIEEE() {
         lomForm.preUpdateVocabularies();
 
         undo();
-        currentSelectedProfile = "IEEE";
+        Preferences.getInstance().setApplicationProfileView( "IEEE" );
 
         bInit = true;
         lomForm.updateVocabularies();
@@ -220,8 +198,8 @@ class JPanelForm extends JPanel {
     }
 
     void undo() {
-        if (!currentSelectedProfile.equals("IEEE"))
-            changeStandard(currentSelectedProfile, true);
+        if (!Preferences.getInstance().getApplicationProfileView().equals("IEEE"))
+            changeStandard(Preferences.getInstance().getApplicationProfileView(), true);
     }
 
     void changeStandardActionPerformed(String profile, boolean isVisible) {
@@ -236,11 +214,11 @@ class JPanelForm extends JPanel {
     void changeStandard(String profile, boolean isVisible) {
         if (!isVisible) {
             undo();
-            currentSelectedProfile = profile;
+            Preferences.getInstance().setApplicationProfileView( profile );
         }
 
         try {
-            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + currentSelectedProfile);
+            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + Preferences.getInstance().getApplicationProfileView());
 
             StringTokenizer st = new StringTokenizer(resBundle.getString("hideComponent"), ",");
             while (st.hasMoreTokens())
@@ -256,7 +234,7 @@ class JPanelForm extends JPanel {
         lomForm.clearFormIcon();
         lomForm.clearFormToolTipText();
         try {
-            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + currentSelectedProfile);
+            ResourceBundle resBundle = ResourceBundle.getBundle("properties." + Preferences.getInstance().getApplicationProfileView());
             setFormIcons( resBundle, "mandatoryComponent", Util.redIcon );
             setFormIcons( resBundle, "conditionalMandatoryComponent", Util.greenYellowRedIcon );
             setFormIcons( resBundle, "recommendedComponent", Util.yellowIcon );
@@ -267,7 +245,7 @@ class JPanelForm extends JPanel {
     }
 
     public String getCurrentSelectedProfile() {
-        String res = currentSelectedProfile;
+        String res = Preferences.getInstance().getApplicationProfileView();
         if (res.startsWith("NORMETIC_1p1"))
             res = "NORMETIC_1p1";
         else if (res.startsWith("NORMETIC_1p2"))
