@@ -110,7 +110,9 @@ class JPanelForm extends JPanel {
 
         browser = new FileBrowser( Preferences.getInstance().getFileBrowserDir() + "" );
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
-        browser.setVisible( false );
+        if( Preferences.getInstance().isFileBrowserOpened() )
+            showBrowser();
+
         browser.addFileBrowserListener( new FileBrowserListener() {
 
             public void fileSelected( FileBrowserEvent e ) {
@@ -119,7 +121,6 @@ class JPanelForm extends JPanel {
 
             public void directorySelected( FileBrowserEvent e ) {
                 Preferences.getInstance().setFileBrowserDir( e.getFile() ); 
-                //workingFolder = e.getFile() + "";
             } 
 
             public void browserClosed() {
@@ -150,12 +151,14 @@ class JPanelForm extends JPanel {
         }
         browser.setDirectory( browser.getDirectory() );
         browser.setVisible( true );
+        Preferences.getInstance().setFileBrowserOpened( true );
     }
 
     private void hideBrowser() {
         if( splitPane != null ) {
             remove( splitPane );
             browser.setVisible( false );
+            Preferences.getInstance().setFileBrowserOpened( false );
             splitPane.remove( browser );
             splitPane.remove( jPanelWrapper );
             splitPane = null;

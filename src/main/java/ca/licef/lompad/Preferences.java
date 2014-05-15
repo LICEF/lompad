@@ -94,6 +94,14 @@ public class Preferences {
         this.fileBrowserDir = fileBrowserDir;
     }
 
+    public boolean isFileBrowserOpened() {
+        return( isFileBrowserOpen );
+    }
+
+    public void setFileBrowserOpened( boolean isFileBrowserOpen ) {
+        this.isFileBrowserOpen = isFileBrowserOpen;
+    }
+
     public int getPrevSelectedClassif() {
         return( prevSelectedClassif );
     }
@@ -125,6 +133,7 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserDir", fileBrowserDir + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserOpened", isFileBrowserOpen + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
@@ -160,6 +169,8 @@ public class Preferences {
                             prevClassifDir = new File( value );
                         else if( "fileBrowserDir".equals( key ) )
                             fileBrowserDir = new File( value );
+                        else if( "fileBrowserOpened".equals( key ) )
+                            isFileBrowserOpen = Boolean.parseBoolean( value );
                         else if( "prevSelectedClassif".equals( key ) )
                             prevSelectedClassif = Integer.parseInt( value );
                         else if( "locale".equals( key ) ) {
@@ -187,6 +198,7 @@ public class Preferences {
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
     private File fileBrowserDir = FileSystemView.getFileSystemView().getDefaultDirectory();
+    private boolean isFileBrowserOpen;
     private int prevSelectedClassif = -1; 
     private Locale locale = Locale.FRENCH;
     private String applProfileView = "IEEE";
