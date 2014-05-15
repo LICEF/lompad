@@ -55,7 +55,6 @@ class JPanelForm extends JPanel {
     Icon normeticIcon;
 
     File file = null;
-    String workingFolder = FileSystemView.getFileSystemView().getDefaultDirectory().toString();
 
     public JPanelForm() {
         instance = this;
@@ -371,7 +370,7 @@ class JPanelForm extends JPanel {
         JFileChooser fc = new JFileChooser();
         if( openMode )
             fc.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
-        fc.setCurrentDirectory(new File(workingFolder));
+        fc.setCurrentDirectory(Preferences.getInstance().getWorkingDir());
         if (label != null)
             fc.setDialogTitle(" " + label);
         fc.addChoosableFileFilter(new XMLFilter());
@@ -391,7 +390,7 @@ class JPanelForm extends JPanel {
         }
 
         if (f != null)
-            workingFolder = fc.getSelectedFile().isDirectory() ? f.toString() : f.getParentFile().toString();
+            Preferences.getInstance().setWorkingDir( fc.getSelectedFile().isDirectory() ? f : f.getParentFile() );
         return f;
     }
 
