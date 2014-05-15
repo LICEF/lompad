@@ -53,7 +53,6 @@ class JPanelForm extends JPanel {
 
     boolean isNormeticProfile = false;
     Icon normeticIcon;
-    //Hashtable normeticLabels;
 
     File file = null;
     String workingFolder = FileSystemView.getFileSystemView().getDefaultDirectory().toString();
@@ -109,7 +108,7 @@ class JPanelForm extends JPanel {
 
         normeticIcon = Util.normeticDisabledIcon;
 
-        browser = new FileBrowser( workingFolder );
+        browser = new FileBrowser( Preferences.getInstance().getFileBrowserDir() + "" );
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
         browser.setVisible( false );
         browser.addFileBrowserListener( new FileBrowserListener() {
@@ -119,7 +118,8 @@ class JPanelForm extends JPanel {
             }
 
             public void directorySelected( FileBrowserEvent e ) {
-                workingFolder = e.getFile() + "";
+                Preferences.getInstance().setFileBrowserDir( e.getFile() ); 
+                //workingFolder = e.getFile() + "";
             } 
 
             public void browserClosed() {
@@ -148,7 +148,7 @@ class JPanelForm extends JPanel {
             add( BorderLayout.CENTER, splitPane );
             validate();
         }
-        browser.setDirectory( workingFolder );
+        browser.setDirectory( browser.getDirectory() );
         browser.setVisible( true );
     }
 

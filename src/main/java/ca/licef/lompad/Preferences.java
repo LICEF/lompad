@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
 
+import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -85,6 +86,14 @@ public class Preferences {
         this.prevClassifDir = prevClassifDir;
     }
 
+    public File getFileBrowserDir() {
+        return( fileBrowserDir );
+    }
+
+    public void setFileBrowserDir( File fileBrowserDir ) {
+        this.fileBrowserDir = fileBrowserDir;
+    }
+
     public int getPrevSelectedClassif() {
         return( prevSelectedClassif );
     }
@@ -115,6 +124,7 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowHiddenFolders", isShowHiddenFoldersEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserDir", fileBrowserDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
@@ -148,6 +158,8 @@ public class Preferences {
                             isShowTaxumIdEnabled = Boolean.parseBoolean( value );
                         else if( "prevClassifDir".equals( key ) )
                             prevClassifDir = new File( value );
+                        else if( "fileBrowserDir".equals( key ) )
+                            fileBrowserDir = new File( value );
                         else if( "prevSelectedClassif".equals( key ) )
                             prevSelectedClassif = Integer.parseInt( value );
                         else if( "locale".equals( key ) ) {
@@ -174,6 +186,7 @@ public class Preferences {
     private boolean isShowHiddenFoldersEnabled;
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
+    private File fileBrowserDir = FileSystemView.getFileSystemView().getDefaultDirectory();
     private int prevSelectedClassif = -1; 
     private Locale locale = Locale.FRENCH;
     private String applProfileView = "IEEE";
