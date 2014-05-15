@@ -81,7 +81,7 @@ class FileBrowser extends JPanel {
     }
     
     public void updateLocalization() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.FileBrowserRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.FileBrowserRes", Preferences.getInstance().getLocale());
         checkBoxShowHiddenFolders.setText(resBundle.getString("showHiddenFolders"));
     }
 

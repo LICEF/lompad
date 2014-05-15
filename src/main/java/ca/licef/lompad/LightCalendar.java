@@ -101,7 +101,7 @@ class LightCalendar extends JComponent {
         int xPen = 0;
         int yPen = 0;
 
-        DateFormatSymbols dfs = new DateFormatSymbols( Util.locale );
+        DateFormatSymbols dfs = new DateFormatSymbols( Preferences.getInstance().getLocale() );
 
         // Nom du mois
         if( drawMonthName ) {

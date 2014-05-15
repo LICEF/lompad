@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -92,6 +93,14 @@ public class Preferences {
         this.prevSelectedClassif = prevSelectedClassif;
     }
 
+    public Locale getLocale() {
+        return( locale );
+    }
+
+    public void setLocale( Locale locale ) {
+        this.locale = locale;
+    }
+
     public String toXML() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         xml += "<prefs>\n";
@@ -99,6 +108,7 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
         xml += "</prefs>\n";
         return xml;
     }
@@ -131,6 +141,12 @@ public class Preferences {
                             prevClassifDir = new File( value );
                         else if( "prevSelectedClassif".equals( key ) )
                             prevSelectedClassif = Integer.parseInt( value );
+                        else if( "locale".equals( key ) ) {
+                            if( "fr".equals( value ) )
+                                locale = Locale.FRENCH;
+                            else
+                                locale = Locale.ENGLISH;
+                        }
                     }
                 }
             }
@@ -148,6 +164,7 @@ public class Preferences {
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
     private int prevSelectedClassif = -1; 
+    private Locale locale = Locale.FRENCH;
 
     private static Preferences instance;
 

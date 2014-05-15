@@ -82,7 +82,7 @@ class JDialogDateSelector extends JDialog {
         jComboBoxMonth.setMinimumSize(new Dimension(23, 24));
         jComboBoxMonth.setPreferredSize(new Dimension(1000, 24));
         jComboBoxMonth.setMaximumSize(new Dimension(1000, 24));
-        DateFormatSymbols dfs = new DateFormatSymbols(Util.locale);
+        DateFormatSymbols dfs = new DateFormatSymbols(Preferences.getInstance().getLocale());
         String[] months = dfs.getMonths();
         for (int i = 0; i < months.length - 1; i++)
             jComboBoxMonth.addItem(StringUtil.capitalize(months[i]));
@@ -127,7 +127,7 @@ class JDialogDateSelector extends JDialog {
         jSpinnerYear.addChangeListener(lSymChange);
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogDateSelectorRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogDateSelectorRes", Preferences.getInstance().getLocale());
         setTitle(" " + resBundle.getString("title"));
         jButtonCancel.setText(resBundle.getString("cancel"));
     }

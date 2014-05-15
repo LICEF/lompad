@@ -86,7 +86,7 @@ public class JDialogTaxonPathSelector extends JDialog {
     }
 
     void updateLocalization() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogTaxonPathSelectorRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogTaxonPathSelectorRes", Preferences.getInstance().getLocale());
         setTitle(resBundle.getString("title"));
         jButtonCancel.setText(resBundle.getString("cancel"));
     }
@@ -122,7 +122,7 @@ public class JDialogTaxonPathSelector extends JDialog {
         int selectedIndex = jPanelTaxonomy.getSelectedIndex();
         ArrayList titles = jPanelTaxonomy.getTitles(selectedIndex);
         String url = jPanelTaxonomy.getURL(selectedIndex);
-        String lang = Util.locale.getLanguage();
+        String lang = Preferences.getInstance().getLocale().getLanguage();
         if ("".equals(lang))
             lang = "en";
         int index = titles.indexOf(lang);

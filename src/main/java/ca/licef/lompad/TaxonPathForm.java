@@ -86,7 +86,7 @@ class TaxonPathForm extends FormContainer {
 
         void setValues(String src, Object[] taxonPath) {
             LangstringForm source = (LangstringForm) vComponents.firstElement();
-            String lang = Util.locale.getLanguage();
+            String lang = Preferences.getInstance().getLocale().getLanguage();
             if ("".equals(lang))
                 lang = "en";
             source.setValues(src, lang);

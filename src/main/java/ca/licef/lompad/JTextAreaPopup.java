@@ -56,7 +56,7 @@ public class JTextAreaPopup extends JTextArea {
 
         JPopupMenu createPopup() {
             JPopupMenu popup = new JPopupMenu();
-            ResourceBundle resBundle = ResourceBundle.getBundle("properties.PopupMouseListenerRes", Util.locale);
+            ResourceBundle resBundle = ResourceBundle.getBundle("properties.PopupMouseListenerRes", Preferences.getInstance().getLocale());
             Font font = new Font("Dialog", Font.PLAIN, 12);
             //Cut
             AbstractAction action = new AbstractAction(resBundle.getString("cut")) {

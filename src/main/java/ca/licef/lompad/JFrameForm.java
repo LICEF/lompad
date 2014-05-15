@@ -86,13 +86,19 @@ class JFrameForm extends JFrame {
         SymWindow aSymWindow = new SymWindow();
         this.addWindowListener(aSymWindow);
 
-        updateLocalization();
+        setLanguage( Preferences.getInstance().getLocale() );
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
+    public void setLanguage( Locale locale ) {
+        Preferences.getInstance().setLocale( locale );
+        updateLocalization();
+        jPanelForm.changeLanguage( locale == Locale.FRENCH ? "fr" : "en" );
+    }
+
     void updateLocalization() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Preferences.getInstance().getLocale());
 
         //title
         String s = "";
@@ -202,7 +208,6 @@ class JFrameForm extends JFrame {
         menuLanguage.setFont(menuFile.getFont());
         itemLanguageFrench = new JRadioButtonMenuItem("french");
         itemLanguageFrench.setFont(menuFile.getFont());
-        itemLanguageFrench.setSelected(true);
         itemLanguageFrench.addActionListener(lSymAction);
         menuLanguage.add(itemLanguageFrench);
         itemLanguageEnglish = new JRadioButtonMenuItem("english");
@@ -212,6 +217,10 @@ class JFrameForm extends JFrame {
         ButtonGroup groupmenuLanguage = new ButtonGroup();
         groupmenuLanguage.add(itemLanguageFrench);
         groupmenuLanguage.add(itemLanguageEnglish);
+        if( Preferences.getInstance().getLocale() == Locale.FRENCH )
+            itemLanguageFrench.setSelected( true );
+        else 
+            itemLanguageEnglish.setSelected( true );
         mb.add(menuLanguage);
 
         menuProfiles = new JMenu("standards");
@@ -324,13 +333,9 @@ class JFrameForm extends JFrame {
             else if (object == itemQuit)
                 quit();
             else if (object == itemLanguageFrench) {
-                Util.locale = Locale.FRENCH;
-                updateLocalization();
-                jPanelForm.changeLanguage("fr");
+                setLanguage( Locale.FRENCH );
             } else if (object == itemLanguageEnglish) {
-                Util.locale = Locale.ENGLISH;
-                updateLocalization();
-                jPanelForm.changeLanguage("en");
+                setLanguage( Locale.ENGLISH );
             } else if (object == itemProfileNone) {
                 jPanelForm.changeToIEEE();
                 jPanelForm.updateProfile(itemProfileNone.getText());

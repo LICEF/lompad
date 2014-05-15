@@ -115,7 +115,7 @@ class JDialogManageClassifications extends JDialog {
         jListClassifs.addListSelectionListener( listSelectionListenerClassifs );
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogManageClassificationsRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogManageClassificationsRes", Preferences.getInstance().getLocale());
         setTitle(resBundle.getString("title"));
         jCheckBoxShowTaxumId.setText(resBundle.getString("showTaxumId"));
         actionAddClassif.putValue( Action.NAME, resBundle.getString("addClassif") );
@@ -266,7 +266,7 @@ class JDialogManageClassifications extends JDialog {
                             if( indexOfDash != -1 )
                                 classifLang = classifLang.substring( 0, indexOfDash );
 
-                            String lang = Util.locale.getLanguage();
+                            String lang = Preferences.getInstance().getLocale().getLanguage();
                             if ("".equals(lang))
                                 lang = "en";
 

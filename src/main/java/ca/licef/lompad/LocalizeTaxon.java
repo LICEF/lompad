@@ -33,7 +33,7 @@ public class LocalizeTaxon {
     }
 
     public String toString() {
-        String lang = Util.locale.getLanguage();
+        String lang = Preferences.getInstance().getLocale().getLanguage();
         if ("".equals(lang))
             lang = "en";
         int index = titles.indexOf(lang);

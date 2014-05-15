@@ -31,9 +31,6 @@ import licef.IOUtil;
 
 class Util {
 
-    //For UI Localization
-    public static Locale locale = Locale.FRENCH;
-
     //For Metatagger Localization
     static ResourceBundle resBundleLabel;
     static ResourceBundle resBundleTag;
@@ -53,10 +50,10 @@ class Util {
         ToolTipManager.sharedInstance().setDismissDelay( 8000 ); // 8 seconds.
 
         try {
-            resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", locale);
+            resBundleLabel = ResourceBundle.getBundle("properties.LomLabel", Preferences.getInstance().getLocale());
             resBundleTag = ResourceBundle.getBundle("properties.LomTag");
             resBundlePosTag = ResourceBundle.getBundle("properties.LomPosTag");
-            resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", locale);
+            resBundleVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", Preferences.getInstance().getLocale());
             resBundleXMLVocabulary = ResourceBundle.getBundle("properties.LomVocabulary", new Locale(""));
             resBundlePosVocabulary = ResourceBundle.getBundle("properties.LomPosVocabulary");
             resBundleExternalVocabularySource = ResourceBundle.getBundle("properties.ExternalVocabularySource");
@@ -67,7 +64,7 @@ class Util {
     static void setExternalVocabulary(String profile) {
         try {
             externalProfile = profile;
-            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "_Vocabulary", locale);
+            resBundleProfileVocabulary = ResourceBundle.getBundle("properties." + profile + "_Vocabulary", Preferences.getInstance().getLocale());
             resBundleProfileXMLVocabulary = ResourceBundle.getBundle("properties." + profile + "_Vocabulary", new Locale(""));
             resBundleProfilePosVocabulary = ResourceBundle.getBundle("properties." + profile + "_PosVocabulary");
             resBundleProfileVocabularySource = ResourceBundle.getBundle("properties." + profile + "_VocabularySource");

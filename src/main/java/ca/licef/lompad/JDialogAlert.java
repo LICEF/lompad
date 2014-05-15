@@ -55,7 +55,7 @@ class JDialogAlert extends JDialog {
         setSize(250, 125);
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogAlertRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogAlertRes", Preferences.getInstance().getLocale());
         setTitle(" " + resBundle.getString(getTitle()));
         jLabelText.setText(resBundle.getString(jLabelText.getText()));
         ok.setText(resBundle.getString(ok.getText()));

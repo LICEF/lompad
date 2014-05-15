@@ -105,7 +105,7 @@ public class JPanelTaxonomy extends JPanel {
             jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Preferences.getInstance().getLocale());
         jCheckBoxShowTaxumId.setText(resBundle.getString("showTaxumId"));
     }
 
@@ -146,7 +146,7 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     private void addImportClassifItem() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Preferences.getInstance().getLocale());
         jComboBoxClassification.addItem( resBundle.getString( "ImportClassification" ) );
     }
 
@@ -326,7 +326,7 @@ public class JPanelTaxonomy extends JPanel {
         }
 
         public String toString() {
-            String lang = Util.locale.getLanguage();
+            String lang = Preferences.getInstance().getLocale().getLanguage();
             if ("".equals(lang))
                 lang = "en";
             int i = titles.indexOf(lang);

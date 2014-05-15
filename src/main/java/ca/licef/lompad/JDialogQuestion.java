@@ -78,7 +78,7 @@ class JDialogQuestion extends JDialog {
         cancel.addActionListener(lSymAction);
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogQuestionRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogQuestionRes", Preferences.getInstance().getLocale());
         setTitle(" " + resBundle.getString(getTitle()));
         jLabelText.setText(resBundle.getString(jLabelText.getText()));
         yes.setText(resBundle.getString(yes.getText()));

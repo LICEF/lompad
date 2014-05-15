@@ -184,7 +184,7 @@ class JPanelForm extends JPanel {
     }
 
     public void updateLocalization() {
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Preferences.getInstance().getLocale());
         jLabelProfile.setText(resBundle.getString("profile"));
         jLabelLegend.setText(resBundle.getString("legend") + " :");
         jLabelRequired.setText(resBundle.getString("required"));
@@ -297,7 +297,7 @@ class JPanelForm extends JPanel {
             if (res == JDialogQuestion.NO)
                 return true;
             else if (res == JDialogQuestion.YES) {
-                ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Util.locale);
+                ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Preferences.getInstance().getLocale());
                 return saveFile(resBundle.getString("save"));
             }
         }
@@ -568,7 +568,8 @@ class JPanelForm extends JPanel {
         if( bundle.containsKey( keyGroupLabel )  ) {
             String keys = bundle.getString(  keyGroupLabel );
             if( !StringUtil.isEmpty( keys ) ) {
-                ResourceBundle bundleToolTipText = ResourceBundle.getBundle( "properties." + getCurrentSelectedProfile() + "_ToolTipText", Util.locale );
+                ResourceBundle bundleToolTipText = ResourceBundle.getBundle( "properties." + getCurrentSelectedProfile() + "_ToolTipText", 
+                    Preferences.getInstance().getLocale() );
                 StringTokenizer st = new StringTokenizer( keys, ",");
                 while (st.hasMoreTokens()) {
                     String key = st.nextToken();

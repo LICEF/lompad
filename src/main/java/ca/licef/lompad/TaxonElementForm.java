@@ -53,8 +53,8 @@ class TaxonElementForm extends FormContainer {
         String id = (String) taxon[0];
         ArrayList titles = (ArrayList) taxon[1];
 
-        //reorganisation with Util.locale first.
-        String lang = Util.locale.getLanguage();
+        //reorganisation with prefs's locale first.
+        String lang = Preferences.getInstance().getLocale().getLanguage();
         if ("".equals(lang))
             lang = "en";
         int index = titles.indexOf(lang);

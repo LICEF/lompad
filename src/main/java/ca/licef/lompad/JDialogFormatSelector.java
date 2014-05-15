@@ -111,7 +111,7 @@ class JDialogFormatSelector extends JDialog {
         jButtonCancel.addActionListener(lSymAction);
 
         //Localization
-        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogFormatSelectorRes", Util.locale);
+        ResourceBundle resBundle = ResourceBundle.getBundle("properties.JDialogFormatSelectorRes", Preferences.getInstance().getLocale());
         setTitle(" " + resBundle.getString("title"));
         jButtonCancel.setText(resBundle.getString("cancel"));
 
