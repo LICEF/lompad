@@ -49,9 +49,10 @@ public class ExternalVocabularyComponent extends FormComponent{
         value = child.getFirstChild().getNodeValue().trim();
 
         String profile = Util.getExternalProfileFromVocabularySource(source);
-        if( profile != null && profile.startsWith( "NORMETIC" ) && 
-                Util.externalProfile != null && Util.externalProfile.startsWith( "NORMETIC" ) &&
-                    !profile.equals( Util.externalProfile ) ) {
+        if( Preferences.getInstance().getApplicationProfileView().startsWith( "NORMETIC" ) &&
+                profile != null && profile.startsWith( "NORMETIC" ) && 
+                    Util.externalProfile != null && Util.externalProfile.startsWith( "NORMETIC" ) &&
+                        !profile.equals( Util.externalProfile ) ) {
             if( observations != null ) 
                 observations.add( "mismatchProfileVersionDetected" );
         }
