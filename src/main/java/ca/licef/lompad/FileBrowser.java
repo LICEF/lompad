@@ -20,13 +20,14 @@
 
 package ca.licef.lompad;
 
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileSystemView;
 
 class FileBrowser extends JPanel {
 
@@ -106,13 +107,18 @@ class FileBrowser extends JPanel {
     }
 
     public void setDirectory( String currDir ) {
+        File dir = new File( currDir ); 
+        if( !dir.exists() ) {
+            dir = FileSystemView.getFileSystemView().getDefaultDirectory();
+            currDir = dir + "";
+        }
+            
         this.currDir = currDir;
 
         textFieldLocation.setToolTipText( currDir );
         textFieldLocation.setText( currDir );
         textFieldLocation.setCaretPosition( 0 );
 
-        File dir = new File( currDir ); 
         File[] entries = dir.listFiles( new XMLFileFilter() );
        
         DefaultListModel model = new DefaultListModel();
