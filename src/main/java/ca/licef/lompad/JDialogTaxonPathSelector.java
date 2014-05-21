@@ -120,16 +120,17 @@ public class JDialogTaxonPathSelector extends JDialog {
 
     void jButtonOk_actionPerformed() {
         int selectedIndex = jPanelTaxonomy.getSelectedIndex();
-        ArrayList titles = jPanelTaxonomy.getTitles(selectedIndex);
         String url = jPanelTaxonomy.getURL(selectedIndex);
-        String lang = Preferences.getInstance().getLocale().getLanguage();
-        if ("".equals(lang))
-            lang = "en";
-        int index = titles.indexOf(lang);
-        if (index == -1) //first choice if language not defined
-            index = 0;
-        String title = (String) titles.get(index + 1);
-        source = title + " - " + url;
+        //ArrayList titles = jPanelTaxonomy.getTitles(selectedIndex);
+        //String lang = Preferences.getInstance().getLocale().getLanguage();
+        //if ("".equals(lang))
+        //    lang = "en";
+        //int index = titles.indexOf(lang);
+        //if (index == -1) //first choice if language not defined
+        //    index = 0;
+        //String title = (String) titles.get(index + 1);
+        //source = title + " - " + url;
+        source = url;
 
         taxonPath = jPanelTaxonomy.getTaxonPath();
         bOk = true;
