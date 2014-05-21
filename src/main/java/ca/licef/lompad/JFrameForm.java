@@ -93,7 +93,12 @@ class JFrameForm extends JFrame {
     }
 
     public void setLanguage( Locale locale ) {
-        Preferences.getInstance().setLocale( locale );
+        try {
+            Preferences.getInstance().setLocale( locale );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
         updateLocalization();
         jPanelForm.changeLanguage( locale == Locale.FRENCH ? "fr" : "en" );
     }
@@ -334,7 +339,7 @@ class JFrameForm extends JFrame {
             else if (object == itemViewXml)
                 jPanelForm.viewXML();
             else if (object == itemQuit)
-                quit();
+                JFrame1_windowClosing( null );
             else if (object == itemLanguageFrench) {
                 setLanguage( Locale.FRENCH );
             } 
@@ -378,16 +383,6 @@ class JFrameForm extends JFrame {
             ResourceBundle resBundle = ResourceBundle.getBundle("properties.JFrameFormRes", Preferences.getInstance().getLocale());
             jPanelForm.updateProfile( resBundle.getString( applProfileView + "Label" ) );
         }
-    }
-
-    private void quit() {
-        try {
-            Preferences.getInstance().save();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-        JFrame1_windowClosing(null);
     }
 
     private void about() {

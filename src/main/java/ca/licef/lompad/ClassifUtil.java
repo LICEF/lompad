@@ -86,7 +86,12 @@ class ClassifUtil {
             chooser.setCurrentDirectory( Preferences.getInstance().getPrevClassifDir() );
         int returnVal = chooser.showOpenDialog( parent );
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            Preferences.getInstance().setPrevClassifDir( chooser.getCurrentDirectory() );
+            try {
+                Preferences.getInstance().setPrevClassifDir( chooser.getCurrentDirectory() );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
             String classifIdentifier = null;
             try {
                 classifIdentifier = retrieveIdentifier( chooser.getSelectedFile() );

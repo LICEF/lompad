@@ -66,7 +66,12 @@ class FileBrowser extends JPanel {
         checkBoxShowHiddenFolders = new JCheckBox( "", Preferences.getInstance().isShowHiddenFolders() );
         checkBoxShowHiddenFolders.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                Preferences.getInstance().setShowHiddenFolders( checkBoxShowHiddenFolders.isSelected() );
+                try {
+                    Preferences.getInstance().setShowHiddenFolders( checkBoxShowHiddenFolders.isSelected() );
+                }
+                catch( Exception e2 ) {
+                    e2.printStackTrace();
+                }
                 update();
             }
         } );

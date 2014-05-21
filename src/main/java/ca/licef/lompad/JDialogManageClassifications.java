@@ -70,7 +70,12 @@ class JDialogManageClassifications extends JDialog {
         jCheckBoxShowTaxumId.setFont(defaultFont);
         jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
+                try {
+                    Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
+                }
+                catch( Exception e2 ) {
+                    e2.printStackTrace();
+                }
                 update();
             }
         } );

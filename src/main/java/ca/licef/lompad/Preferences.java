@@ -66,72 +66,81 @@ public class Preferences {
         return( isShowHiddenFoldersEnabled );
     }
 
-    public void setShowHiddenFolders( boolean isShowHiddenFoldersEnabled ) {
+    public void setShowHiddenFolders( boolean isShowHiddenFoldersEnabled ) throws Exception {
         this.isShowHiddenFoldersEnabled = isShowHiddenFoldersEnabled;
+        save();
     }
 
     public boolean isShowTaxumId() {
         return( isShowTaxumIdEnabled );
     }
 
-    public void setShowTaxumId( boolean isShowTaxumIdEnabled ) {
+    public void setShowTaxumId( boolean isShowTaxumIdEnabled ) throws Exception {
         this.isShowTaxumIdEnabled = isShowTaxumIdEnabled;
+        save();
     }
 
     public File getPrevClassifDir() {
         return( prevClassifDir );
     }
 
-    public void setPrevClassifDir( File prevClassifDir ) {
+    public void setPrevClassifDir( File prevClassifDir ) throws Exception {
         this.prevClassifDir = prevClassifDir;
+        save();
     }
 
     public File getWorkingDir() {
         return( workingDir );
     }
 
-    public void setWorkingDir( File workingDir ) {
+    public void setWorkingDir( File workingDir ) throws Exception {
         this.workingDir = workingDir;
+        save();
     }
 
     public File getFileBrowserDir() {
         return( fileBrowserDir );
     }
 
-    public void setFileBrowserDir( File fileBrowserDir ) {
+    public void setFileBrowserDir( File fileBrowserDir ) throws Exception {
         this.fileBrowserDir = fileBrowserDir;
+        save();
     }
 
     public boolean isFileBrowserOpened() {
         return( isFileBrowserOpen );
     }
 
-    public void setFileBrowserOpened( boolean isFileBrowserOpen ) {
+    public void setFileBrowserOpened( boolean isFileBrowserOpen ) throws Exception {
         this.isFileBrowserOpen = isFileBrowserOpen;
+        save();
     }
 
     public int getPrevSelectedClassif() {
         return( prevSelectedClassif );
     }
 
-    public void setPrevSelectedClassif( int prevSelectedClassif ) {
+    public void setPrevSelectedClassif( int prevSelectedClassif ) throws Exception {
         this.prevSelectedClassif = prevSelectedClassif;
+        save();
     }
 
     public Locale getLocale() {
         return( locale );
     }
 
-    public void setLocale( Locale locale ) {
+    public void setLocale( Locale locale ) throws Exception {
         this.locale = locale;
+        save();
     }
 
     public String getApplicationProfileView() {
         return( applProfileView );
     }
 
-    public void setApplicationProfileView( String applProfileView ) {
+    public void setApplicationProfileView( String applProfileView ) throws Exception {
         this.applProfileView = applProfileView;
+        save();
     }
 
     public String toXML() {

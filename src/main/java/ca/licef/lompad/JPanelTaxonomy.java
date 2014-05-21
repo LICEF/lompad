@@ -86,7 +86,12 @@ public class JPanelTaxonomy extends JPanel {
         jCheckBoxShowTaxumId.setFont(defaultFont);
         jCheckBoxShowTaxumId.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
+                try {
+                    Preferences.getInstance().setShowTaxumId( jCheckBoxShowTaxumId.isSelected() );
+                }
+                catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
                 update();
             }
         } );
@@ -306,7 +311,12 @@ public class JPanelTaxonomy extends JPanel {
                 initClassifications();
         }
         else {
-            Preferences.getInstance().setPrevSelectedClassif( selectedItem );
+            try {
+                Preferences.getInstance().setPrevSelectedClassif( selectedItem );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
             CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
             cardLayout.show(jPanelClassifications, selectedItem + "");
             for (Iterator it = trees.iterator(); it.hasNext();) {

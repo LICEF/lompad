@@ -119,7 +119,12 @@ class JPanelForm extends JPanel {
             }
 
             public void directorySelected( FileBrowserEvent e ) {
-                Preferences.getInstance().setFileBrowserDir( e.getFile() ); 
+                try {
+                    Preferences.getInstance().setFileBrowserDir( e.getFile() ); 
+                }
+                catch( Exception e2 ) {
+                    e2.printStackTrace();
+                }
             } 
 
             public void browserClosed() {
@@ -150,14 +155,24 @@ class JPanelForm extends JPanel {
         }
         browser.setDirectory( browser.getDirectory() );
         browser.setVisible( true );
-        Preferences.getInstance().setFileBrowserOpened( true );
+        try {
+            Preferences.getInstance().setFileBrowserOpened( true );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
     private void hideBrowser() {
         if( splitPane != null ) {
             remove( splitPane );
             browser.setVisible( false );
-            Preferences.getInstance().setFileBrowserOpened( false );
+            try {
+                Preferences.getInstance().setFileBrowserOpened( false );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
             splitPane.remove( browser );
             splitPane.remove( jPanelWrapper );
             splitPane = null;
@@ -192,7 +207,12 @@ class JPanelForm extends JPanel {
         lomForm.preUpdateVocabularies();
 
         undo();
-        Preferences.getInstance().setApplicationProfileView( "IEEE" );
+        try {
+            Preferences.getInstance().setApplicationProfileView( "IEEE" );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
 
         bInit = true;
         lomForm.updateVocabularies();
@@ -216,7 +236,12 @@ class JPanelForm extends JPanel {
     void changeStandard(String profile, boolean isVisible) {
         if (!isVisible) {
             undo();
-            Preferences.getInstance().setApplicationProfileView( profile );
+            try {
+                Preferences.getInstance().setApplicationProfileView( profile );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -389,8 +414,14 @@ class JPanelForm extends JPanel {
                     fc.getSelectedFile().getName());
         }
 
-        if (f != null)
-            Preferences.getInstance().setWorkingDir( fc.getSelectedFile().isDirectory() ? f : f.getParentFile() );
+        if (f != null) {
+            try {
+                Preferences.getInstance().setWorkingDir( fc.getSelectedFile().isDirectory() ? f : f.getParentFile() );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        }
         return f;
     }
 
