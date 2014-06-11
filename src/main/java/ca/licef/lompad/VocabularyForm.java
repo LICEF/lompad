@@ -223,10 +223,14 @@ class VocabularyForm extends FormContainer {
         if (!isLomVocabulary)
             return true;
         NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
+        if( listSrc.getLength() == 0 )
+            return( false );
+
         Element childSrc = (Element) listSrc.item(0);
         String source = childSrc.getFirstChild().getNodeValue();
         if (source.equals("LOMv1.0"))
             return true;
+
         //external source supported ?
         String profile = Util.getExternalProfileFromVocabularySource(source);
         String selectedProfile = JPanelForm.instance.getCurrentSelectedProfile();

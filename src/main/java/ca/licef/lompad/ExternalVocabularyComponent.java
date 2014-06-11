@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.List;
 
 import licef.CommonNamespaceContext;
+import licef.StringUtil;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,20 +34,30 @@ public class ExternalVocabularyComponent extends FormComponent{
     //XML
     String toXML(String key) {
         String xml = null;
-        if (isFilled())
-            xml = "<source>" + source + "</source>\n" +
-                    "<value>" + value + "</value>\n";
+        if (isFilled()) {
+            xml = "";
+            if( !StringUtil.isEmpty( source ) )
+                xml += "<source>" + source + "</source>\n";
+            if( !StringUtil.isEmpty( value ) )
+                xml += "<value>" + value + "</value>\n";
+        }
         return xml;
     }
 
     void fromXML(String path, Element e, boolean firstField, List<String> observations) {
         NodeList listSrc = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"source");
-        Element childSrc = (Element) listSrc.item(0);
-        source = childSrc.getFirstChild().getNodeValue();
+        if( listSrc.getLength() == 0 )
+            source = "";
+        else {
+            Element childSrc = (Element) listSrc.item(0);
+            source = childSrc.getFirstChild().getNodeValue();
+        }
 
         NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
-        Element child = (Element) list.item(0);
-        value = child.getFirstChild().getNodeValue().trim();
+        if( list.getLength() > 0 ) {
+            Element child = (Element) list.item(0);
+            value = child.getFirstChild().getNodeValue().trim();
+        }
 
         String profile = Util.getExternalProfileFromVocabularySource(source);
         if( Preferences.getInstance().getApplicationProfileView().startsWith( "NORMETIC" ) &&

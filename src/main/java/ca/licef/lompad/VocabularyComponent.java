@@ -142,25 +142,27 @@ class VocabularyComponent extends FormComponent {
             String source = childSrc.getFirstChild().getNodeValue();
 
             NodeList list = e.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
-            Element child = (Element) list.item(0);
-            String value = child.getFirstChild().getNodeValue().trim();
+            if( list.getLength() > 0 ) {
+                Element child = (Element) list.item(0);
+                String value = child.getFirstChild().getNodeValue().trim();
 
-            try {
-                if (child.getFirstChild() != null) {
-                    int pos = Util.getPosVocabulary(value, !source.equals("LOMv1.0"));
-                    Integer index = (Integer) tableImportXML.remove(new Integer(pos));
-                    if (index == null) return;
+                try {
+                    if (child.getFirstChild() != null) {
+                        int pos = Util.getPosVocabulary(value, !source.equals("LOMv1.0"));
+                        Integer index = (Integer) tableImportXML.remove(new Integer(pos));
+                        if (index == null) return;
 
-                    jComboBoxVocabulary.setSelectedIndex(index.intValue());
-                    for (Enumeration en = tableImportXML.keys(); en.hasMoreElements();) {
-                        Integer i = (Integer) en.nextElement();
-                        int val = ((Integer) tableImportXML.get(i)).intValue();
-                        if (firstField) val--;
-                        if (i.intValue() > pos) val--;
-                        tableImportXML.put(i, new Integer(val));
+                        jComboBoxVocabulary.setSelectedIndex(index.intValue());
+                        for (Enumeration en = tableImportXML.keys(); en.hasMoreElements();) {
+                            Integer i = (Integer) en.nextElement();
+                            int val = ((Integer) tableImportXML.get(i)).intValue();
+                            if (firstField) val--;
+                            if (i.intValue() > pos) val--;
+                            tableImportXML.put(i, new Integer(val));
+                        }
                     }
+                } catch (IllegalTagException ite) {
                 }
-            } catch (IllegalTagException ite) {
             }
         } else if (e.getFirstChild() != null)
             jComboBoxVocabulary.setSelectedItem(getMatchedValue(e.getFirstChild().getNodeValue().trim()));
