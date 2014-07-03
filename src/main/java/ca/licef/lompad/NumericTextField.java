@@ -20,7 +20,11 @@
 
 package ca.licef.lompad;
 
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
 
 class NumericTextField extends JTextFieldPopup {
     int length = -1;
@@ -86,7 +90,17 @@ class NumericTextField extends JTextFieldPopup {
     }
 
     public void paste() {
-        //paste not available
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        if( clipboard.getContents( null ).isDataFlavorSupported( DataFlavor.stringFlavor ) ) {
+            try {
+                String data = (String)clipboard.getData( DataFlavor.stringFlavor );
+                int numValue = Integer.parseInt( data.trim() );
+                clipboard.setContents( new StringSelection( numValue + "" ), null );
+                super.paste();
+            }
+            catch( Exception ignore ) {
+            }
+        }
     }
 
     class SymKey extends java.awt.event.KeyAdapter {
