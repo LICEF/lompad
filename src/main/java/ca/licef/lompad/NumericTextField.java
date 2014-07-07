@@ -94,11 +94,15 @@ class NumericTextField extends JTextFieldPopup {
         if( clipboard.getContents( null ).isDataFlavorSupported( DataFlavor.stringFlavor ) ) {
             try {
                 String data = (String)clipboard.getData( DataFlavor.stringFlavor );
-                int numValue = Integer.parseInt( data.replaceAll( "\\s", "" ) );
+                data = data.replaceAll("\\s+", "");  //whitespace
+                data = data.replaceAll("\\u00A0", "");  //non breaking space
+                int numValue = Integer.parseInt( data );
+                System.out.println("numValue = " + numValue);
                 clipboard.setContents( new StringSelection( numValue + "" ), null );
                 super.paste();
             }
             catch( Exception ignore ) {
+                ignore.printStackTrace();
             }
         }
     }
