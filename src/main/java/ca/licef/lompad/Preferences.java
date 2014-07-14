@@ -41,6 +41,10 @@ import org.w3c.dom.NodeList;
 
 public class Preferences {
 
+    public static final int MIME_SUBTYPE_SORT_MODE_UNSORTED = 0;
+    public static final int MIME_SUBTYPE_SORT_MODE_ASC_SORTED = 1;
+    public static final int MIME_SUBTYPE_SORT_MODE_DESC_SORTED = 2;
+
     public static Preferences getInstance() {
         if( instance == null )
             instance = new Preferences();
@@ -68,6 +72,15 @@ public class Preferences {
 
     public void setShowHiddenFolders( boolean isShowHiddenFoldersEnabled ) throws Exception {
         this.isShowHiddenFoldersEnabled = isShowHiddenFoldersEnabled;
+        save();
+    }
+
+    public int getMimeSubtypeSortMode() {
+        return( mimeSubtypeSortMode );
+    }
+
+    public void setMimeSubtypeSortMode( int mimeSubtypeSortMode ) throws Exception {
+        this.mimeSubtypeSortMode = mimeSubtypeSortMode;
         save();
     }
 
@@ -147,6 +160,7 @@ public class Preferences {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         xml += "<prefs>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowHiddenFolders", isShowHiddenFoldersEnabled + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "mimeSubtypeSortMode", mimeSubtypeSortMode + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "workingDir", workingDir + "" ) + "/>\n";
@@ -181,6 +195,8 @@ public class Preferences {
                         String value = ( valueNode == null ? null : valueNode.getNodeValue() );
                         if( "isShowHiddenFolders".equals( key ) )
                             isShowHiddenFoldersEnabled = Boolean.parseBoolean( value );
+                        else if( "mimeSubtypeSortMode".equals( key ) )
+                            mimeSubtypeSortMode = Integer.parseInt( value );
                         else if( "isShowTaxumId".equals( key ) )
                             isShowTaxumIdEnabled = Boolean.parseBoolean( value );
                         else if( "prevClassifDir".equals( key ) )
@@ -215,6 +231,7 @@ public class Preferences {
     }
 
     private boolean isShowHiddenFoldersEnabled;
+    private int mimeSubtypeSortMode = MIME_SUBTYPE_SORT_MODE_UNSORTED;
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
     private File workingDir  = FileSystemView.getFileSystemView().getDefaultDirectory();
