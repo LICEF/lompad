@@ -141,6 +141,10 @@ class FileBrowser extends JPanel {
         return( currDir );
     }
 
+    public void clearSelection() {
+        listEntries.getSelectionModel().clearSelection();
+    }
+
     protected void fireFileSelected( File file ) {
         FileBrowserEvent e = new FileBrowserEvent( this, file );
         for( int i = listeners.size() - 1; i >=0; i-- ) {

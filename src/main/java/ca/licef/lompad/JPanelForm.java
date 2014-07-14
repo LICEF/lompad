@@ -324,8 +324,12 @@ class JPanelForm extends JPanel {
     }
 
     void newForm(boolean callFromMenu) {
-        if (callFromMenu && !manageCurrentLom())
-            return;
+        if (callFromMenu) {
+            if(!manageCurrentLom())
+                return;
+            if( browser != null )
+                browser.clearSelection();
+        }
 
         bInit = true;
         lomForm.init();
