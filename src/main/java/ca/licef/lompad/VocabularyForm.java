@@ -33,7 +33,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.io.ByteArrayInputStream;
 
 import licef.CommonNamespaceContext;
@@ -49,7 +48,7 @@ class VocabularyForm extends FormContainer {
         super(title, isLine, isMultipleContainer);
         this.exclusiveValues = exclusiveValues;
         this.isLomVocabulary = isLomVocabulary;
-        initVocabularyValues();
+        values = Util.initVocabularyValues( title );
         mediator = new ControlValueMediator(this, values, exclusiveValues);
     }
 
@@ -59,23 +58,6 @@ class VocabularyForm extends FormContainer {
         this.exclusiveValues = exclusiveValues;
         this.isLomVocabulary = isLomVocabulary;
         mediator = new ControlValueMediator(this, values, exclusiveValues);
-    }
-
-    void initVocabularyValues() {
-        ArrayList listVocab = new ArrayList();
-        listVocab.add(null); //first value
-        fillVocabularies(Util.resBundleVocabulary, title, listVocab);
-
-        //external vocabularies
-        String selectedProfile = JPanelForm.instance.getCurrentSelectedProfile();
-        if (!selectedProfile.equals("IEEE")) {
-            try {
-                if (Util.externalProfile != null)
-                    fillVocabularies(Util.resBundleProfileVocabulary, "x" + title, listVocab);
-            } catch (Exception e) {
-            }
-        }
-        values = listVocab.toArray();
     }
 
     void setEditable(boolean b) {
@@ -88,7 +70,7 @@ class VocabularyForm extends FormContainer {
     }
 
     public void updateVocabularies() {
-        initVocabularyValues();
+        values = Util.initVocabularyValues( title );
         mediator = new ControlValueMediator(this, values, exclusiveValues);
 
         //clean previous values
@@ -140,21 +122,6 @@ class VocabularyForm extends FormContainer {
         if (isMultipleContainer)
             c = (FormComponent) ((FormContainer)c).jPanelGaucheContainer.getComponent(0);
         vComponents.removeElement(c);
-    }
-
-    void fillVocabularies(ResourceBundle resBundle, String prefixKey, ArrayList listVocab) {
-        int i = 1;
-        //is key exists in properties file ?
-        while (true) {
-            try {
-                String key = prefixKey + "-" + i;
-                resBundle.getString(key);
-                listVocab.add(key);
-                i++;
-            } catch (MissingResourceException e) {
-                break;
-            }
-        }
     }
 
     //XML

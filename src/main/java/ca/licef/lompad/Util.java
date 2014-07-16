@@ -358,4 +358,41 @@ class Util {
         return( classifFolder );
     }
 
+    public static Object[] initVocabularyValues( String title) {
+        return( initVocabularyValues( title, true ) );
+    }
+
+    public static Object[] initVocabularyValues( String title, boolean isFirstValueEmpty) {
+        ArrayList listVocab = new ArrayList();
+        if( isFirstValueEmpty )
+            listVocab.add(null);
+        fillVocabularies(Util.resBundleVocabulary, title, listVocab);
+
+        //external vocabularies
+        String selectedProfile = JPanelForm.instance.getCurrentSelectedProfile();
+        if (!selectedProfile.equals("IEEE")) {
+            try {
+                if (Util.externalProfile != null)
+                    fillVocabularies(Util.resBundleProfileVocabulary, "x" + title, listVocab);
+            } catch (Exception e) {
+            }
+        }
+        return( listVocab.toArray() );
+    }
+
+    private static void fillVocabularies(ResourceBundle resBundle, String prefixKey, ArrayList listVocab) {
+        int i = 1;
+        //is key exists in properties file ?
+        while (true) {
+            try {
+                String key = prefixKey + "-" + i;
+                resBundle.getString(key);
+                listVocab.add(key);
+                i++;
+            } catch (MissingResourceException e) {
+                break;
+            }
+        }
+    }
+
 }

@@ -46,8 +46,6 @@ class OrCompositeComponent extends FormComponent {
     JTextFieldPopup jTextFieldMaxVer;
 
     String[] typeValues = {"4.4.1.1-1", "4.4.1.1-2"};
-    String[] OSValues = new String[]{"pc-dos", "ms-windows", "macos", "unix", "multi-os", "none"};
-    String[] BrowserValues = new String[]{"any", "netscape communicator", "ms-internet explorer", "opera", "amaya"};
 
     public OrCompositeComponent() {
         super(null);
@@ -120,16 +118,6 @@ class OrCompositeComponent extends FormComponent {
         jTextFieldMaxVer.setBackground(Color.white);
     }
 
-    public void setSelectedValue(JComboBox jComboBox, String s) {
-        for (int i = 0; i < jComboBox.getItemCount(); i++) {
-            Object v = jComboBox.getItemAt(i);
-            if (s.equals(v)) {
-                jComboBox.setSelectedItem(v);
-                return;
-            }
-        }
-    }
-
     class SymAction implements java.awt.event.ActionListener {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
@@ -137,13 +125,10 @@ class OrCompositeComponent extends FormComponent {
                 jComboBoxName.removeAllItems();
                 int index = jComboBoxType.getSelectedIndex();
 
-                String[] values = null;
-                if (index == 1) values = OSValues;
-                if (index == 2) values = BrowserValues;
-
-                if (values != null)
-                    for (int i = 0; i < values.length; i++)
-                        jComboBoxName.addItem(values[i]);
+                if( index == 1 )
+                    jComboBoxName.setModel( getOSComboBoxModel() );
+                else if( index ==2 )
+                    jComboBoxName.setModel( getBrowserComboBoxModel() );
             }
         }
     }
@@ -161,7 +146,9 @@ class OrCompositeComponent extends FormComponent {
                     "</" + Util.getTag(key + ".1") + ">\n";
             xml += "<" + Util.getTag(key + ".2") + ">" +
                     "<source>LOMv1.0</source>\n" +
-                    "<value>" + jComboBoxName.getSelectedItem() + "</value>\n" +
+                    "<value>" + 
+                    Util.getXMLVocabulary(((OrderedValue) jComboBoxName.getSelectedItem()).value.toString()) +
+                    "</value>\n" +
                     "</" + Util.getTag(key + ".2") + ">\n";
         }
         if (!jTextFieldMinVer.getText().trim().equals(""))
@@ -190,8 +177,9 @@ class OrCompositeComponent extends FormComponent {
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
                             if (val.getFirstChild() != null) {
-                                String key = val.getFirstChild().getNodeValue().trim().replace(' ', '_');
-                                jComboBoxType.setSelectedIndex(Util.getPosVocabulary(key, false));
+                                String key = val.getFirstChild().getNodeValue().trim();
+                                int index =  Util.getPosVocabulary(key, false);
+                                jComboBoxType.setSelectedIndex(index);
                             }
                         }
                     }
@@ -199,8 +187,11 @@ class OrCompositeComponent extends FormComponent {
                         NodeList nl = child.getElementsByTagNameNS(CommonNamespaceContext.lomNSURI,"value");
                         if (nl.getLength() != 0) {
                             Element val = (Element) nl.item(0);
-                            if (val.getFirstChild() != null)
-                                setSelectedValue(jComboBoxName, val.getFirstChild().getNodeValue());
+                            if (val.getFirstChild() != null) {
+                                String key = val.getFirstChild().getNodeValue().trim();
+                                int index =  Util.getPosVocabulary(key, false);
+                                jComboBoxName.setSelectedIndex(index);
+                            }
                         }
                     }
                     if (pos == 3) {
@@ -234,4 +225,29 @@ class OrCompositeComponent extends FormComponent {
         if (html.equals("")) html = null;
         return html;
     }
+
+    private Object[] getOSValues() {
+        return( Util.initVocabularyValues( "4.4.1.2.os", false ) );
+    }
+
+    private Object[] getBrowserValues() {
+        return( Util.initVocabularyValues( "4.4.1.2.browser", false ) );
+    }
+
+    private DefaultComboBoxModel getOSComboBoxModel() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        Object[] values = getOSValues();
+        for( int i = 0; i < values.length; i++ )
+            model.addElement( new OrderedValue( values[ i ], i, true ) );
+        return( model );
+    }
+
+    private DefaultComboBoxModel getBrowserComboBoxModel() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        Object[] values = getBrowserValues();
+        for( int i = 0; i < values.length; i++ )
+            model.addElement( new OrderedValue( values[ i ], i, true ) );
+        return( model );
+    }
+
 }
