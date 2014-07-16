@@ -367,7 +367,7 @@ class JFrameForm extends JFrame {
             else if (object == itemPreferencesManageLocalClassifs )
                 manageLocalClassifications();
             else if (object == itemHelpRefDoc)
-                Util.launchFile("http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf");
+                Util.launchFile("http://helios.licef.ca:8080/LomPad/LOM_1484_12_1_v1_Final_Draft.pdf");
             else if (object == itemAbout)
                 about();
         }
