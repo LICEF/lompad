@@ -29,7 +29,7 @@ import java.util.List;
 import licef.CommonNamespaceContext;
 
 class LangstringForm extends TextForm {
-    Object[] values = new Object[]{null, "fr", "en", "es"};
+    Object[] values = new Object[]{null, "fr", "fr-CA", "fr-FR", "fra", "fra-CA", "fra-FR", "en", "en-AU", "en-GB", "en-US", "eng", "eng-AU", "eng-GB", "eng-US", "es", "spa" };
 
     public LangstringForm(String title, boolean isLine, boolean isMultipleContainer, boolean isOneLine) {
         super(title, isLine, isMultipleContainer, isOneLine);
