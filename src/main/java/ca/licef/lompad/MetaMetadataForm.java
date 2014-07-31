@@ -47,7 +47,7 @@ class MetaMetadataForm extends FormContainer {
         addComponent(metadataSchema);
 
         VocabularyForm language = new VocabularyForm("3.4", true, false,
-                new Object[]{null, "fr", "en", "es"}, null, false);
+                LangstringForm.values, null, false);
         language.setEditable(true);
         language.addToggle();
         language.setAlignRight();

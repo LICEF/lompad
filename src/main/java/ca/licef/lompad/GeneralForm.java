@@ -37,7 +37,7 @@ class GeneralForm extends FormContainer {
         addComponent(title);
 
         VocabularyForm language = new VocabularyForm("1.3", true, true,
-                new Object[]{null, "none", "fr", "en", "es"}, new Object[]{null, "none"}, false);
+                LangstringForm.values, new Object[]{null, "none"}, false);
         language.setEditable(true);
         language.addToggle();
         language.addFormContent();

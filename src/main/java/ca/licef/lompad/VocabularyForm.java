@@ -70,6 +70,9 @@ class VocabularyForm extends FormContainer {
     }
 
     public void updateVocabularies() {
+        if (!this.isLomVocabulary) {
+            return;
+        }
         values = Util.initVocabularyValues( title );
         mediator = new ControlValueMediator(this, values, exclusiveValues);
 

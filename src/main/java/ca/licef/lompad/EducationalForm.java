@@ -81,7 +81,7 @@ class EducationalForm extends FormContainer {
         addComponent(description);
 
         VocabularyForm language = new VocabularyForm("5.11", true, true,
-                new Object[]{null, "fr", "en", "es"}, new Object[]{null}, false);
+                LangstringForm.values, new Object[]{null}, false);
         language.setEditable(true);
         language.addToggle();
         language.addFormContent();
