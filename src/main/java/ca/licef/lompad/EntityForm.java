@@ -22,8 +22,9 @@ package ca.licef.lompad;
 
 import org.w3c.dom.Element;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.Enumeration;
+import java.util.List;
 
 class EntityForm extends FormContainer {
     public EntityForm(String title, boolean isLine, boolean isMultipleContainer) {
@@ -58,7 +59,7 @@ class EntityForm extends FormContainer {
         return xml;
     }
 
-    void fromXML(String path, Element e) {
+    void fromXML(String path, Element e, List<String> observations) {
         EntityComponent c = null;
         if (isFilled()) {
             if (!isMultipleContainer) return; //pas d'import multiple possible
