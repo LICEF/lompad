@@ -445,6 +445,18 @@ class JPanelForm extends JPanel {
 
     public void saveAsFile(String label) {
         file = selectFile(false, label);
+
+        if (file != null && file.exists()) {
+            JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
+            dialog.setVisible( true );
+            int res = dialog.res;
+            dialog.dispose();
+            if (res == JDialogQuestion.CANCEL)
+                return;
+            if (res == JDialogQuestion.NO)
+                return;
+        }
+
         if (file != null)
             writeFile(file);
         updateFrameTitle();
