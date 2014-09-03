@@ -33,7 +33,7 @@ import java.util.List;
 import licef.CommonNamespaceContext;
 
 class TaxonElementForm extends FormContainer {
-    Object[] values = new Object[]{null, "fr", "en", "es"};
+    Object[] values = LangstringForm.values.clone();
 
     public TaxonElementForm() {
         super(true);
