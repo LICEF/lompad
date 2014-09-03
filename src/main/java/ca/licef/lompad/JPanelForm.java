@@ -107,7 +107,7 @@ class JPanelForm extends JPanel {
 
         normeticIcon = Util.normeticDisabledIcon;
 
-        browser = new FileBrowser( Preferences.getInstance().getFileBrowserDir() + "" );
+        browser = new FileBrowser( Preferences.getInstance().getFileBrowserLocation() + "" );
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
         if( Preferences.getInstance().isFileBrowserOpened() )
             showBrowser();
@@ -120,7 +120,7 @@ class JPanelForm extends JPanel {
 
             public void directorySelected( FileBrowserEvent e ) {
                 try {
-                    Preferences.getInstance().setFileBrowserDir( e.getFile() ); 
+                    Preferences.getInstance().setFileBrowserLocation( e.getFile() ); 
                 }
                 catch( Exception e2 ) {
                     e2.printStackTrace();
@@ -138,6 +138,12 @@ class JPanelForm extends JPanel {
         bInit = false;
 
         updateLocalization();
+
+        if( browser.getCurrLocation() != null ) {
+            File loc = new File( browser.getCurrLocation() );
+            if( loc.exists() && loc.isFile() )
+                openFileFromBrowser( browser.getCurrLocation() );
+        }
     }
 
     public void showBrowser() {
@@ -153,7 +159,6 @@ class JPanelForm extends JPanel {
             add( BorderLayout.CENTER, splitPane );
             validate();
         }
-        browser.setDirectory( browser.getDirectory() );
         browser.setVisible( true );
         try {
             Preferences.getInstance().setFileBrowserOpened( true );
@@ -364,6 +369,13 @@ class JPanelForm extends JPanel {
         lomForm.initiateHasChanged();
         updateFrameTitle();
         updateNormeticIcon();
+
+        try {
+            Preferences.getInstance().setFileBrowserLocation( this.file ); 
+        }
+        catch( Exception e2 ) {
+            e2.printStackTrace();
+        }
     }
 
     public void openFile(String label) {
@@ -439,6 +451,8 @@ class JPanelForm extends JPanel {
             lomForm.initiateHasChanged();
             updateFrameTitle();
             updateNormeticIcon();
+            if( browser != null )
+                browser.update( file + "" );
             return true;
         }
     }
@@ -457,8 +471,12 @@ class JPanelForm extends JPanel {
                 return;
         }
 
-        if (file != null)
+        if (file != null) {
             writeFile(file);
+            lomForm.initiateHasChanged();
+            if( browser != null )
+                browser.update( file + "" );
+        }
         updateFrameTitle();
         updateNormeticIcon();
     }

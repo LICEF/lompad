@@ -31,10 +31,10 @@ import javax.swing.filechooser.FileSystemView;
 
 class FileBrowser extends JPanel {
 
-    public FileBrowser( String currDir ) {
+    public FileBrowser( String currLoc ) {
         setLayout( new BorderLayout( 4, 4 ) );
 
-        textFieldLocation = new JTextField( currDir );
+        textFieldLocation = new JTextField( currLoc );
         textFieldLocation.setEditable( false );
 
         buttonClose = new JButton( "X" );
@@ -81,7 +81,7 @@ class FileBrowser extends JPanel {
         if( Util.isShowHiddenDirectoryOptionAvailable() )
             add( BorderLayout.SOUTH, checkBoxShowHiddenFolders );
 
-        setDirectory( currDir );
+        setCurrLocation( currLoc );
         
         updateLocalization();
     }
@@ -99,8 +99,12 @@ class FileBrowser extends JPanel {
             checkBoxShowHiddenFolders.setFont( font );
     }
 
+    public void update( String newLoc ) {
+        setCurrLocation( newLoc );
+    }
+
     public void update() {
-        setDirectory( getDirectory() );
+        setCurrLocation( getCurrLocation() );
     }
 
     public void addFileBrowserListener( FileBrowserListener listener ) {
@@ -111,17 +115,17 @@ class FileBrowser extends JPanel {
         listeners.removeElement( listener );
     }
 
-    public void setDirectory( String currDir ) {
-        File dir = new File( currDir ); 
-        if( !dir.exists() ) {
-            dir = FileSystemView.getFileSystemView().getDefaultDirectory();
-            currDir = dir + "";
-        }
-            
-        this.currDir = currDir;
+    public void setCurrLocation( String currLoc ) {
+        File loc = new File( currLoc ); 
+        if( !loc.exists() )
+            loc = FileSystemView.getFileSystemView().getDefaultDirectory();
 
-        textFieldLocation.setToolTipText( currDir );
-        textFieldLocation.setText( currDir );
+        this.currLoc = loc + "";
+
+        File dir = loc.isDirectory() ? loc : loc.getParentFile();
+
+        textFieldLocation.setToolTipText( dir + "" );
+        textFieldLocation.setText( dir + "" );
         textFieldLocation.setCaretPosition( 0 );
 
         File[] entries = dir.listFiles( new XMLFileFilter() );
@@ -135,10 +139,14 @@ class FileBrowser extends JPanel {
         }
 
         listEntries.setModel( model );
+        if( loc.isFile() ) {
+            int selectionIndex = ((DefaultListModel)listEntries.getModel()).indexOf( loc );
+            listEntries.getSelectionModel().setSelectionInterval( selectionIndex, selectionIndex );
+        }
     }
 
-    public String getDirectory() {
-        return( currDir );
+    public String getCurrLocation() {
+        return( currLoc );
     }
 
     public void clearSelection() {
@@ -172,14 +180,14 @@ class FileBrowser extends JPanel {
         Object value = listEntries.getSelectedValue();
         if( value != null ) {
             File file;
-            File dir = new File( currDir );
+            File dir = new File( currLoc );
             if( "..".equals( value + "" ) )
                 file = ( dir.getParentFile() == null ? dir : dir.getParentFile() );
             else
                 file = (File)value;
 
             if( file.isDirectory() ) {
-                setDirectory( file.toString() );
+                setCurrLocation( file.toString() );
                 fireDirectorySelected( file );
             }
             else
@@ -224,7 +232,7 @@ class FileBrowser extends JPanel {
     private JScrollPane scrollPaneEntries;
     private JCheckBox   checkBoxShowHiddenFolders;
 
-    private String      currDir;
+    private String      currLoc;
 
     private Vector      listeners = new Vector();
 

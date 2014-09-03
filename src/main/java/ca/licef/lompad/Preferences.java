@@ -111,12 +111,12 @@ public class Preferences {
         save();
     }
 
-    public File getFileBrowserDir() {
-        return( fileBrowserDir );
+    public File getFileBrowserLocation() {
+        return( fileBrowserLoc );
     }
 
-    public void setFileBrowserDir( File fileBrowserDir ) throws Exception {
-        this.fileBrowserDir = fileBrowserDir;
+    public void setFileBrowserLocation( File fileBrowserLoc ) throws Exception {
+        this.fileBrowserLoc = fileBrowserLoc;
         save();
     }
 
@@ -164,7 +164,7 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "workingDir", workingDir + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserDir", fileBrowserDir + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserLoc", fileBrowserLoc + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserOpened", isFileBrowserOpen + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
@@ -203,8 +203,8 @@ public class Preferences {
                             prevClassifDir = new File( value );
                         else if( "workingDir".equals( key ) )
                             workingDir = new File( value );
-                        else if( "fileBrowserDir".equals( key ) )
-                            fileBrowserDir = new File( value );
+                        else if( "fileBrowserLoc".equals( key ) )
+                            fileBrowserLoc = new File( value );
                         else if( "fileBrowserOpened".equals( key ) )
                             isFileBrowserOpen = Boolean.parseBoolean( value );
                         else if( "prevSelectedClassif".equals( key ) )
@@ -235,7 +235,7 @@ public class Preferences {
     private boolean isShowTaxumIdEnabled;
     private File prevClassifDir = null;
     private File workingDir  = FileSystemView.getFileSystemView().getDefaultDirectory();
-    private File fileBrowserDir = FileSystemView.getFileSystemView().getDefaultDirectory();
+    private File fileBrowserLoc = FileSystemView.getFileSystemView().getDefaultDirectory();
     private boolean isFileBrowserOpen;
     private int prevSelectedClassif = -1; 
     private Locale locale = Locale.FRENCH;
