@@ -27,5 +27,7 @@ interface FileBrowserListener extends EventListener {
     public void fileSelected( FileBrowserEvent e );
     public void directorySelected( FileBrowserEvent e );
     public void browserClosed();
+    public boolean isEnabled();
+    public void setEnabled( boolean isEnabled );
 
 }

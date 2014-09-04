@@ -140,6 +140,7 @@ class FileBrowser extends JPanel {
 
         listEntries.setModel( model );
         if( loc.isFile() ) {
+            this.currFileLoc = loc + "";
             int selectionIndex = ((DefaultListModel)listEntries.getModel()).indexOf( loc );
             listEntries.getSelectionModel().setSelectionInterval( selectionIndex, selectionIndex );
         }
@@ -147,6 +148,10 @@ class FileBrowser extends JPanel {
 
     public String getCurrLocation() {
         return( currLoc );
+    }
+
+    public String getCurrFileLocation() {
+        return( currFileLoc );
     }
 
     public void clearSelection() {
@@ -233,6 +238,7 @@ class FileBrowser extends JPanel {
     private JCheckBox   checkBoxShowHiddenFolders;
 
     private String      currLoc;
+    private String      currFileLoc;
 
     private Vector      listeners = new Vector();
 

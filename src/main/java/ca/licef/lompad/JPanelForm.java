@@ -114,22 +114,41 @@ class JPanelForm extends JPanel {
 
         browser.addFileBrowserListener( new FileBrowserListener() {
 
+            public void setEnabled( boolean isEnabled ) {
+                this.isEnabled = isEnabled;
+            }
+
+            public boolean isEnabled() {
+                return( this.isEnabled );
+            }
+
             public void fileSelected( FileBrowserEvent e ) {
-                openFileFromBrowser( e.getFile() + "" );
+                if( isEnabled ) {
+                    setEnabled( false );
+                    if( openFileFromBrowser( e.getFile() + "" ) )
+                        browser.update( e.getFile() + "" );
+                    else
+                        browser.update( browser.getCurrFileLocation() );
+                    setEnabled( true );
+                }
             }
 
             public void directorySelected( FileBrowserEvent e ) {
-                try {
-                    Preferences.getInstance().setFileBrowserLocation( e.getFile() ); 
-                }
-                catch( Exception e2 ) {
-                    e2.printStackTrace();
+                if( isEnabled ) {
+                    try {
+                        Preferences.getInstance().setFileBrowserLocation( e.getFile() ); 
+                    }
+                    catch( Exception e2 ) {
+                        e2.printStackTrace();
+                    }
                 }
             } 
 
             public void browserClosed() {
                 hideBrowser();
             }
+
+            private boolean isEnabled = true;
 
         } );
 
@@ -351,9 +370,9 @@ class JPanelForm extends JPanel {
         }
     }
 
-    public void openFileFromBrowser( String file ) {
+    public boolean openFileFromBrowser( String file ) {
         if (!manageCurrentLom())
-            return;
+            return( false );
 
         newForm(false);
 
@@ -376,6 +395,8 @@ class JPanelForm extends JPanel {
         catch( Exception e2 ) {
             e2.printStackTrace();
         }
+
+        return( true );
     }
 
     public void openFile(String label) {
