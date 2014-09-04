@@ -340,12 +340,10 @@ class JFrameForm extends JFrame {
                 jPanelForm.viewXML();
             else if (object == itemQuit)
                 JFrame1_windowClosing( null );
-            else if (object == itemLanguageFrench) {
+            else if (object == itemLanguageFrench)
                 setLanguage( Locale.FRENCH );
-            } 
-            else if (object == itemLanguageEnglish) {
+            else if (object == itemLanguageEnglish)
                 setLanguage( Locale.ENGLISH );
-            } 
             else if (object == itemProfileIEEE)
                 setApplicationProfileView("IEEE");
             else if (object == itemProfileCanCore)

@@ -111,6 +111,8 @@ class JPanelForm extends JPanel {
         browser.setFont( new Font( "Dialog", Font.PLAIN, 12 ) );  
         if( Preferences.getInstance().isFileBrowserOpened() )
             showBrowser();
+        else
+            browser.clearSelection();
 
         browser.addFileBrowserListener( new FileBrowserListener() {
 
@@ -158,7 +160,7 @@ class JPanelForm extends JPanel {
 
         updateLocalization();
 
-        if( browser.getCurrLocation() != null ) {
+        if( Preferences.getInstance().isFileBrowserOpened() && browser.getCurrLocation() != null ) {
             File loc = new File( browser.getCurrLocation() );
             if( loc.exists() && loc.isFile() )
                 openFileFromBrowser( browser.getCurrLocation() );
@@ -179,6 +181,7 @@ class JPanelForm extends JPanel {
             validate();
         }
         browser.setVisible( true );
+        browser.update();
         try {
             Preferences.getInstance().setFileBrowserOpened( true );
         }
