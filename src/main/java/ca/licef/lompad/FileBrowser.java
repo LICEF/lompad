@@ -186,6 +186,8 @@ class FileBrowser extends JPanel {
         if( value != null ) {
             File file;
             File dir = new File( currLoc );
+            if( dir.isFile() )
+                dir = dir.getParentFile();
             if( "..".equals( value + "" ) )
                 file = ( dir.getParentFile() == null ? dir : dir.getParentFile() );
             else
