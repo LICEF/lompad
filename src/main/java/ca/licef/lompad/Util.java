@@ -178,6 +178,18 @@ class Util {
         return res;
     }
 
+    //public static String getLangFromLocaleString( String locStr ) {
+    //    String lang = locStr;
+    //    int indexOfDash = lang.indexOf( "-" );
+    //    if( indexOfDash != -1 )
+    //        lang = lang.substring( 0, indexOfDash );
+    //    if( lang.equals( "fra" ) )
+    //        lang  = "fr";
+    //    else if( lang.equals( "eng" ) )
+    //        lang = "en";
+    //    return( lang );
+    //}
+
     static Image imageApp;
     static Image imageAbout;
     static ImageIcon imageIconCollapse;

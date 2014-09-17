@@ -120,18 +120,9 @@ public class JDialogTaxonPathSelector extends JDialog {
 
     void jButtonOk_actionPerformed() {
         int selectedIndex = jPanelTaxonomy.getSelectedIndex();
-        String url = jPanelTaxonomy.getURL(selectedIndex);
-        //ArrayList titles = jPanelTaxonomy.getTitles(selectedIndex);
-        //String lang = Preferences.getInstance().getLocale().getLanguage();
-        //if ("".equals(lang))
-        //    lang = "en";
-        //int index = titles.indexOf(lang);
-        //if (index == -1) //first choice if language not defined
-        //    index = 0;
-        //String title = (String) titles.get(index + 1);
-        //source = title + " - " + url;
-        source = url;
-
+        javax.swing.tree.DefaultMutableTreeNode node = (javax.swing.tree.DefaultMutableTreeNode)jPanelTaxonomy.getCurrentTree().getLastSelectedPathComponent();
+        LocalizeTaxon taxon = (LocalizeTaxon)node.getUserObject();
+        source = taxon.uri;
         taxonPath = jPanelTaxonomy.getTaxonPath();
         bOk = true;
         setVisible(false);

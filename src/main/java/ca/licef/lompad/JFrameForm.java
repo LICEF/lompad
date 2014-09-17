@@ -156,6 +156,14 @@ class JFrameForm extends JFrame {
             JWindowAbout splash = new JWindowAbout(app, true);
             splash.setSize(376, 314);
             splash.setVisible(true);
+
+            try {
+                Classification.loadAll();
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+
             Thread.sleep(1500);
             app.setVisible(true);
             splash.setVisible(false);
@@ -391,7 +399,7 @@ class JFrameForm extends JFrame {
 
     private void manageLocalClassifications() {
         JDialogManageClassifications dialogManageClassif = new JDialogManageClassifications( this );
-        dialogManageClassif.setSize( 500, 400 );
+        dialogManageClassif.setSize( 660, 400 );
         dialogManageClassif.setVisible( true );
     }
 

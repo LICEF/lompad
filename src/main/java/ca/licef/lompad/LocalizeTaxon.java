@@ -25,7 +25,14 @@ import java.util.ArrayList;
 public class LocalizeTaxon {
 
     public String id;
+    public String uri;
     public ArrayList titles;
+
+    public LocalizeTaxon(String id, String uri, ArrayList titles) {
+        this.id = id;
+        this.uri = uri;
+        this.titles = titles;
+    }
 
     public LocalizeTaxon(String id, ArrayList titles) {
         this.id = id;

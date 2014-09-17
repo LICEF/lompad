@@ -46,8 +46,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import org.xml.sax.SAXException;
@@ -65,9 +67,8 @@ public class JPanelTaxonomy extends JPanel {
     JPanel jPanelClassifications;
     public JComboBox jComboBoxClassification;
     private JCheckBox jCheckBoxShowTaxumId;
-    ArrayList trees;
-    ArrayList classificationSource;
-
+    ArrayList trees = new ArrayList();
+    ArrayList classificationSource = new ArrayList();
     ArrayList associatedPurpose = new ArrayList();
 
     public JPanelTaxonomy( JDialogTaxonPathSelector parentDialog ) {
@@ -128,23 +129,27 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     private void initClassifications() {
-        trees = new ArrayList();
-        classificationSource = new ArrayList();
+        try {
+            Classification.loadAll();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+
+        trees.clear();
+        classificationSource.clear();
         jPanelClassifications.removeAll();
         jComboBoxClassification.removeAllItems();
 
-        String classifFolder = Util.getClassificationFolder();
-        if( classifFolder != null ) {
-            File[] classifFiles = new File( classifFolder ).listFiles();
-            for( int i = 0, c = 0; i < classifFiles.length; i++ ) {
-                try {
-                    initClassification( c, classifFiles[ i ].toURI().toURL().toString() );
-                    c++;
-                }
-                catch( Exception e ) {
-                    // Skip the classification if a problem occurs.
-                    e.printStackTrace();
-                }
+        int i = 0;
+        for( Iterator<Classification> it = Classification.getAll().iterator(); it.hasNext(); i++ ) {
+            Classification classif = it.next();
+            try {
+                initClassification( i, classif );
+            }
+            catch( Exception e ) {
+                // Skip the classification if a problem occurs.
+                e.printStackTrace();
             }
         }
         addImportClassifItem();
@@ -155,117 +160,31 @@ public class JPanelTaxonomy extends JPanel {
         jComboBoxClassification.addItem( resBundle.getString( "ImportClassification" ) );
     }
 
-    private void initClassification( int index, String url ) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
-        JTree classificationTree = null;
-        DefaultTreeModel model;
-        DefaultMutableTreeNode root = null;
-        Hashtable nodes = new Hashtable();
-
-        InputStream is = (InputStream) (new URL(url)).getContent();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setCoalescing(true); //convert CDATA node to Text node
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(is);
-        NodeList list = document.getDocumentElement().getChildNodes();
+    private void initClassification( int index, Classification classif ) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
+        JPanel jPanelClassif = new JPanel(new BorderLayout());
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Hidden Root Node" );
+        TreeModel model = new ClassifTreeModel( root, classif.getModel() );
+        ClassifTree classifTree = new ClassifTree();
+        classifTree.setModel( model );
+        jPanelClassif.add( new JScrollPane( classifTree ), BorderLayout.CENTER );
+        trees.add( classifTree );
+        parentDialog.addTreeListener( classifTree );
+        jPanelClassifications.add("" + index, jPanelClassif);
         
-        for (int i = 0; i < list.getLength(); i++) {
-            Node node = list.item(i);
-            if( CommonNamespaceContext.skosNSURI.equals( node.getNamespaceURI() ) ) {
-                if( Node.ELEMENT_NODE == node.getNodeType() ) {
-                    if( "ConceptScheme".equals( node.getLocalName() ) ) {
-                        JPanel jPanelClassif = new JPanel(new BorderLayout());
-                        ArrayList titles = new ArrayList();
-                        NodeList childs = node.getChildNodes();
-                        for (int j = 0; j < childs.getLength(); j++) {
-                            Node child = childs.item(j);
-                            if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) && 
-                                Node.ELEMENT_NODE == child.getNodeType() &&
-                                "prefLabel".equals( child.getLocalName() ) ) {
-                                Node n = child.getAttributes().getNamedItem( "xml:lang" );
-                                String lang = ( n == null ? "" : n.getNodeValue() );
-                                int indexOfDash = lang.indexOf( "-" );
-                                if( indexOfDash != -1 )
-                                    lang = lang.substring( 0, indexOfDash );
-                                titles.add(lang);
-                                titles.add(child.getFirstChild().getNodeValue().trim());
-                            }
-                        }
-                        jComboBoxClassification.addItem(new LocalizeValue(titles));
-
-                        classificationSource.add(titles);
-                        classificationSource.add(node.getAttributes().getNamedItem("rdf:about").getNodeValue());
-                        classificationTree = ClassifUtil.createTree();
-                        jPanelClassif.add(new JScrollPane(classificationTree), BorderLayout.CENTER);
-                        trees.add(classificationTree);
-                        parentDialog.addTreeListener( classificationTree );
-                        jPanelClassifications.add("" + index, jPanelClassif);
-
-                        model = (DefaultTreeModel) classificationTree.getModel();
-                        root = ((DefaultMutableTreeNode) model.getRoot());
-                    } 
-                    else if( "Concept".equals( node.getLocalName() ) ) {
-                        ArrayList titles = new ArrayList();
-                        NodeList childs = node.getChildNodes();
-                        String id = node.getAttributes().getNamedItem("rdf:about").getNodeValue();
-                        String parentId = null;
-                        for (int j = 0; j < childs.getLength(); j++) {
-                            Node child = childs.item(j);
-                            if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) &&
-                                Node.ELEMENT_NODE == child.getNodeType() ) {
-                                if( "topConceptOf".equals( child.getLocalName() ) ) {
-                                    // parentId stays null.
-                                }
-                                else if( "broader".equals( child.getLocalName() ) ) {
-                                    Node n = child.getAttributes().getNamedItem("rdf:resource");
-                                    if (n != null)
-                                        parentId = n.getNodeValue();
-                                }
-                                else if ("prefLabel".equals( child.getLocalName() ) && child.getFirstChild() != null ) {
-                                    Node n = child.getAttributes().getNamedItem("xml:lang");
-                                    String lang = ( n == null ? "en" : n.getNodeValue() );
-                                    int indexOfDash = lang.indexOf( "-" );
-                                    if( indexOfDash != -1 )
-                                        lang = lang.substring( 0, indexOfDash );
-                                    String title = child.getFirstChild().getNodeValue().trim();
-                                    titles.add(lang);
-                                    titles.add(title);
-                                }
-                            }
-                        }
-
-                        String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                        DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
-                        nodes.put(id, newChild);
-                        if (parentId == null)
-                            root.add(newChild);
-                        else {
-                            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) nodes.get(parentId);
-                            if( parent != null )
-                                parent.add(newChild);
-                        }
-                    }
-
-                }
-            }
+        ArrayList titleValues = new ArrayList();
+        String[] languages = new String[] { "en", "fr" };
+        for( int i = 0; i < languages.length; i++ ) { 
+            titleValues.add( languages[ i ] );
+            titleValues.add( classif.getTitle( languages[ i ] ) );
         }
-        classificationTree.updateUI();
+        LocalizeValue localizeValue = new LocalizeValue( titleValues );
+
+        jComboBoxClassification.addItem(localizeValue);
+        //classifTree.updateUI();
     }
 
     public int getSelectedIndex() {
         return jComboBoxClassification.getSelectedIndex();
-    }
-
-    public ArrayList getTitles(int index) {
-        return (ArrayList) classificationSource.get(2 * index);
-    }
-
-    public String getURL(int index) {
-        return (String) classificationSource.get(2 * index + 1);
-    }
-
-    public String getAssociatedPurpose(int pos) {
-        return (String)associatedPurpose.get(pos);
     }
 
     public JTree getCurrentTree() {
@@ -307,7 +226,7 @@ public class JPanelTaxonomy extends JPanel {
         int selectedItem = jComboBoxClassification.getSelectedIndex();
         if( selectedItem == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
-            if( ClassifUtil.doImportFile( this ) != null )
+            if( Classification.doImportFile( this ) != null )
                 initClassifications();
         }
         else {

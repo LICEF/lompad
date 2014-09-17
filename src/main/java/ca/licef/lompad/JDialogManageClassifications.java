@@ -31,11 +31,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -64,7 +63,8 @@ class JDialogManageClassifications extends JDialog {
         JScrollPane jScrollPaneClassifs = new JScrollPane( jListClassifs );
         JPanel jPanelClassifs = new JPanel( new BorderLayout(5,5) );
         jPanelClassifs.add( BorderLayout.CENTER, jScrollPaneClassifs );
-        jTreeClassif = ClassifUtil.createTree();
+        jTreeClassif = new ClassifTree();
+        updateClassifTree( null );
         JScrollPane jScrollPaneClassifTree = new JScrollPane( jTreeClassif );
         jCheckBoxShowTaxumId = new JCheckBox( "", Preferences.getInstance().isShowTaxumId() );
         jCheckBoxShowTaxumId.setFont(defaultFont);
@@ -106,13 +106,19 @@ class JDialogManageClassifications extends JDialog {
         jPanelButtons.add(ok);
         cp.add(BorderLayout.CENTER, jPanelMain);
         cp.add(BorderLayout.SOUTH, jPanelButtons);
-        setSize(250, 125);
+        setSize(400, 150);
 
-        ClassifEntry[] classifs = getClassifications();
+        treeModels.clear();
+        try {
+            Classification.loadAll();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
         
         listModelClassifs = new DefaultListModel();
-        for( int i = 0; i < classifs.length; i++ )
-            listModelClassifs.addElement( classifs[ i ] );
+        for( Classification classif : Classification.getAll() )
+            listModelClassifs.addElement( classif );
 
         jListClassifs.setModel( listModelClassifs );
 
@@ -143,191 +149,29 @@ class JDialogManageClassifications extends JDialog {
         if( selectedIndex == -1 ) 
             updateClassifTree( null );
         else {
-            ClassifEntry selectedEntry = (ClassifEntry)jListClassifs.getModel().getElementAt( selectedIndex );
-            updateClassifTree( selectedEntry.getUrl() );
+            Classification selectedClassif = (Classification)jListClassifs.getModel().getElementAt( selectedIndex );
+            updateClassifTree( selectedClassif.getUrl() );
         }
     }
 
-    private void updateClassifTree( String url ) {
-        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode)jTreeClassif.getModel().getRoot();
-        rootNode.removeAllChildren();
-        if( url != null ) {
-            try {
-                Hashtable nodes = new Hashtable();
-
-                InputStream is = (InputStream) (new URL(url)).getContent();
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                factory.setNamespaceAware(true);
-                factory.setCoalescing(true); //convert CDATA node to Text node
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document document = builder.parse(is);
-                NodeList list = document.getDocumentElement().getChildNodes();
-                
-                for (int i = 0; i < list.getLength(); i++) {
-                    Node node = list.item(i);
-                    if( CommonNamespaceContext.skosNSURI.equals( node.getNamespaceURI() ) ) {
-                        if( Node.ELEMENT_NODE == node.getNodeType() && "Concept".equals( node.getLocalName() ) ) {
-                            ArrayList titles = new ArrayList();
-                            NodeList childs = node.getChildNodes();
-                            String id = node.getAttributes().getNamedItem("rdf:about").getNodeValue();
-                            String parentId = null;
-                            for (int j = 0; j < childs.getLength(); j++) {
-                                Node child = childs.item(j);
-                                if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) &&
-                                    Node.ELEMENT_NODE == child.getNodeType() ) {
-                                    if( "topConceptOf".equals( child.getLocalName() ) ) {
-                                        // parentId stays null.
-                                    }
-                                    else if( "broader".equals( child.getLocalName() ) ) {
-                                        Node n = child.getAttributes().getNamedItem("rdf:resource");
-                                        if (n != null)
-                                            parentId = n.getNodeValue();
-                                    }
-                                    else if ("prefLabel".equals( child.getLocalName() ) && child.getFirstChild() != null ) {
-                                        Node n = child.getAttributes().getNamedItem("xml:lang");
-                                        String lang = ( n == null ? "en" : n.getNodeValue() );
-                                        int indexOfDash = lang.indexOf( "-" );
-                                        if( indexOfDash != -1 )
-                                            lang = lang.substring( 0, indexOfDash );
-                                        String title = child.getFirstChild().getNodeValue().trim();
-                                        titles.add(lang);
-                                        titles.add(title);
-                                    }
-                                }
-                            }
-
-                            String taxonPathId = ClassifUtil.retrieveTaxonPathId( id );
-                            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, titles));
-                            nodes.put(id, newChild);
-                            if (parentId == null)
-                                rootNode.add(newChild);
-                            else {
-                                DefaultMutableTreeNode parent = (DefaultMutableTreeNode) nodes.get(parentId);
-                                if( parent != null )
-                                    parent.add(newChild);
-                            }
-                        }
-                    }
-                }
+    private void updateClassifTree( String urlStr ) {
+        String key = ( urlStr == null ? "" : urlStr );
+        TreeModel model = treeModels.get( key );
+        if( model == null ) {
+            DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode( "Hidden Root Node" );
+            if( urlStr == null ) 
+                model = new DefaultTreeModel( rootNode );
+            else {
+                Classification classif = Classification.get( urlStr );
+                model = new ClassifTreeModel( rootNode, classif.getModel() );
             }
-            catch( Exception e ) {
-                // Do not update the tree if a problem occurs.
-                e.printStackTrace();
-            }
+            treeModels.put( key, model );
         }
+        jTreeClassif.setModel( model );
         jTreeClassif.updateUI();
-        jTreeClassif.expandPath( new TreePath( rootNode.getPath() ) );
-    }
-
-    private ClassifEntry[] getClassifications() {
-        List classifs = new ArrayList();
-        String classifFolder = Util.getClassificationFolder();
-        if( classifFolder != null ) {
-            File[] classifFiles = new File( classifFolder ).listFiles();
-            for( int i = 0; i < classifFiles.length; i++ ) {
-                try {
-                    ClassifEntry classifEntry = retrieveClassifEntry( classifFiles[ i ] );
-                    classifs.add( classifEntry );
-                }
-                catch( Exception e ) {
-                    // Skip the classification if a problem occurs.
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        ClassifEntry[] classifsAsArray = new ClassifEntry[ classifs.size() ];
-        classifs.toArray( classifsAsArray );
-        return( classifsAsArray );
-    }
-
-    private ClassifEntry retrieveClassifEntry( File classifFile ) throws Exception {
-        ClassifEntry entry = null;
-
-        URL url = classifFile.toURI().toURL();
-        InputStream is = (InputStream) url.getContent();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setCoalescing(true); //convert CDATA node to Text node
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(is);
-        NodeList list = document.getDocumentElement().getChildNodes();
-
-        for (int j = 0; j < list.getLength(); j++) {
-            Node node = list.item(j);
-            if( CommonNamespaceContext.skosNSURI.equals( node.getNamespaceURI() ) ) {
-                if( Node.ELEMENT_NODE == node.getNodeType() && "ConceptScheme".equals( node.getLocalName() ) ) {
-                    String title = null;
-                    NodeList childs = node.getChildNodes();
-                    for (int k = 0; k < childs.getLength(); k++) {
-                        Node child = childs.item(k);
-                        if (CommonNamespaceContext.skosNSURI.equals( child.getNamespaceURI() ) && 
-                            Node.ELEMENT_NODE == child.getNodeType() &&
-                            "prefLabel".equals( child.getLocalName() ) ) {
-                            String classifTitle = child.getFirstChild().getNodeValue().trim();
-                            Node n = child.getAttributes().getNamedItem( "xml:lang" );
-                            String classifLang = ( n == null ? "" : n.getNodeValue() );
-                            int indexOfDash = classifLang.indexOf( "-" );
-                            if( indexOfDash != -1 )
-                                classifLang = classifLang.substring( 0, indexOfDash );
-
-                            String lang = Preferences.getInstance().getLocale().getLanguage();
-                            if ("".equals(lang))
-                                lang = "en";
-
-                            // We find a title that matches the interface language.
-                            // We take the first title if nothing better comes up.
-                            if( title == null || classifLang.equals( lang ) ) {
-                                title = classifTitle;
-                                // No need to search further.
-                                if( classifLang.equals( lang ) )
-                                    break;
-                            }
-                        }
-                    }
-                    entry = new ClassifEntry( url.toString(), title );
-                    break;
-                } 
-            }
-        }
-        return( entry );
-    }
-
-    class ClassifEntry {
         
-        public ClassifEntry( String url, String title ) {
-            this.url = url;
-            this.title = title;
-        }
-
-        public String getUrl() {
-            return( url );
-        }
-
-        public String getTitle() {
-            return( title );
-        }
-
-        public String toString() {
-            return( title );
-        }
-
-        public int hashCode() {
-            return( url.hashCode() );
-        }
-
-        public boolean equals( Object obj ) {
-            if( obj == this )
-                return( true );
-            if( !( obj instanceof ClassifEntry ) )
-                return( false );
-            ClassifEntry entry = (ClassifEntry)obj;
-            return( url.equals( entry.getUrl() ) && title.equals( entry.getTitle() ) );
-        }
-
-        private String url;
-        private String title;
-
+        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode)jTreeClassif.getModel().getRoot();
+        jTreeClassif.expandPath( new TreePath( rootNode.getPath() ) );
     }
 
     class ActionAddClassif extends AbstractAction {
@@ -337,12 +181,12 @@ class JDialogManageClassifications extends JDialog {
         }
 
         public void actionPerformed( ActionEvent evt ) {
-            File classifFile = ClassifUtil.doImportFile( JDialogManageClassifications.this );
+            File classifFile = Classification.doImportFile( JDialogManageClassifications.this );
             if( classifFile != null ) {
                 try {
-                    ClassifEntry entry = retrieveClassifEntry( classifFile );
-                    if( !listModelClassifs.contains( entry ) )
-                        listModelClassifs.addElement( entry );
+                    Classification classif = Classification.load( classifFile );
+                    if( !listModelClassifs.contains( classif ) )
+                        listModelClassifs.addElement( classif );
                     update();
                 }
                 catch( Exception e ) {
@@ -364,23 +208,17 @@ class JDialogManageClassifications extends JDialog {
             JDialogQuestion dialog = new JDialogQuestion( JDialogManageClassifications.this, "title", "confirmRemoveClassif" );
             dialog.setVisible( true );
             if( dialog.res == JDialogQuestion.YES ) {
-                List<ClassifEntry> itemsToRemove = new ArrayList<ClassifEntry>();
+                List<Classification> itemsToRemove = new ArrayList<Classification>();
                 int[] indices = jListClassifs.getSelectedIndices();
                 for( int i = 0; i < indices.length; i++ ) {
-                    try {
-                        ClassifEntry entry = (ClassifEntry)jListClassifs.getModel().getElementAt( indices[ i ] );
-                        File file = new File( new URI( entry.getUrl().toString() ) );
-                        if( file.delete() ) 
-                            itemsToRemove.add( entry );
-                    }
-                    catch( URISyntaxException e ) {
-                        e.printStackTrace();
-                    }
+                    Classification classif = (Classification)jListClassifs.getModel().getElementAt( indices[ i ] );
+                    if( classif.delete() )
+                        itemsToRemove.add( classif );
                 }
                 
                 jListClassifs.removeListSelectionListener( listSelectionListenerClassifs );
-                for( ClassifEntry entry : itemsToRemove )
-                    listModelClassifs.removeElement( entry );
+                for( Classification classif : itemsToRemove )
+                    listModelClassifs.removeElement( classif );
                 jListClassifs.addListSelectionListener( listSelectionListenerClassifs );
                 update();
             }
@@ -400,5 +238,6 @@ class JDialogManageClassifications extends JDialog {
     private JList jListClassifs;
     private JTree jTreeClassif;
     private JCheckBox jCheckBoxShowTaxumId;
+    private Map<String,TreeModel> treeModels = new HashMap<String,TreeModel>();
 
 }
