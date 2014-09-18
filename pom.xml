@@ -66,11 +66,6 @@
             <artifactId>jena-core</artifactId>
             <version>2.11.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>jena-tdb</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
     <name>lompad</name>

@@ -30,7 +30,7 @@ import java.awt.*;
  */
 class JWindowAbout extends JWindow {
 
-    private static final String revision        = "139";
+    private static final String version         = "2.0";
     private static final String contactEmail    = "paloma@licef.ca";
     private static final String licefSite       = "http://www.licef.ca/";
     private static final String teluqSite       = "http://www.teluq.uquebec.ca/";
@@ -80,20 +80,20 @@ class JWindowAbout extends JWindow {
         jPanelCogigraph.addMouseListener(aSymMouse);
         panel.add(jPanelCogigraph);
 
-        jLabelBuild = new JLabel("(revision " + revision + ")");
-        jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 10));
+        jLabelBuild = new JLabel("VERSION  " + version);
+        jLabelBuild.setFont(new Font("Dialog", Font.PLAIN, 14));
         jLabelBuild.setForeground(Color.LIGHT_GRAY);
-        jLabelBuild.setBounds(260, 97, 150, 24);
+        jLabelBuild.setBounds(180, 97, 150, 24);
         panel.add(jLabelBuild);
 
         jLabelContact = new JLabel("Contact:");
-        jLabelContact.setFont(jLabelBuild.getFont());
+        jLabelContact.setFont(new Font("Dialog", Font.PLAIN, 10));
         jLabelContact.setForeground(Color.CYAN);
         jLabelContact.setBounds(106, 270, 40, 24);
         panel.add(jLabelContact);
 
         jLabelMail = new JLabel(contactEmail);
-        jLabelMail.setFont(jLabelBuild.getFont());
+        jLabelMail.setFont(jLabelContact.getFont());
         jLabelMail.setForeground(Color.CYAN);
         jLabelMail.setBounds(150, 270, 200, 24);
         jLabelMail.addMouseListener(aSymMouse);
