@@ -178,7 +178,6 @@ class Classification {
                 for( int i = 0; i < classifFiles.length; i++ ) {
                     try {
                         Classification classif = Classification.load( classifFiles[ i ] );
-                        classifs.put( classif.getUrl(), classif );
                     }
                     catch( Exception e ) {
                         // Skip the classification if a problem occurs.
@@ -261,7 +260,7 @@ class Classification {
             }
            
             try {
-                Classification classif = Classification.load( chooser.getSelectedFile(), true );
+                Classification classif = Classification.read( chooser.getSelectedFile(), true );
                 String uri = classif.getConceptSchemeUri();
                 String sha1 = DigestUtils.shaHex( uri );
                 File localFile = new File( Util.getClassificationFolder(), sha1 + ".rdf" );

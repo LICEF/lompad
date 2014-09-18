@@ -105,10 +105,10 @@ public class JPanelTaxonomy extends JPanel {
 
         initClassifications();
 
-        SymAction lSymAction = new SymAction();
-        jComboBoxClassification.addActionListener(lSymAction);
         if( Preferences.getInstance().getPrevSelectedClassif() != -1 ) 
             jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
+        SymAction lSymAction = new SymAction();
+        jComboBoxClassification.addActionListener(lSymAction);
 
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Preferences.getInstance().getLocale());
