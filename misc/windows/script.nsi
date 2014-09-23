@@ -1,7 +1,7 @@
 ;--------- CONFIGURATION ---------
 
 !define APPNAME "LomPad"
-!define JARFILE "lompad-1.0-jar-with-dependencies.jar"
+!define JARFILE "lompad-2-jar-with-dependencies.jar"
 
 ;Uncomment the next line to specify an icon for the EXE.
 Icon "LomPad.ico"

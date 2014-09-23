@@ -367,7 +367,7 @@ class Classification {
     private void dumpModelToRdf( File file ) throws IOException {
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( file, false ) ) );
+            writer = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( file, false ), "UTF-8" ) );
             model.write( writer, "RDF/XML" ); 
         }
         finally {
