@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -206,11 +207,10 @@ public class ClassifTreeModel extends DefaultTreeModel {
     }
 
     private void buildChildrenNodes( DefaultMutableTreeNode parentNode, String[] childrenUris ) throws IOException {
-        //DefaultMutableTreeNode[] childrenNodes = new DefaultMutableTreeNode[ childrenUris.length ];
         for( int i = 0; i < childrenUris.length; i++ ) {
             String childUri = childrenUris[ i ];
 
-            ArrayList titles = new ArrayList();
+            Map<String,String> titles = new HashMap<String,String>();
 
             String queryStr = getQuery( "getPrefLabels.sparql", childUri );
             Query query = QueryFactory.create( queryStr, childUri );
@@ -226,8 +226,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
                             //String lang = Util.getLangFromLocaleString( literal.getLanguage() );
                             String lang = literal.getLanguage();
                             String label = literal.getValue().toString().trim();
-                            titles.add( lang );
-                            titles.add( label );
+                            titles.put( lang, label );
                         }
                     }
                 }
@@ -237,7 +236,8 @@ public class ClassifTreeModel extends DefaultTreeModel {
             }
 
             String taxonPathId = Classification.retrieveTaxonPathId( childUri );
-            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(new LocalizeTaxon(taxonPathId, childUri, titles));
+            LocalizeTaxon taxon = new LocalizeTaxon(taxonPathId, childUri, titles);
+            DefaultMutableTreeNode newChild = new DefaultMutableTreeNode( taxon );
             parentNode.add( newChild );
         }
     }

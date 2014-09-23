@@ -214,7 +214,7 @@ public class JPanelTaxonomy extends JPanel {
         Object[] taxonPath = new Object[nodes.length - 1];
         for (int i = 1; i < nodes.length; i++) {
             LocalizeTaxon lt = (LocalizeTaxon) ((DefaultMutableTreeNode) nodes[i]).getUserObject();
-            Object[] taxon = new Object[]{lt.id, lt.titles};
+            Object[] taxon = new Object[]{lt.id, lt.getOrderedTitles()};
             taxonPath[i - 1] = taxon;
         }
         return taxonPath;
