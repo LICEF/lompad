@@ -105,8 +105,14 @@ public class JPanelTaxonomy extends JPanel {
 
         initClassifications();
 
-        if( Preferences.getInstance().getPrevSelectedClassif() != -1 ) 
-            jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
+        if( Preferences.getInstance().getPrevSelectedClassif() != -1 ) {
+            try {
+                jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
+            }
+            catch( Exception e ) {
+                // Do not select anything if the value is invalid.
+            }
+        }
         SymAction lSymAction = new SymAction();
         jComboBoxClassification.addActionListener(lSymAction);
 
