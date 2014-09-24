@@ -56,8 +56,7 @@ class JDialogManageClassifications extends JDialog {
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
         JPanel jPanelMain = new JPanel( new BorderLayout() );
-        JPanel jPanelCenter = new JPanel(new GridLayout(1,2,5,5));
-        jPanelCenter.setBorder(margin);
+
         jListClassifs = new JList();
         jListClassifs.setFont(defaultFont);
         JScrollPane jScrollPaneClassifs = new JScrollPane( jListClassifs );
@@ -82,8 +81,14 @@ class JDialogManageClassifications extends JDialog {
         JPanel jPanelClassifTree = new JPanel( new BorderLayout(5,5) );
         jPanelClassifTree.add( BorderLayout.CENTER, jScrollPaneClassifTree);
         jPanelClassifTree.add( BorderLayout.SOUTH, jCheckBoxShowTaxumId );
-        jPanelCenter.add( jPanelClassifs );
-        jPanelCenter.add( jPanelClassifTree );
+        
+        JSplitPane jPanelCenter = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, jPanelClassifs, jPanelClassifTree );
+        jPanelCenter.setBorder(margin);
+        jPanelCenter.setDividerLocation( 260 );
+        Dimension minSize = new Dimension( 100, 50 );
+        jPanelClassifs.setMinimumSize( minSize );
+        jPanelClassifTree.setMinimumSize( minSize );
+        
         JPanel jPanelSouth = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
         ActionAddClassif actionAddClassif = new ActionAddClassif();
         JButton buttonAddClassif = new JButton( actionAddClassif );
