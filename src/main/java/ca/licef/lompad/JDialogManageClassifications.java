@@ -75,7 +75,7 @@ class JDialogManageClassifications extends JDialog {
                 catch( Exception e2 ) {
                     e2.printStackTrace();
                 }
-                update();
+                jTreeClassif.updateUI();
             }
         } );
         JPanel jPanelClassifTree = new JPanel( new BorderLayout(5,5) );

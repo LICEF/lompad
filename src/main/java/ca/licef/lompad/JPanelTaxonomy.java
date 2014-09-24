@@ -186,7 +186,6 @@ public class JPanelTaxonomy extends JPanel {
         LocalizeValue localizeValue = new LocalizeValue( titleValues );
 
         jComboBoxClassification.addItem(localizeValue);
-        //classifTree.updateUI();
     }
 
     public int getSelectedIndex() {
