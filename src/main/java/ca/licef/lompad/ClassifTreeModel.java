@@ -223,7 +223,6 @@ public class ClassifTreeModel extends DefaultTreeModel {
                         RDFNode n = res.get( varName );
                         if( n instanceof Literal ) {
                             Literal literal = (Literal)n;
-                            //String lang = Util.getLangFromLocaleString( literal.getLanguage() );
                             String lang = literal.getLanguage();
                             String label = literal.getValue().toString().trim();
                             titles.put( lang, label );

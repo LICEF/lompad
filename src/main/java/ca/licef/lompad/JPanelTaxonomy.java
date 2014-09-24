@@ -105,9 +105,12 @@ public class JPanelTaxonomy extends JPanel {
 
         initClassifications();
 
-        if( Preferences.getInstance().getPrevSelectedClassif() != -1 ) {
+        String prevSelectedClassif = Preferences.getInstance().getPrevSelectedClassif();
+        if( prevSelectedClassif != null && !"".equals( prevSelectedClassif ) ) {
             try {
-                jComboBoxClassification.setSelectedIndex( Preferences.getInstance().getPrevSelectedClassif() );
+                // Dummy classif used for selection only. - FB
+                Classification selectedClassif = new Classification( Preferences.getInstance().getPrevSelectedClassif(), null );
+                jComboBoxClassification.setSelectedItem( selectedClassif );
             }
             catch( Exception e ) {
                 // Do not select anything if the value is invalid.
@@ -177,11 +180,10 @@ public class JPanelTaxonomy extends JPanel {
         parentDialog.addTreeListener( classifTree );
         jPanelClassifications.add("" + index, jPanelClassif);
         
-        LangStrings langStrings = classif.getTitles();
         if( index < jComboBoxClassification.getItemCount() ) 
-            jComboBoxClassification.insertItemAt( langStrings, index );
+            jComboBoxClassification.insertItemAt( classif, index );
         else
-            jComboBoxClassification.addItem( langStrings );
+            jComboBoxClassification.addItem( classif );
     }
 
     public int getSelectedIndex() {
@@ -224,16 +226,18 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     void jComboBoxClassification_actionPerformed( ActionEvent event ) {
-        int selectedItem = jComboBoxClassification.getSelectedIndex();
-        if( selectedItem == jComboBoxClassification.getItemCount() - 1 ) { 
+        Classification selectedItem = (Classification)jComboBoxClassification.getSelectedItem();
+        int selectedIndex = jComboBoxClassification.getSelectedIndex();
+        if( selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
             File classifFile = Classification.doImportFile( this );
             if( classifFile != null ) {
                 try {
                     Classification classif = Classification.load( classifFile );
                     initClassification( jComboBoxClassification.getItemCount() - 1, classif );
-                    if( jComboBoxClassification.getItemCount() - 2 >= 0 )
+                    if( jComboBoxClassification.getItemCount() - 2 >= 0 ) {
                         jComboBoxClassification.setSelectedIndex( jComboBoxClassification.getItemCount() - 2 ); 
+                    }
                 }
                 catch( Exception e ) {
                     // Ignore files that we cannot handle properly.
@@ -243,13 +247,13 @@ public class JPanelTaxonomy extends JPanel {
         }
         else {
             try {
-                Preferences.getInstance().setPrevSelectedClassif( selectedItem );
+                Preferences.getInstance().setPrevSelectedClassif( selectedItem.getUrl() );
             }
             catch( Exception e ) {
                 e.printStackTrace();
             }
             CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
-            cardLayout.show(jPanelClassifications, selectedItem + "");
+            cardLayout.show(jPanelClassifications, selectedIndex + "");
             for (Iterator it = trees.iterator(); it.hasNext();) {
                 JTree tree = (JTree)it.next();
                 tree.clearSelection();

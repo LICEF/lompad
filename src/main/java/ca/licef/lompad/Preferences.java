@@ -129,11 +129,11 @@ public class Preferences {
         save();
     }
 
-    public int getPrevSelectedClassif() {
+    public String getPrevSelectedClassif() {
         return( prevSelectedClassif );
     }
 
-    public void setPrevSelectedClassif( int prevSelectedClassif ) throws Exception {
+    public void setPrevSelectedClassif( String prevSelectedClassif ) throws Exception {
         this.prevSelectedClassif = prevSelectedClassif;
         save();
     }
@@ -208,7 +208,7 @@ public class Preferences {
                         else if( "fileBrowserOpened".equals( key ) )
                             isFileBrowserOpen = Boolean.parseBoolean( value );
                         else if( "prevSelectedClassif".equals( key ) )
-                            prevSelectedClassif = Integer.parseInt( value );
+                            prevSelectedClassif = value;
                         else if( "locale".equals( key ) ) {
                             if( "fr".equals( value ) )
                                 locale = Locale.FRENCH;
@@ -237,7 +237,7 @@ public class Preferences {
     private File workingDir  = FileSystemView.getFileSystemView().getDefaultDirectory();
     private File fileBrowserLoc = FileSystemView.getFileSystemView().getDefaultDirectory();
     private boolean isFileBrowserOpen;
-    private int prevSelectedClassif = -1; 
+    private String prevSelectedClassif; 
     private Locale locale = Locale.FRENCH;
     private String applProfileView = "IEEE";
 
