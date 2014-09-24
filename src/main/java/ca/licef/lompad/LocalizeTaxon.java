@@ -46,40 +46,12 @@ public class LocalizeTaxon {
     }
 
     public String getTitle( String language ) {
-        String title = titles.get( language );
-
-        // If no title is provided for the asked language,
-        // try to find a good substitute.
-        // Either the only title if there is only one provided.
-        // If more than one title is available, look for one that
-        // has a language code that has the same prefix as the one
-        // passed in parameter.  In other words, if we call getTitle( "fr" )
-        // and that we have a title that has a language code like "fr-CA", 
-        // we will take it.  If this does not work,
-        // take the English one or the French one.  
-        // If all fails, use the url.
-        if( title == null ) {
-            if( titles.size() == 1 ) {
-                Iterator<String> it = titles.values().iterator();
-                title = it.next();
-            }
-            else {
-                for( Iterator<String> it = titles.keySet().iterator(); it.hasNext(); ) {
-                    String key = it.next();
-                    int indexOfDash = key.indexOf( "-" );
-                    if( indexOfDash != -1 ) {
-                        String lang = key.substring( 0, indexOfDash );
-                        if( language.equals( lang ) ) 
-                            return( titles.get( key ) );
-                    }
-                }
-
-                title = titles.get( "en" );
-                if( title == null )
-                    title = titles.get( "fr" );
-                if( title == null )
-                    return( id );
-            }
+        String title = Util.getTitle( language, titles );
+        if( title == null )
+            return( id );
+        if( Preferences.getInstance().isShowTaxumId() ) {
+            if( id != null && !"".equals( id ) )
+                return( id + " " + title );
         }
         return( title );
     }

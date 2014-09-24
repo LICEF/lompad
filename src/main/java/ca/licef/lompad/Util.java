@@ -344,6 +344,45 @@ class Util {
         }
     }
 
+    /*
+     * If no title is provided for the asked language,
+     * try to find a good substitute.
+     * Either the only title if there is only one provided.
+     * If more than one title is available, look for one that
+     * has a language code that has the same prefix as the one
+     * passed in parameter.  In other words, if we call getTitle( "fr" )
+     * and that we have a title that has a language code like "fr-CA", 
+     * we will take it.  If this does not work,
+     * take the English one or the French one.  
+     * It will return null if no pertinent string is found.
+     */
+    public static String getTitle( String language, Map<String,String> titles ) {
+        String title = titles.get( language );
+
+        if( title == null ) {
+            if( titles.size() == 1 ) {
+                Iterator<String> it = titles.values().iterator();
+                title = it.next();
+            }
+            else {
+                for( Iterator<String> it = titles.keySet().iterator(); it.hasNext(); ) {
+                    String key = it.next();
+                    int indexOfDash = key.indexOf( "-" );
+                    if( indexOfDash != -1 ) {
+                        String lang = key.substring( 0, indexOfDash );
+                        if( language.equals( lang ) ) 
+                            return( titles.get( key ) );
+                    }
+                }
+
+                title = titles.get( "en" );
+                if( title == null )
+                    title = titles.get( "fr" );
+            }
+        }
+        return( title );
+    }
+
     public static boolean isShowHiddenDirectoryOptionAvailable() {
         String osName = (System.getProperty("os.name")).toLowerCase();
         return( osName.startsWith( "mac" ) || osName.startsWith( "linux" ) );
