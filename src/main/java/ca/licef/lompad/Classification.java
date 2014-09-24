@@ -37,6 +37,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashMap;
@@ -68,6 +69,17 @@ class Classification {
 
     public String getUrl() {
         return( url );
+    }
+
+    public LocalizeValue getTitlesAsLocalizeValue() {
+        ArrayList titleValues = new ArrayList();
+        String[] languages = new String[] { "en", "fr" };
+        for( int i = 0; i < languages.length; i++ ) { 
+            titleValues.add( languages[ i ] );
+            titleValues.add( getTitle( languages[ i ] ) );
+        }
+        LocalizeValue localizeValue = new LocalizeValue( titleValues );
+        return( localizeValue );
     }
 
     public String getTitle( String language ) {

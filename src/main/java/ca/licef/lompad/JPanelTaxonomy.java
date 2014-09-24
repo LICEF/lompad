@@ -177,15 +177,11 @@ public class JPanelTaxonomy extends JPanel {
         parentDialog.addTreeListener( classifTree );
         jPanelClassifications.add("" + index, jPanelClassif);
         
-        ArrayList titleValues = new ArrayList();
-        String[] languages = new String[] { "en", "fr" };
-        for( int i = 0; i < languages.length; i++ ) { 
-            titleValues.add( languages[ i ] );
-            titleValues.add( classif.getTitle( languages[ i ] ) );
-        }
-        LocalizeValue localizeValue = new LocalizeValue( titleValues );
-
-        jComboBoxClassification.addItem(localizeValue);
+        LocalizeValue localizeValue = classif.getTitlesAsLocalizeValue();
+        if( index < jComboBoxClassification.getItemCount() ) 
+            jComboBoxClassification.insertItemAt( localizeValue, index );
+        else
+            jComboBoxClassification.addItem( localizeValue );
     }
 
     public int getSelectedIndex() {
@@ -231,8 +227,19 @@ public class JPanelTaxonomy extends JPanel {
         int selectedItem = jComboBoxClassification.getSelectedIndex();
         if( selectedItem == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
-            if( Classification.doImportFile( this ) != null )
-                initClassifications();
+            File classifFile = Classification.doImportFile( this );
+            if( classifFile != null ) {
+                try {
+                    Classification classif = Classification.load( classifFile );
+                    initClassification( jComboBoxClassification.getItemCount() - 1, classif );
+                    if( jComboBoxClassification.getItemCount() - 2 >= 0 )
+                        jComboBoxClassification.setSelectedIndex( jComboBoxClassification.getItemCount() - 2 ); 
+                }
+                catch( Exception e ) {
+                    // Ignore files that we cannot handle properly.
+                    e.printStackTrace();
+                }
+            }
         }
         else {
             try {
@@ -252,22 +259,4 @@ public class JPanelTaxonomy extends JPanel {
         }
     }
 
-    class LocalizeValue {
-        ArrayList titles;
-
-        public LocalizeValue(ArrayList titles) {
-            this.titles = titles;
-        }
-
-        public String toString() {
-            String lang = Preferences.getInstance().getLocale().getLanguage();
-            if ("".equals(lang))
-                lang = "en";
-            int i = titles.indexOf(lang);
-            if (i == -1) //first choice if language not defined
-                i = 0;
-            return (String) titles.get(i + 1);
-        }
-    }
 }
-
