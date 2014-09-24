@@ -177,11 +177,11 @@ public class JPanelTaxonomy extends JPanel {
         parentDialog.addTreeListener( classifTree );
         jPanelClassifications.add("" + index, jPanelClassif);
         
-        LocalizeValue localizeValue = classif.getTitlesAsLocalizeValue();
+        LangStrings langStrings = classif.getTitles();
         if( index < jComboBoxClassification.getItemCount() ) 
-            jComboBoxClassification.insertItemAt( localizeValue, index );
+            jComboBoxClassification.insertItemAt( langStrings, index );
         else
-            jComboBoxClassification.addItem( localizeValue );
+            jComboBoxClassification.addItem( langStrings );
     }
 
     public int getSelectedIndex() {

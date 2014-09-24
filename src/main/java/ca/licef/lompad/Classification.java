@@ -71,19 +71,8 @@ class Classification {
         return( url );
     }
 
-    public LocalizeValue getTitlesAsLocalizeValue() {
-        ArrayList titleValues = new ArrayList();
-        String[] languages = new String[] { "en", "fr" };
-        for( int i = 0; i < languages.length; i++ ) { 
-            titleValues.add( languages[ i ] );
-            titleValues.add( getTitle( languages[ i ] ) );
-        }
-        LocalizeValue localizeValue = new LocalizeValue( titleValues );
-        return( localizeValue );
-    }
-
-    public String getTitle( String language ) {
-        if( titles.isEmpty() ) {
+    public LangStrings getTitles() {
+        if( titles == null ) {
             try {
                 initializeTitles();
             }
@@ -91,7 +80,19 @@ class Classification {
                 e.printStackTrace();
             }
         }
-        String title = Util.getTitle( language, titles );
+        return( titles );
+    }
+
+    public String getTitle( String language ) {
+        if( titles == null ) {
+            try {
+                initializeTitles();
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        }
+        String title = titles.getString( language );
         return( title == null ? getUrl() : title );
     }
 
@@ -307,6 +308,7 @@ class Classification {
     }
 
     private void initializeTitles() throws IOException {
+        Map<String,String> strings = new HashMap<String,String>();
         String queryStr = getQuery( "getConceptSchemeLabels.sparql" );
         Query query = QueryFactory.create( queryStr );
         QueryExecution exec = QueryExecutionFactory.create( query, model );
@@ -321,7 +323,7 @@ class Classification {
                         //String lang = Util.getLangFromLocaleString( literal.getLanguage() );
                         String lang = literal.getLanguage();
                         String label = literal.getValue().toString().trim();
-                        titles.put( lang, label );
+                        strings.put( lang, label );
                     }
                 }
             }
@@ -329,6 +331,7 @@ class Classification {
         finally {
             exec.close() ;
         }
+        titles = new LangStrings( strings );
     }
 
     private void computeInference() {
@@ -362,7 +365,7 @@ class Classification {
     }
 
     private String url;
-    private Map<String,String> titles = new HashMap<String,String>();
+    private LangStrings titles;
     private Model model;
 
     private static String language = null;

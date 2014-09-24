@@ -20,33 +20,28 @@
 
 package ca.licef.lompad;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class LocalizeTaxon {
 
     public String id;
     public String uri;
     
-    private Map<String,String> titles = new HashMap<String,String>();
+    private LangStrings titles;
 
-    public LocalizeTaxon(String id, String uri, Map<String,String> titles) {
+    public LocalizeTaxon(String id, String uri, LangStrings titles) {
         this.id = id;
         this.uri = uri;
         this.titles = titles;
     }
 
-    public LocalizeTaxon(String id, Map<String,String> titles) {
+    public LocalizeTaxon(String id, LangStrings titles) {
         this.id = id;
         this.titles = titles;
     }
 
     public String getTitle( String language ) {
-        String title = Util.getTitle( language, titles );
+        String title = titles.getString( language );
         if( title == null )
             return( id );
         if( Preferences.getInstance().isShowTaxumId() ) {
@@ -57,14 +52,7 @@ public class LocalizeTaxon {
     }
 
     public List<String> getOrderedTitles() {
-        List<String> orderedTitles = new ArrayList<String>();
-        Object[] languages = titles.keySet().toArray();
-        Arrays.sort( languages );
-        for( Object lang : languages ) {
-            orderedTitles.add( (String)lang );
-            orderedTitles.add( (String)titles.get( lang ) );
-        }
-        return( orderedTitles );
+        return( titles.getOrderedStrings() );
     }
 
     public String toString() {

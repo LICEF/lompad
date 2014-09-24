@@ -236,7 +236,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
             }
 
             String taxonPathId = Classification.retrieveTaxonPathId( childUri );
-            LocalizeTaxon taxon = new LocalizeTaxon(taxonPathId, childUri, titles);
+            LocalizeTaxon taxon = new LocalizeTaxon(taxonPathId, childUri, new LangStrings( titles ) );
             DefaultMutableTreeNode newChild = new DefaultMutableTreeNode( taxon );
             parentNode.add( newChild );
         }
