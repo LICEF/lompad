@@ -148,7 +148,7 @@ public class JDialogTaxonPathSelector extends JDialog {
 
     void update() {
         JTree currentTree = jPanelTaxonomy.getCurrentTree();
-        jButtonOk.setEnabled(currentTree != null && 
-            currentTree.getSelectionPath() != null && currentTree.getSelectionPath().getPathCount() != 0);
+        boolean isEnabled = currentTree != null && currentTree.getSelectionPath() != null && currentTree.getSelectionPath().getPathCount() != 0;
+        jButtonOk.setEnabled( isEnabled );
     }
 }

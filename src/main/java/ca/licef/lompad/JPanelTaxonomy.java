@@ -105,6 +105,9 @@ public class JPanelTaxonomy extends JPanel {
 
         initClassifications();
 
+        SymAction lSymAction = new SymAction();
+        jComboBoxClassification.addActionListener(lSymAction);
+
         String prevSelectedClassif = Preferences.getInstance().getPrevSelectedClassif();
         if( prevSelectedClassif != null && !"".equals( prevSelectedClassif ) ) {
             try {
@@ -116,8 +119,6 @@ public class JPanelTaxonomy extends JPanel {
                 // Do not select anything if the value is invalid.
             }
         }
-        SymAction lSymAction = new SymAction();
-        jComboBoxClassification.addActionListener(lSymAction);
 
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Preferences.getInstance().getLocale());
@@ -226,7 +227,6 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     void jComboBoxClassification_actionPerformed( ActionEvent event ) {
-        Classification selectedItem = (Classification)jComboBoxClassification.getSelectedItem();
         int selectedIndex = jComboBoxClassification.getSelectedIndex();
         if( selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
@@ -237,6 +237,7 @@ public class JPanelTaxonomy extends JPanel {
                     initClassification( jComboBoxClassification.getItemCount() - 1, classif );
                     if( jComboBoxClassification.getItemCount() - 2 >= 0 ) {
                         jComboBoxClassification.setSelectedIndex( jComboBoxClassification.getItemCount() - 2 ); 
+                        updateCurrentSelectedClassif();
                     }
                 }
                 catch( Exception e ) {
@@ -245,21 +246,26 @@ public class JPanelTaxonomy extends JPanel {
                 }
             }
         }
-        else {
-            try {
-                Preferences.getInstance().setPrevSelectedClassif( selectedItem.getUrl() );
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-            }
-            CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
-            cardLayout.show(jPanelClassifications, selectedIndex + "");
-            for (Iterator it = trees.iterator(); it.hasNext();) {
-                JTree tree = (JTree)it.next();
-                tree.clearSelection();
-                // bug fix: in jre7 , JTree.setRootVisible(false) renders whole tree invisible, must add a expandPath to reender tree
-                tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
-            }
+        else
+            updateCurrentSelectedClassif();
+    }
+
+    private void updateCurrentSelectedClassif() {
+        Classification selectedItem = (Classification)jComboBoxClassification.getSelectedItem();
+        int selectedIndex = jComboBoxClassification.getSelectedIndex();
+        try {
+            Preferences.getInstance().setPrevSelectedClassif( selectedItem.getUrl() );
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
+        CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
+        cardLayout.show(jPanelClassifications, selectedIndex + "");
+        for (Iterator it = trees.iterator(); it.hasNext();) {
+            JTree tree = (JTree)it.next();
+            tree.clearSelection();
+            // bug fix: in jre7 , JTree.setRootVisible(false) renders whole tree invisible, must add a expandPath to reender tree
+            tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
         }
     }
 
