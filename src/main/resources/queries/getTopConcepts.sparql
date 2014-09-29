@@ -9,4 +9,3 @@ WHERE {
     }
     FILTER(!BOUND(?o))
 }
-ORDER BY ?s

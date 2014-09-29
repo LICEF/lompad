@@ -6,6 +6,3 @@ WHERE '{'
     <{0}> rdf:type skos:Concept .
     <{0}> skos:narrower ?o
 '}'
-ORDER BY ?o
-
-

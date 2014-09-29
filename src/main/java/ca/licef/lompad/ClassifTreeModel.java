@@ -12,12 +12,14 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.List;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -207,6 +209,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
     }
 
     private void buildChildrenNodes( DefaultMutableTreeNode parentNode, String[] childrenUris ) throws IOException {
+        DefaultMutableTreeNode[] childrenNodes = new DefaultMutableTreeNode[ childrenUris.length ];
         for( int i = 0; i < childrenUris.length; i++ ) {
             String childUri = childrenUris[ i ];
 
@@ -237,7 +240,33 @@ public class ClassifTreeModel extends DefaultTreeModel {
             String taxonPathId = Classification.retrieveTaxonPathId( childUri );
             LocalizeTaxon taxon = new LocalizeTaxon(taxonPathId, childUri, new LangStrings( titles ) );
             DefaultMutableTreeNode newChild = new DefaultMutableTreeNode( taxon );
-            parentNode.add( newChild );
+            childrenNodes[ i ] = newChild;
+        }
+
+        Arrays.sort( childrenNodes,
+            new Comparator<DefaultMutableTreeNode>() {
+                @Override
+                public int compare( DefaultMutableTreeNode n1, DefaultMutableTreeNode n2 ) {
+                    LocalizeTaxon taxon1 = (LocalizeTaxon)n1.getUserObject();
+                    LocalizeTaxon taxon2 = (LocalizeTaxon)n2.getUserObject();
+                    if( taxon1.id != null && taxon1.id.toLowerCase().indexOf( "uuid" ) != -1 ) {
+                        Locale locale = Preferences.getInstance().getLocale();
+                        String lang = locale.getLanguage();
+                        Collator collator = Collator.getInstance( locale );
+                        String title1 = taxon1.getTitle( lang );
+                        String title2 = taxon2.getTitle( lang );
+                        //return( title1.compareTo( title2 ) );
+                        return( collator.compare( title1, title2 ) );
+                    }
+                    else
+                        return( taxon1.id.compareTo( taxon2.id ) );
+                }
+            }
+        );
+
+        for( int i = 0; i < childrenNodes.length; i++ ) {
+            DefaultMutableTreeNode childNode = childrenNodes[ i ];
+            parentNode.add( childNode );
         }
     }
 
