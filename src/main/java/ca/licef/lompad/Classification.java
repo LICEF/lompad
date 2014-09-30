@@ -275,6 +275,8 @@ class Classification {
 
                 Classification classif = Classification.read( skosInputFile, true );
                 String uri = classif.getConceptSchemeUri();
+                if( uri == null )
+                    throw new Exception( "ConceptScheme's URI not found."  );
                 String sha1 = DigestUtils.shaHex( uri );
                 File localFile = new File( Util.getClassificationFolder(), sha1 + ".rdf" );
                 classif.dumpModelToRdf( localFile );
