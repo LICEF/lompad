@@ -107,6 +107,28 @@ class Classification {
         return( model );
     }
 
+    public String getConceptSchemeUri() throws IOException {
+        if( conceptSchemeUri == null ) {
+            String queryStr = getQuery( "getConceptSchemeUri.sparql" );
+            Query query = QueryFactory.create( queryStr );
+            QueryExecution exec = QueryExecutionFactory.create( query, model );
+            try {
+                for( ResultSet results = exec.execSelect(); results.hasNext(); ) {
+                    QuerySolution res = results.nextSolution();
+                    for( Iterator it = res.varNames(); it.hasNext(); ) {
+                        String varName = it.next().toString();
+                        RDFNode n = res.get( varName );
+                        conceptSchemeUri = n.toString();
+                    }
+                }
+            }
+            finally {
+                exec.close() ;
+            }
+        }
+        return( conceptSchemeUri );
+    }
+
     public String toString() {
         return( getTitle( Preferences. getInstance().getLocale().getLanguage() ) );
     }
@@ -332,26 +354,6 @@ class Classification {
         return( query );
     }
 
-    private String getConceptSchemeUri() throws IOException {
-        String queryStr = getQuery( "getConceptSchemeUri.sparql" );
-        Query query = QueryFactory.create( queryStr );
-        QueryExecution exec = QueryExecutionFactory.create( query, model );
-        try {
-            for( ResultSet results = exec.execSelect(); results.hasNext(); ) {
-                QuerySolution res = results.nextSolution();
-                for( Iterator it = res.varNames(); it.hasNext(); ) {
-                    String varName = it.next().toString();
-                    RDFNode n = res.get( varName );
-                    return( n.toString() );
-                }
-            }
-        }
-        finally {
-            exec.close() ;
-        }
-        return( null );
-    }
-
     private void initializeTitles() throws IOException {
         Map<String,String> strings = new HashMap<String,String>();
         String queryStr = getQuery( "getConceptSchemeLabels.sparql" );
@@ -412,6 +414,7 @@ class Classification {
     private String url;
     private LangStrings titles;
     private Model model;
+    private String conceptSchemeUri;
 
     private static String language = null;
     private static Boolean isShowTaxumId = null;

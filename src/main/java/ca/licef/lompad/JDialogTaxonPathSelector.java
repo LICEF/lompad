@@ -20,14 +20,15 @@
 
 package ca.licef.lompad;
 
-import javax.swing.*;
-import javax.swing.event.TreeSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import javax.swing.*;
+import javax.swing.event.TreeSelectionListener;
 
 public class JDialogTaxonPathSelector extends JDialog {
 
@@ -112,20 +113,23 @@ public class JDialogTaxonPathSelector extends JDialog {
         public void actionPerformed(java.awt.event.ActionEvent event) {
             Object object = event.getSource();
             if (object == jButtonOk)
-                jButtonOk_actionPerformed();
+                try {
+                    jButtonOk_actionPerformed();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
             else if (object == jButtonCancel)
                 jButtonCancel_actionPerformed();
         }
     }
 
-    void jButtonOk_actionPerformed() {
+    void jButtonOk_actionPerformed() throws IOException {
         int selectedIndex = jPanelTaxonomy.getSelectedIndex();
         javax.swing.tree.DefaultMutableTreeNode node = (javax.swing.tree.DefaultMutableTreeNode)jPanelTaxonomy.getCurrentTree().getLastSelectedPathComponent();
         LocalizeTaxon taxon = (LocalizeTaxon)node.getUserObject();
-        source = taxon.uri;
-        int indexOfLastSlash = taxon.uri.lastIndexOf( "/" );
-        if( indexOfLastSlash != -1 )
-            source = taxon.uri.substring( 0, indexOfLastSlash );
+        Classification classif = (Classification)jPanelTaxonomy.jComboBoxClassification.getSelectedItem();
+        source = classif.getConceptSchemeUri();
         taxonPath = jPanelTaxonomy.getTaxonPath();
         bOk = true;
         setVisible(false);
