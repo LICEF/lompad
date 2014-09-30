@@ -255,7 +255,6 @@ public class ClassifTreeModel extends DefaultTreeModel {
                         Collator collator = Collator.getInstance( locale );
                         String title1 = taxon1.getTitle( lang );
                         String title2 = taxon2.getTitle( lang );
-                        //return( title1.compareTo( title2 ) );
                         return( collator.compare( title1, title2 ) );
                     }
                     else

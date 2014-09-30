@@ -66,6 +66,16 @@
             <artifactId>jena-core</artifactId>
             <version>2.11.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.fcrepo</groupId>
+            <artifactId>saxon</artifactId>
+            <version>9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fcrepo</groupId>
+            <artifactId>saxon-dom</artifactId>
+            <version>9.0</version>
+        </dependency>
     </dependencies>
 
     <name>lompad</name>

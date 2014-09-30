@@ -24,14 +24,18 @@ import java.awt.Component;
 import java.awt.Container;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,6 +47,7 @@ import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFileChooser;
+import javax.xml.transform.stream.StreamSource;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -57,8 +62,10 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.w3c.dom.Node;
 import licef.IOUtil;
 import licef.StringUtil;
+import licef.XMLUtil;
 
 class Classification {
     
@@ -237,13 +244,44 @@ class Classification {
             catch( Exception e ) {
                 e.printStackTrace();
             }
-           
+
             try {
-                Classification classif = Classification.read( chooser.getSelectedFile(), true );
+                File skosInputFile = chooser.getSelectedFile();
+                File tmpFile = null;
+
+                String xml = IOUtil.readStringFromFile( chooser.getSelectedFile() );
+                String rootTagName = XMLUtil.getRootTagName( xml );
+
+                boolean isVdexFile = ( rootTagName != null && "vdex".equals( rootTagName ) );
+
+                if( isVdexFile ) {
+                    String xsltFile = "/xslt/convertVDEXToSKOS.xsl";
+                    StreamSource xslt = new StreamSource( Util.class.getResourceAsStream( xsltFile ) );
+
+                    StreamSource xmlSource = new StreamSource( new BufferedReader( new StringReader( xml ) ) );
+
+                    Node skosNode = XMLUtil.applyXslToDocument2( xslt, xmlSource, null, null, null );
+                    tmpFile = File.createTempFile( "lompad", "inputSkos" );
+                    Writer tmpFileWriter = new BufferedWriter( new FileWriter( tmpFile ) );
+                    try {
+                        XMLUtil.serialize( skosNode, false, tmpFileWriter );
+                    }
+                    finally {
+                        if( tmpFileWriter != null )
+                            tmpFileWriter.close();
+                    }
+                    skosInputFile = tmpFile;
+                }
+
+                Classification classif = Classification.read( skosInputFile, true );
                 String uri = classif.getConceptSchemeUri();
                 String sha1 = DigestUtils.shaHex( uri );
                 File localFile = new File( Util.getClassificationFolder(), sha1 + ".rdf" );
                 classif.dumpModelToRdf( localFile );
+
+                if( tmpFile != null ) 
+                    tmpFile.delete();
+
                 return( localFile );
             }
             catch( Exception e ) {
@@ -260,7 +298,13 @@ class Classification {
         else
             return( null );
     }
-    
+
+    public static boolean isVdexFile( File file ) throws /*IOException*/Exception {
+        String xml = IOUtil.readStringFromFile( file );
+        String rootTagName = XMLUtil.getRootTagName( xml );
+        return( rootTagName != null && "vdex".equals( rootTagName ) );
+    }
+
     /*
      * @param queryId Name of the query that corresponds to a file name in the query resource directory.
      * @param params Parameters which their value will be substituted in the query.  Beware, numeric values should be 
