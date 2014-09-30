@@ -70,7 +70,7 @@ class JDialogQuestion extends JDialog {
         jPanelSouth.add(no);
         jPanelSouth.add(cancel);
         cp.add(BorderLayout.SOUTH, jPanelSouth);
-        setSize(350, 125);
+        setSize(350, 135);
 
         SymAction lSymAction = new SymAction();
         yes.addActionListener(lSymAction);

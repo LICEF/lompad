@@ -123,6 +123,9 @@ public class JDialogTaxonPathSelector extends JDialog {
         javax.swing.tree.DefaultMutableTreeNode node = (javax.swing.tree.DefaultMutableTreeNode)jPanelTaxonomy.getCurrentTree().getLastSelectedPathComponent();
         LocalizeTaxon taxon = (LocalizeTaxon)node.getUserObject();
         source = taxon.uri;
+        int indexOfLastSlash = taxon.uri.lastIndexOf( "/" );
+        if( indexOfLastSlash != -1 )
+            source = taxon.uri.substring( 0, indexOfLastSlash );
         taxonPath = jPanelTaxonomy.getTaxonPath();
         bOk = true;
         setVisible(false);

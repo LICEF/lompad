@@ -109,7 +109,6 @@ class Classification {
 
     public String toString() {
         return( getTitle( Preferences. getInstance().getLocale().getLanguage() ) );
-        //return( getUrl() );
     }
 
     public int hashCode() {
