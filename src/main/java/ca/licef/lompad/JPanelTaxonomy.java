@@ -70,6 +70,7 @@ public class JPanelTaxonomy extends JPanel {
     ArrayList trees = new ArrayList();
     ArrayList classificationSource = new ArrayList();
     ArrayList associatedPurpose = new ArrayList();
+    private int prevSelectedClassifIndex = 0;
 
     public JPanelTaxonomy( JDialogTaxonPathSelector parentDialog ) {
         this.parentDialog = parentDialog;
@@ -231,12 +232,15 @@ public class JPanelTaxonomy extends JPanel {
         if( selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
             File classifFile = Classification.doImportFile( this );
-            if( classifFile != null ) {
+            if( classifFile == null )
+                jComboBoxClassification.setSelectedIndex( prevSelectedClassifIndex );    
+            else {
                 try {
                     Classification classif = Classification.load( classifFile );
                     initClassification( jComboBoxClassification.getItemCount() - 1, classif );
                     if( jComboBoxClassification.getItemCount() - 2 >= 0 ) {
                         jComboBoxClassification.setSelectedIndex( jComboBoxClassification.getItemCount() - 2 ); 
+                        prevSelectedClassifIndex = selectedIndex;
                         updateCurrentSelectedClassif();
                     }
                 }
@@ -246,8 +250,10 @@ public class JPanelTaxonomy extends JPanel {
                 }
             }
         }
-        else
+        else {
+            prevSelectedClassifIndex = selectedIndex;
             updateCurrentSelectedClassif();
+        }
     }
 
     private void updateCurrentSelectedClassif() {
