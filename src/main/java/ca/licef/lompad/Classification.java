@@ -254,6 +254,7 @@ class Classification {
     }
 
     public static File doImportFile( Component parent ) {
+        JFileChooser.setDefaultLocale( Preferences.getInstance().getLocale() );
         JFileChooser chooser = new JFileChooser();
         if( Preferences.getInstance().getPrevClassifDir() != null )
             chooser.setCurrentDirectory( Preferences.getInstance().getPrevClassifDir() );

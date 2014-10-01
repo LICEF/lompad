@@ -432,6 +432,7 @@ class JPanelForm extends JPanel {
 
     File selectFile(boolean openMode, String label) {
         File f = null;
+        JFileChooser.setDefaultLocale( Preferences.getInstance().getLocale() );
         JFileChooser fc = new JFileChooser();
         if( openMode )
             fc.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
