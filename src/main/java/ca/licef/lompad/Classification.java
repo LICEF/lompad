@@ -254,7 +254,6 @@ class Classification {
     }
 
     public static File doImportFile( Component parent ) {
-        JFileChooser.setDefaultLocale( Preferences.getInstance().getLocale() );
         JFileChooser chooser = new JFileChooser();
         if( Preferences.getInstance().getPrevClassifDir() != null )
             chooser.setCurrentDirectory( Preferences.getInstance().getPrevClassifDir() );
@@ -284,7 +283,8 @@ class Classification {
 
                     Node skosNode = XMLUtil.applyXslToDocument2( xslt, xmlSource, null, null, null );
                     tmpFile = File.createTempFile( "lompad", "inputSkos" );
-                    Writer tmpFileWriter = new BufferedWriter( new FileWriter( tmpFile ) );
+                    Writer tmpFileWriter = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( tmpFile, false ), "UTF-8" ) );
+
                     try {
                         XMLUtil.serialize( skosNode, false, tmpFileWriter );
                     }

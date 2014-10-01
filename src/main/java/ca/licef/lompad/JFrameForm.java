@@ -95,6 +95,7 @@ class JFrameForm extends JFrame {
     public void setLanguage( Locale locale ) {
         try {
             Preferences.getInstance().setLocale( locale );
+            JFileChooser.setDefaultLocale( locale );
         }
         catch( Exception e ) {
             e.printStackTrace();
