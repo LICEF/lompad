@@ -414,6 +414,7 @@ class JPanelForm extends JPanel {
 
         if( fileTmp.isDirectory() ) {
             showBrowser();
+            browser.setCurrLocation( fileTmp + "" ); 
             return;
         }
 
@@ -428,6 +429,8 @@ class JPanelForm extends JPanel {
         lomForm.initiateHasChanged();
         updateFrameTitle();
         updateNormeticIcon();
+        if( browser != null )
+            browser.setCurrLocation( file + "" );
     }
 
     File selectFile(boolean openMode, String label) {
