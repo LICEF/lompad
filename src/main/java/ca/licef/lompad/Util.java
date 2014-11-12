@@ -208,6 +208,7 @@ class Util {
     static ImageIcon greenYellowRedIcon;
     static ImageIcon folderIcon;
     static ImageIcon fileIcon;
+    static ImageIcon rootIcon;
 
     static void initImageIcon(Class cl) {
         imageApp = getImage(cl, "app.gif");
@@ -228,6 +229,7 @@ class Util {
         greenYellowRedIcon = new ImageIcon(getImage(cl, "greenYellowRed.gif"));
         folderIcon = new ImageIcon(getImage(cl, "folder.gif"));
         fileIcon = new ImageIcon(getImage(cl, "file.gif"));
+        rootIcon = new ImageIcon(getImage(cl, "root.gif"));
     }
 
     public static Image getImage(Class cl, String name) {
@@ -352,8 +354,12 @@ class Util {
     public static String getDataFolder() {
         String dataFolder = null;
         String osName = (System.getProperty("os.name")).toLowerCase();
-        if( osName.startsWith( "windows" )  )
-            dataFolder = System.getenv().get( "LOCALAPPDATA" ) + "/lompad";
+        if( osName.startsWith( "windows" )  ) {
+            String appDataFolder = System.getenv().get( "LOCALAPPDATA" );
+            if( appDataFolder == null || "".equals( appDataFolder ) )
+                appDataFolder = System.getenv().get( "APPDATA" );
+            dataFolder = appDataFolder + "/lompad";
+        }
         else if( osName.startsWith( "mac" ) || osName.startsWith( "linux" ) )
             dataFolder = System.getProperty( "user.home" ) + "/.lompad";
         if( dataFolder != null )

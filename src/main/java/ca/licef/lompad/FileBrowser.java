@@ -31,6 +31,8 @@ import javax.swing.filechooser.FileSystemView;
 
 class FileBrowser extends JPanel {
 
+    public static final File TOP = new File( "TOP" );
+
     public FileBrowser( String currLoc ) {
         setLayout( new BorderLayout( 4, 4 ) );
 
@@ -117,29 +119,43 @@ class FileBrowser extends JPanel {
 
     public void setCurrLocation( String currLoc ) {
         File loc = new File( currLoc ); 
-        if( !loc.exists() )
+        boolean isTop = ( TOP.equals( loc )  );
+
+        if( !isTop && !loc.exists() ) 
             loc = FileSystemView.getFileSystemView().getDefaultDirectory();
 
         this.currLoc = loc + "";
 
-        File dir = loc.isDirectory() ? loc : loc.getParentFile();
+        File[] entries = null;
+        if( isTop ) {
+            textFieldLocation.setToolTipText( null );
+            textFieldLocation.setText( null );
+            textFieldLocation.setCaretPosition( 0 );
+            
+            entries = File.listRoots();
+        }
+        else {
+            File dir = loc.isDirectory() ? loc : loc.getParentFile();
 
-        textFieldLocation.setToolTipText( dir + "" );
-        textFieldLocation.setText( dir + "" );
-        textFieldLocation.setCaretPosition( 0 );
+            textFieldLocation.setToolTipText( dir + "" );
+            textFieldLocation.setText( dir + "" );
+            textFieldLocation.setCaretPosition( 0 );
 
-        File[] entries = dir.listFiles( new DataFileFilter() );
-       
+            entries = dir.listFiles( new DataFileFilter() );
+        }
         DefaultListModel model = new DefaultListModel();
-        model.addElement( new File( ".." ) );
+        if( !isTop )
+            model.addElement( new File( ".." ) );
         if( entries != null ) {
             java.util.Arrays.sort( entries );
-            for( int i = 0; i < entries.length; i++ )
-                model.addElement( entries[ i ] );
+            for( int i = 0; i < entries.length; i++ ) {
+                if( !isTop || entries[ i ].isDirectory() )
+                    model.addElement( entries[ i ] );
+            }
         }
-
         listEntries.setModel( model );
-        if( loc.isFile() ) {
+
+        if( !isTop && loc.isFile() ) {
             this.currFileLoc = loc + "";
             int selectionIndex = ((DefaultListModel)listEntries.getModel()).indexOf( loc );
             listEntries.getSelectionModel().setSelectionInterval( selectionIndex, selectionIndex );
@@ -195,16 +211,16 @@ class FileBrowser extends JPanel {
             if( dir.isFile() )
                 dir = dir.getParentFile();
             if( "..".equals( value + "" ) )
-                file = ( dir.getParentFile() == null ? dir : dir.getParentFile() );
+                file = ( dir.getParentFile() == null ? TOP : dir.getParentFile() );
             else
                 file = (File)value;
 
-            if( file.isDirectory() ) {
+            if( file.isFile() )
+                fireFileSelected( file );
+            else {
                 setCurrLocation( file.toString() );
                 fireDirectorySelected( file );
             }
-            else
-                fireFileSelected( file );
         }
     }
 
@@ -217,8 +233,12 @@ class FileBrowser extends JPanel {
         public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
             File file = (File)value;
 
-            setText( file.getName() );
-            setIcon( file.isDirectory() ? Util.folderIcon : Util.fileIcon );
+            boolean isRoot = ( file.getName() == null || "".equals( file.getName() ));
+            setText( isRoot ? file.getPath() : file.getName() );
+            if( isRoot )
+                setIcon( Util.rootIcon );
+            else
+                setIcon( file.isDirectory() ? Util.folderIcon : Util.fileIcon );
 
             if( isSelected ) {
                 setBackground( list.getSelectionBackground() );
