@@ -379,9 +379,12 @@ class JPanelForm extends JPanel {
 
         newForm(false);
 
+        boolean isValidFile = true;
+
         try {
             lomForm.fromXML(new FileInputStream(file));
         } catch (Exception e) {
+            isValidFile = false;
             JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
             dialog.setVisible( true );
         }
@@ -392,11 +395,13 @@ class JPanelForm extends JPanel {
         updateFrameTitle();
         updateNormeticIcon();
 
-        try {
-            Preferences.getInstance().setFileBrowserLocation( this.file ); 
-        }
-        catch( Exception e2 ) {
-            e2.printStackTrace();
+        if( isValidFile ) {
+            try {
+                Preferences.getInstance().setFileBrowserLocation( this.file ); 
+            }
+            catch( Exception e2 ) {
+                e2.printStackTrace();
+            }
         }
 
         return( true );
