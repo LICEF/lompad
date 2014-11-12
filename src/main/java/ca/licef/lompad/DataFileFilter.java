@@ -23,29 +23,15 @@ package ca.licef.lompad;
 import java.io.FileFilter;
 import java.io.File;
 
-class XMLFileFilter implements FileFilter {
+class DataFileFilter implements FileFilter {
 
-    //Accept all directories and xml files.
     public boolean accept(File f) {
-
-        String ext = null;
-        if (f.isDirectory())
-            return( Preferences.getInstance().isShowHiddenFolders() || !f.getName().startsWith( "." ) );
-
-        ext = null;
-        String s = f.getName();
-        int i = s.lastIndexOf('.');
-
-        if (i > 0 && i < s.length() - 1) {
-            ext = s.substring(i + 1).toLowerCase();
-        }
-
-        return "xml".equals(ext);
+        boolean isShowHiddenFiles = Preferences.getInstance().isShowHiddenFiles();
+        return( isShowHiddenFiles || !f.getName().startsWith( "." ) );
     }
 
-    //The description of this filter
     public String getDescription() {
-        return "XML files";
+        return "Data files";
     }
-}
 
+}

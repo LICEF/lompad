@@ -63,11 +63,11 @@ class FileBrowser extends JPanel {
         );
         scrollPaneEntries = new JScrollPane( listEntries );
 
-        checkBoxShowHiddenFolders = new JCheckBox( "", Preferences.getInstance().isShowHiddenFolders() );
-        checkBoxShowHiddenFolders.addItemListener( new ItemListener() {
+        checkBoxShowHiddenFiles = new JCheckBox( "", Preferences.getInstance().isShowHiddenFiles() );
+        checkBoxShowHiddenFiles.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 try {
-                    Preferences.getInstance().setShowHiddenFolders( checkBoxShowHiddenFolders.isSelected() );
+                    Preferences.getInstance().setShowHiddenFiles( checkBoxShowHiddenFiles.isSelected() );
                 }
                 catch( Exception e2 ) {
                     e2.printStackTrace();
@@ -79,7 +79,7 @@ class FileBrowser extends JPanel {
         add( BorderLayout.CENTER, scrollPaneEntries );
         add( BorderLayout.NORTH, panelLocation );
         if( Util.isShowHiddenDirectoryOptionAvailable() )
-            add( BorderLayout.SOUTH, checkBoxShowHiddenFolders );
+            add( BorderLayout.SOUTH, checkBoxShowHiddenFiles );
 
         setCurrLocation( currLoc );
         
@@ -88,15 +88,15 @@ class FileBrowser extends JPanel {
     
     public void updateLocalization() {
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.FileBrowserRes", Preferences.getInstance().getLocale());
-        checkBoxShowHiddenFolders.setText(resBundle.getString("showHiddenFolders"));
+        checkBoxShowHiddenFiles.setText(resBundle.getString("showHiddenFiles"));
     }
 
     public void setFont( Font font ) {
         super.setFont( font );
         if( listEntries != null )
             listEntries.setFont( font );
-        if( checkBoxShowHiddenFolders != null )
-            checkBoxShowHiddenFolders.setFont( font );
+        if( checkBoxShowHiddenFiles != null )
+            checkBoxShowHiddenFiles.setFont( font );
     }
 
     public void update( String newLoc ) {
@@ -128,7 +128,7 @@ class FileBrowser extends JPanel {
         textFieldLocation.setText( dir + "" );
         textFieldLocation.setCaretPosition( 0 );
 
-        File[] entries = dir.listFiles( new XMLFileFilter() );
+        File[] entries = dir.listFiles( new DataFileFilter() );
        
         DefaultListModel model = new DefaultListModel();
         model.addElement( new File( ".." ) );
@@ -243,7 +243,7 @@ class FileBrowser extends JPanel {
     
     private JList       listEntries;
     private JScrollPane scrollPaneEntries;
-    private JCheckBox   checkBoxShowHiddenFolders;
+    private JCheckBox   checkBoxShowHiddenFiles;
 
     private String      currLoc;
     private String      currFileLoc;
