@@ -190,8 +190,11 @@ class JDialogManageClassifications extends JDialog {
             if( classifFile != null ) {
                 try {
                     Classification classif = Classification.load( classifFile );
-                    if( !listModelClassifs.contains( classif ) )
-                        listModelClassifs.addElement( classif );
+                    if( listModelClassifs.contains( classif ) ) {
+                        listModelClassifs.removeElement(classif);
+                        treeModels.remove(classif.getUrl());
+                    }
+                    listModelClassifs.addElement(classif);
                     update();
                 }
                 catch( Exception e ) {
@@ -217,8 +220,10 @@ class JDialogManageClassifications extends JDialog {
                 int[] indices = jListClassifs.getSelectedIndices();
                 for( int i = 0; i < indices.length; i++ ) {
                     Classification classif = (Classification)jListClassifs.getModel().getElementAt( indices[ i ] );
-                    if( classif.delete() )
-                        itemsToRemove.add( classif );
+                    if( classif.delete() ) {
+                        itemsToRemove.add(classif);
+                        treeModels.remove(classif.getUrl());
+                    }
                 }
                 
                 jListClassifs.removeListSelectionListener( listSelectionListenerClassifs );
