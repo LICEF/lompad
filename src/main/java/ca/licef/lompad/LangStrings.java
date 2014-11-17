@@ -59,12 +59,23 @@ class LangStrings {
                 string = it.next();
             }
             else {
+                //removing country code
                 for( Iterator<String> it = strings.keySet().iterator(); it.hasNext(); ) {
                     String key = it.next();
                     int indexOfDash = key.indexOf( "-" );
                     if( indexOfDash != -1 ) {
                         String lang = key.substring( 0, indexOfDash );
                         if( language.equals( lang ) ) 
+                            return( strings.get( key ) );
+                    }
+                }
+
+                //code ISO. 3 to 2 digits
+                for( Iterator<String> it = strings.keySet().iterator(); it.hasNext(); ) {
+                    String key = it.next();
+                    if (key.length() > 2) {
+                        String lang = key.substring( 0, 2 );
+                        if( language.equals( lang ) )
                             return( strings.get( key ) );
                     }
                 }
