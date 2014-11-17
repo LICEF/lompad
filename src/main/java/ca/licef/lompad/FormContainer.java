@@ -100,6 +100,7 @@ abstract class FormContainer extends FormComponent {
                     isLine ? new LocalizeTitledBorder(title) :
                     new LocalizeTitledBorder(BorderFactory.createEmptyBorder(), title);
             border.setTitleFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+            border.setTitleColor(Color.black);
             jPanelContent.setBorder(border);
         }
     }
