@@ -231,24 +231,8 @@ public class JPanelTaxonomy extends JPanel {
         int selectedIndex = jComboBoxClassification.getSelectedIndex();
         if( selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
-            File classifFile = Classification.doImportFile( this );
-            if( classifFile == null )
-                jComboBoxClassification.setSelectedIndex( prevSelectedClassifIndex );    
-            else {
-                try {
-                    Classification classif = Classification.load( classifFile );
-                    initClassification( jComboBoxClassification.getItemCount() - 1, classif );
-                    if( jComboBoxClassification.getItemCount() - 2 >= 0 ) {
-                        jComboBoxClassification.setSelectedIndex( jComboBoxClassification.getItemCount() - 2 ); 
-                        prevSelectedClassifIndex = selectedIndex;
-                        updateCurrentSelectedClassif();
-                    }
-                }
-                catch( Exception e ) {
-                    // Ignore files that we cannot handle properly.
-                    e.printStackTrace();
-                }
-            }
+            this.parentDialog.setVisible(false);
+            JPanelForm.instance.manageLocalClassifications();
         }
         else {
             prevSelectedClassifIndex = selectedIndex;

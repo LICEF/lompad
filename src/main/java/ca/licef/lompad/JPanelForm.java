@@ -658,4 +658,10 @@ class JPanelForm extends JPanel {
         }
     }
 
+    public void manageLocalClassifications() {
+        JDialogManageClassifications dialogManageClassif = new JDialogManageClassifications( Util.getTopJFrame(this) );
+        dialogManageClassif.setSize( 660, 400 );
+        dialogManageClassif.setVisible( true );
+    }
+
 }

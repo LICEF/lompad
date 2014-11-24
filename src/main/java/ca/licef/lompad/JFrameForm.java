@@ -372,7 +372,7 @@ class JFrameForm extends JFrame {
             else if (object == itemProfileNormetic_1_2_AllElements)
                 setApplicationProfileView("NORMETIC_1p2_AllElements");
             else if (object == itemPreferencesManageLocalClassifs )
-                manageLocalClassifications();
+                jPanelForm.manageLocalClassifications();
             else if (object == itemHelpRefDoc)
                 Util.launchFile("http://helios.licef.ca:8080/LomPad/LOM_1484_12_1_v1_Final_Draft.pdf");
             else if (object == itemAbout)
@@ -396,12 +396,6 @@ class JFrameForm extends JFrame {
         JWindowAbout w = new JWindowAbout(this, false);
         w.setSize(376, 314);
         w.setVisible(true);
-    }
-
-    private void manageLocalClassifications() {
-        JDialogManageClassifications dialogManageClassif = new JDialogManageClassifications( this );
-        dialogManageClassif.setSize( 660, 400 );
-        dialogManageClassif.setVisible( true );
     }
 
 }
