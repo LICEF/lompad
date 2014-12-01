@@ -272,9 +272,11 @@ class Classification {
 
                 String xml = IOUtil.readStringFromFile( chooser.getSelectedFile() );
                 String rootTagName = XMLUtil.getRootTagName( xml );
-
+                if (rootTagName != null) {
+                    String[] array = StringUtil.split(rootTagName, ':');
+                    rootTagName = array[array.length - 1].toLowerCase();
+                }
                 boolean isVdexFile = ( rootTagName != null && "vdex".equals( rootTagName ) );
-
                 if( isVdexFile ) {
                     String xsltFile = "/xslt/convertVDEXToSKOS.xsl";
                     StreamSource xslt = new StreamSource( Util.class.getResourceAsStream( xsltFile ) );

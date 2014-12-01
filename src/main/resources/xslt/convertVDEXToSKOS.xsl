@@ -1,6 +1,7 @@
 <xsl:stylesheet version="2.0"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"     
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:comete="http://comete.licef.ca/reference#"
     xmlns:vdex="http://www.imsglobal.org/xsd/imsvdex_v1p0"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -18,7 +19,7 @@
                 <xsl:if test="@language">
                     <xsl:attribute name="xml:lang"><xsl:value-of select="@language"/></xsl:attribute>
                 </xsl:if>
-                <xsl:value-of select="."/> 
+                <xsl:value-of select="."/>
             </xsl:element>
         </xsl:for-each>
     </xsl:template>
@@ -31,7 +32,7 @@
                     <xsl:with-param name="langstrings" select="vdex:vocabName/vdex:langstring"/>
                 </xsl:call-template>
             </skos:ConceptScheme>
-            <xsl:apply-templates select="//vdex:term"/>
+            <xsl:apply-templates select="vdex:term"/>
         </rdf:RDF>
     </xsl:template>
 
@@ -58,7 +59,9 @@
                     <skos:topConceptOf rdf:resource="{$vocabularyUri}"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <comete:position><xsl:value-of select="position()"/></comete:position>
         </skos:Concept>
+        <xsl:apply-templates select="vdex:term"/>
     </xsl:template>
 
 </xsl:stylesheet>

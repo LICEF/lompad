@@ -2,15 +2,12 @@ package ca.licef.lompad;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.text.Collator;
 import java.text.MessageFormat;
@@ -24,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import com.hp.hpl.jena.query.Query;
@@ -33,15 +28,12 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ReadWrite;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 
@@ -166,20 +158,28 @@ public class ClassifTreeModel extends DefaultTreeModel {
         return( query );
     }
 
+    static boolean controlledPosition;
+
     private String[] getChildrenConcepts( String parentUri ) throws IOException {
         List<String> childrenConceptUris = new ArrayList<String>();
         String queryStr = getQuery( "getChildrenConcepts.sparql", parentUri );
         Query query = QueryFactory.create( queryStr, parentUri );
         QueryExecution exec = QueryExecutionFactory.create( query, model );
+        int nbPos = 0;
         try {
             for( ResultSet results = exec.execSelect(); results.hasNext(); ) {
                 QuerySolution res = results.nextSolution();
                 for( Iterator it = res.varNames(); it.hasNext(); ) {
                     String varName = it.next().toString();
-                    RDFNode n = res.get( varName );
-                    childrenConceptUris.add( n.toString() );
+                    if ("pos".equals(varName))
+                        nbPos++;
+                    else if ("o".equals(varName)) {
+                        RDFNode n = res.get(varName);
+                        childrenConceptUris.add(n.toString());
+                    }
                 }
             }
+            controlledPosition = (nbPos == childrenConceptUris.size());
         }
         finally {
             exec.close() ;
@@ -192,15 +192,21 @@ public class ClassifTreeModel extends DefaultTreeModel {
         String queryStr = getQuery( "getTopConcepts.sparql" );
         Query query = QueryFactory.create( queryStr );
         QueryExecution exec = QueryExecutionFactory.create( query, model );
+        int nbPos = 0;
         try {
             for( ResultSet results = exec.execSelect(); results.hasNext(); ) {
                 QuerySolution res = results.nextSolution();
                 for( Iterator it = res.varNames(); it.hasNext(); ) {
                     String varName = it.next().toString();
-                    RDFNode n = res.get( varName );
-                    topConceptUris.add( n.toString() );
+                    if ("pos".equals(varName))
+                        nbPos++;
+                    else if ("s".equals(varName)) {
+                        RDFNode n = res.get(varName);
+                        topConceptUris.add(n.toString());
+                    }
                 }
             }
+            controlledPosition = (nbPos == topConceptUris.size());
         }
         finally {
             exec.close() ;
@@ -243,25 +249,26 @@ public class ClassifTreeModel extends DefaultTreeModel {
             childrenNodes[ i ] = newChild;
         }
 
-        Arrays.sort( childrenNodes,
-            new Comparator<DefaultMutableTreeNode>() {
-                @Override
-                public int compare( DefaultMutableTreeNode n1, DefaultMutableTreeNode n2 ) {
-                    LocalizeTaxon taxon1 = (LocalizeTaxon)n1.getUserObject();
-                    LocalizeTaxon taxon2 = (LocalizeTaxon)n2.getUserObject();
-                    if( taxon1.id != null && taxon1.id.toLowerCase().indexOf( "uuid" ) != -1 ) {
-                        Locale locale = Preferences.getInstance().getLocale();
-                        String lang = locale.getLanguage();
-                        Collator collator = Collator.getInstance( locale );
-                        String title1 = taxon1.getTitle( lang );
-                        String title2 = taxon2.getTitle( lang );
-                        return( collator.compare( title1, title2 ) );
+        if (!controlledPosition) {
+            Arrays.sort(childrenNodes,
+                    new Comparator<DefaultMutableTreeNode>() {
+                        @Override
+                        public int compare(DefaultMutableTreeNode n1, DefaultMutableTreeNode n2) {
+                            LocalizeTaxon taxon1 = (LocalizeTaxon) n1.getUserObject();
+                            LocalizeTaxon taxon2 = (LocalizeTaxon) n2.getUserObject();
+                            if (taxon1.id != null && taxon1.id.toLowerCase().indexOf("uuid") != -1) {
+                                Locale locale = Preferences.getInstance().getLocale();
+                                String lang = locale.getLanguage();
+                                Collator collator = Collator.getInstance(locale);
+                                String title1 = taxon1.getTitle(lang);
+                                String title2 = taxon2.getTitle(lang);
+                                return (collator.compare(title1, title2));
+                            } else
+                                return (taxon1.id.compareTo(taxon2.id));
+                        }
                     }
-                    else
-                        return( taxon1.id.compareTo( taxon2.id ) );
-                }
-            }
-        );
+            );
+        }
 
         for( int i = 0; i < childrenNodes.length; i++ ) {
             DefaultMutableTreeNode childNode = childrenNodes[ i ];
