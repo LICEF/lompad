@@ -161,6 +161,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
     static boolean controlledPosition;
 
     private String[] getChildrenConcepts( String parentUri ) throws IOException {
+        controlledPosition = false;
         List<String> childrenConceptUris = new ArrayList<String>();
         String queryStr = getQuery( "getChildrenConcepts.sparql", parentUri );
         Query query = QueryFactory.create( queryStr, parentUri );
@@ -188,6 +189,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
     }
 
     private String[] getTopConcepts() throws IOException {
+        controlledPosition = false;
         List<String> topConceptUris = new ArrayList<String>();
         String queryStr = getQuery( "getTopConcepts.sparql" );
         Query query = QueryFactory.create( queryStr );
@@ -252,7 +254,6 @@ public class ClassifTreeModel extends DefaultTreeModel {
         if (!controlledPosition) {
             Arrays.sort(childrenNodes,
                     new Comparator<DefaultMutableTreeNode>() {
-                        @Override
                         public int compare(DefaultMutableTreeNode n1, DefaultMutableTreeNode n2) {
                             LocalizeTaxon taxon1 = (LocalizeTaxon) n1.getUserObject();
                             LocalizeTaxon taxon2 = (LocalizeTaxon) n2.getUserObject();
