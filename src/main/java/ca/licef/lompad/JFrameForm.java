@@ -90,6 +90,8 @@ class JFrameForm extends JFrame {
         setLanguage( Preferences.getInstance().getLocale() );
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        jPanelForm.initBrowser();
     }
 
     public void setLanguage( Locale locale ) {

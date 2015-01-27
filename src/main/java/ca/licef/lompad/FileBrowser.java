@@ -33,10 +33,10 @@ class FileBrowser extends JPanel {
 
     public static final File TOP = new File( "TOP" );
 
-    public FileBrowser( String currLoc ) {
+    public FileBrowser() {
         setLayout( new BorderLayout( 4, 4 ) );
 
-        textFieldLocation = new JTextField( currLoc );
+        textFieldLocation = new JTextField( "" );
         textFieldLocation.setEditable( false );
 
         buttonClose = new JButton( "X" );
@@ -83,8 +83,6 @@ class FileBrowser extends JPanel {
         if( Util.isShowHiddenDirectoryOptionAvailable() )
             add( BorderLayout.SOUTH, checkBoxShowHiddenFiles );
 
-        setCurrLocation( currLoc );
-        
         updateLocalization();
     }
     
@@ -99,10 +97,6 @@ class FileBrowser extends JPanel {
             listEntries.setFont( font );
         if( checkBoxShowHiddenFiles != null )
             checkBoxShowHiddenFiles.setFont( font );
-    }
-
-    public void update( String newLoc ) {
-        setCurrLocation( newLoc );
     }
 
     public void update() {
