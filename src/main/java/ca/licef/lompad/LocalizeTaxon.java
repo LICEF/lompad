@@ -40,11 +40,11 @@ public class LocalizeTaxon {
         this.titles = titles;
     }
 
-    public String getTitle( String language ) {
+    public String getTitle( String language, boolean useShowTaxumIdPref ) {
         String title = titles.getString( language );
         if( title == null )
             return( id );
-        if( Preferences.getInstance().isShowTaxumId() ) {
+        if( useShowTaxumIdPref && Preferences.getInstance().isShowTaxumId() ) {
             if( id != null && !"".equals( id ) )
                 return( id + " " + title );
         }
@@ -57,7 +57,7 @@ public class LocalizeTaxon {
 
     public String toString() {
         String lang = Preferences.getInstance().getLocale().getLanguage();
-        return( getTitle( lang ) );
+        return( getTitle( lang, true ) );
     }
 
 }
