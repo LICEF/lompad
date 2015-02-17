@@ -85,12 +85,6 @@ public class ClassifTreeModel extends DefaultTreeModel {
         }
     }
 
-    public void rebuildNodes() throws IOException {
-        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode)getRoot();
-        rootNode.removeAllChildren();
-        buildNodes();
-    }
-
     private void init( InputStream is, boolean isInferenceNeeded ) {
         try {
             model = ModelFactory.createDefaultModel();
@@ -270,8 +264,7 @@ public class ClassifTreeModel extends DefaultTreeModel {
                                 String title1 = taxon1.getTitle(lang);
                                 String title2 = taxon2.getTitle(lang);
                                 return (collator.compare(title1, title2));
-                            } 
-                            else
+                            } else
                                 return (taxon1.id.compareTo(taxon2.id));
                         }
                     }
