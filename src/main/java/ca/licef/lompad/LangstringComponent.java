@@ -24,6 +24,8 @@ import org.w3c.dom.Element;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 class LangstringComponent extends TextComponent {
@@ -38,6 +40,13 @@ class LangstringComponent extends TextComponent {
         jPanelControl.add(Box.createHorizontalStrut(5));
         jPanelControl.add(jComboBoxLang);
         jComboBoxLang.setFont(new Font("Dialog", Font.PLAIN, 10));
+        jComboBoxLang.getEditor().getEditorComponent().addKeyListener(
+            new KeyAdapter() {
+                public void keyReleased( KeyEvent e ) {
+                    jComboBoxLang.setSelectedItem( jComboBoxLang.getEditor().getItem() );
+                }
+            }
+        );
 
         Object[] values = mediator.getValues();
         for (int i = 0; i < values.length; i++)
