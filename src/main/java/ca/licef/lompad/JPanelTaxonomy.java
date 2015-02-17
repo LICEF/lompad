@@ -95,6 +95,12 @@ public class JPanelTaxonomy extends JPanel {
                     ex.printStackTrace();
                 }
                 update();
+                try {
+                    rebuildCurrentTree();
+                }
+                catch( IOException ex ) {
+                    ex.printStackTrace();
+                }
             }
         } );
 
@@ -204,6 +210,17 @@ public class JPanelTaxonomy extends JPanel {
             return null;
     }
 
+    public void rebuildCurrentTree() throws IOException {
+        rebuildTree( getCurrentTree() );
+    }
+
+    public void rebuildTree( JTree tree ) throws IOException {
+        if( tree != null ) {
+            ((ClassifTreeModel)tree.getModel()).rebuildNodes();
+            tree.updateUI();
+        }
+    }
+
     public ArrayList getTrees() {
         return trees;
     }
@@ -237,6 +254,12 @@ public class JPanelTaxonomy extends JPanel {
         else {
             prevSelectedClassifIndex = selectedIndex;
             updateCurrentSelectedClassif();
+            try {
+                rebuildCurrentTree();
+            }
+            catch( Exception ex ) {
+                ex.printStackTrace();
+            }
         }
     }
 
