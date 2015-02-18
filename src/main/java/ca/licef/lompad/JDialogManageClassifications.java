@@ -114,13 +114,6 @@ class JDialogManageClassifications extends JDialog {
         setSize(400, 150);
 
         treeModels.clear();
-        try {
-            Classification.loadAll();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-        
         listModelClassifs = new DefaultListModel();
         for( Classification classif : Classification.getAll() )
             listModelClassifs.addElement( classif );
@@ -189,7 +182,8 @@ class JDialogManageClassifications extends JDialog {
             File classifFile = Classification.doImportFile( JDialogManageClassifications.this );
             if( classifFile != null ) {
                 try {
-                    Classification classif = Classification.load( classifFile );
+                    Classification classif = new Classification( classifFile );
+                    classif.register();
                     if( listModelClassifs.contains( classif ) ) {
                         listModelClassifs.removeElement(classif);
                         treeModels.remove(classif.getUrl());

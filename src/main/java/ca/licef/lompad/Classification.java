@@ -68,20 +68,37 @@ import licef.StringUtil;
 import licef.XMLUtil;
 
 class Classification {
-    
-    public Classification( String url, Model model ) {
+
+    public Classification( File file ) {
+        this.file = file;
+        
+        try {
+            URL url = file.toURI().toURL();
+            this.url = url.toString();
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace(); // Should never happen. - FB
+        }
+    }
+
+    public Classification( String url, File file ) {
         this.url = url;
-        this.model = model;
+        this.file = file;
     }
 
     public String getUrl() {
         return( url );
     }
 
+    public File getFile() {
+        return( file );
+    }
+
     public LangStrings getTitles() {
         if( titles == null ) {
             try {
-                initializeTitles();
+                ClassificationTitlesInitializer initializer = new ClassificationTitlesInitializer( new BufferedInputStream( new FileInputStream( file ) ) );
+                titles = initializer.getTitles();
             }
             catch( Exception e ) {
                 e.printStackTrace();
@@ -91,19 +108,19 @@ class Classification {
     }
 
     public String getTitle( String language ) {
-        if( titles == null ) {
+        String title = getTitles().getString( language );
+        return( title == null ? getUrl() : title );
+    }
+
+    public Model getModel() {
+        if( model == null ) {
             try {
-                initializeTitles();
+                initModel( false );
             }
             catch( Exception e ) {
                 e.printStackTrace();
             }
         }
-        String title = titles.getString( language );
-        return( title == null ? getUrl() : title );
-    }
-
-    public Model getModel() {
         return( model );
     }
 
@@ -147,11 +164,24 @@ class Classification {
     }
 
     public static Collection<Classification> getAll() {
+        if( classifs == null ) {
+            classifs = new HashMap<String,Classification>();
+            try {
+                init();
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        }
         return( classifs.values() );
     }
 
     public static Classification get( String strUrl ) {
         return( classifs.get( strUrl ) );
+    }
+
+    public void register() {
+        classifs.put( getUrl(), this );
     }
 
     public static String retrieveTaxonPathId( String id ) {
@@ -172,40 +202,29 @@ class Classification {
         return( id );
     }
 
-    public static void loadAll() throws IOException, MalformedURLException {
-        Classification.loadAll( false );
-    }
-
-    public static void loadAll( boolean isForced ) throws IOException, MalformedURLException {
-        if( isForced || isDirty() ) {
-            classifs.clear();
-            String classifFolder = Util.getClassificationFolder();
-            if( classifFolder != null ) {
-                File[] classifFiles = new File( classifFolder ).listFiles();
-                for( int i = 0; i < classifFiles.length; i++ ) {
-                    try {
-                        Classification classif = Classification.load( classifFiles[ i ] );
-                    }
-                    catch( Exception e ) {
-                        // Skip the classification if a problem occurs.
-                        e.printStackTrace();
-                    }
+    public static void init() {
+        classifs.clear();
+        String classifFolder = Util.getClassificationFolder();
+        if( classifFolder != null ) {
+            File[] classifFiles = new File( classifFolder ).listFiles();
+            for( int i = 0; i < classifFiles.length; i++ ) {
+                try {
+                    Classification classif = new Classification( classifFiles[ i ] );
+                    classifs.put( classif.getUrl(), classif );
+                }
+                catch( Exception e ) {
+                    // Skip the classification if a problem occurs.
+                    e.printStackTrace();
                 }
             }
-            language = Preferences.getInstance().getLocale().getLanguage();
-            isShowTaxumId = Boolean.valueOf( Preferences.getInstance().isShowTaxumId() );
         }
+        language = Preferences.getInstance().getLocale().getLanguage();
+        isShowTaxumId = Boolean.valueOf( Preferences.getInstance().isShowTaxumId() );
     }
 
-    public static Classification read( File file ) throws IOException, MalformedURLException {
-        return( Classification.read( file, false ) );
-    }
-
-    public static Classification read( File file, boolean isInferenceNeeded ) throws IOException, MalformedURLException {
-        Classification classif = null;
-
-        URL url = file.toURI().toURL();
-        InputStream is = (InputStream) url.getContent();
+    private void initModel( boolean isInferenceNeeded ) throws IOException, MalformedURLException {
+        URL tmpUrl = new URL( this.url );
+        InputStream is = (InputStream) tmpUrl.getContent();
         Model model = null;
 
         try {
@@ -221,22 +240,10 @@ class Classification {
             }
         }
 
-        classif = new Classification( url.toString(), model );
+        this.model = model;
 
         if( isInferenceNeeded )
-            classif.computeInference();
-        
-        return( classif );
-    }
-
-    public static Classification load( File file ) throws IOException, MalformedURLException {
-        return( Classification.load( file, false ) );
-    }
-
-    public static Classification load( File file, boolean isInferenceNeeded ) throws IOException, MalformedURLException {
-        Classification classif = read( file, isInferenceNeeded );
-        classifs.put( classif.getUrl(), classif );
-        return( classif );
+            computeInference();
     }
 
     public boolean delete() {
@@ -297,7 +304,8 @@ class Classification {
                     skosInputFile = tmpFile;
                 }
 
-                Classification classif = Classification.read( skosInputFile, true );
+                Classification classif = new Classification( skosInputFile );
+                classif.initModel( true );
                 String uri = classif.getConceptSchemeUri();
                 if( uri == null )
                     throw new Exception( "ConceptScheme's URI not found."  );
@@ -357,33 +365,6 @@ class Classification {
         return( query );
     }
 
-    private void initializeTitles() throws IOException {
-        Map<String,String> strings = new HashMap<String,String>();
-        String queryStr = getQuery( "getConceptSchemeLabels.sparql" );
-        Query query = QueryFactory.create( queryStr );
-        QueryExecution exec = QueryExecutionFactory.create( query, model );
-        try {
-            for( ResultSet results = exec.execSelect(); results.hasNext(); ) {
-                QuerySolution res = results.nextSolution();
-                for( Iterator it = res.varNames(); it.hasNext(); ) {
-                    String varName = it.next().toString();
-                    RDFNode n = res.get( varName );
-                    if( n instanceof Literal ) {
-                        Literal literal = (Literal)n;
-                        //String lang = Util.getLangFromLocaleString( literal.getLanguage() );
-                        String lang = literal.getLanguage();
-                        String label = literal.getValue().toString().trim();
-                        strings.put( lang, label );
-                    }
-                }
-            }
-        }
-        finally {
-            exec.close() ;
-        }
-        titles = new LangStrings( strings );
-    }
-
     private void computeInference() {
         Model modelSkos = ModelFactory.createDefaultModel();
         InputStream is = getClass().getResourceAsStream("/skos.rdf");
@@ -407,14 +388,8 @@ class Classification {
         }
     }
     
-    private static boolean isDirty() {
-        return( 
-            ( isShowTaxumId == null || isShowTaxumId.booleanValue() != Preferences.getInstance().isShowTaxumId() ) ||
-            ( language == null || language != Preferences.getInstance().getLocale().getLanguage() ) 
-        );
-    }
-
     private String url;
+    private File file;
     private LangStrings titles;
     private Model model;
     private String conceptSchemeUri;
@@ -422,8 +397,6 @@ class Classification {
     private static String language = null;
     private static Boolean isShowTaxumId = null;
 
-    private static Map<String,Classification> classifs = new HashMap<String,Classification>();
+    private static Map<String,Classification> classifs = null;
 
 }
-
-

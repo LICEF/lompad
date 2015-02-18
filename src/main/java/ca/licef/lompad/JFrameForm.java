@@ -160,13 +160,6 @@ class JFrameForm extends JFrame {
             splash.setSize(376, 314);
             splash.setVisible(true);
 
-            try {
-                Classification.loadAll();
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-            }
-
             Thread.sleep(1500);
             app.setVisible(true);
             splash.setVisible(false);

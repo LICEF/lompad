@@ -20,6 +20,8 @@
 
 package ca.licef.lompad;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -68,7 +70,7 @@ public class JPanelTaxonomy extends JPanel {
     public JComboBox jComboBoxClassification;
     private JCheckBox jCheckBoxShowTaxumId;
     ArrayList trees = new ArrayList();
-    ArrayList classificationSource = new ArrayList();
+    ArrayList<String> classifUrl = new ArrayList<String>();
     ArrayList associatedPurpose = new ArrayList();
     private int prevSelectedClassifIndex = 0;
 
@@ -120,6 +122,8 @@ public class JPanelTaxonomy extends JPanel {
                 // Do not select anything if the value is invalid.
             }
         }
+        else 
+            jComboBoxClassification_actionPerformed( null );
 
         //Localization
         ResourceBundle resBundle = ResourceBundle.getBundle("properties.JPanelTaxonomyRes", Preferences.getInstance().getLocale());
@@ -140,15 +144,8 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     private void initClassifications() {
-        try {
-            Classification.loadAll();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-
         trees.clear();
-        classificationSource.clear();
+        classifUrl.clear();
         jPanelClassifications.removeAll();
         jComboBoxClassification.removeAllItems();
 
@@ -173,12 +170,10 @@ public class JPanelTaxonomy extends JPanel {
 
     private void initClassification( int index, Classification classif ) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
         JPanel jPanelClassif = new JPanel(new BorderLayout());
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Hidden Root Node" );
-        TreeModel model = new ClassifTreeModel( root, classif.getModel() );
         ClassifTree classifTree = new ClassifTree();
-        classifTree.setModel( model );
         jPanelClassif.add( new JScrollPane( classifTree ), BorderLayout.CENTER );
         trees.add( classifTree );
+        classifUrl.add( classif.getUrl() );
         parentDialog.addTreeListener( classifTree );
         jPanelClassifications.add("" + index, jPanelClassif);
         
@@ -242,6 +237,15 @@ public class JPanelTaxonomy extends JPanel {
 
     private void updateCurrentSelectedClassif() {
         Classification selectedItem = (Classification)jComboBoxClassification.getSelectedItem();
+        if( selectedItem != null ) {
+            Model model = selectedItem.getModel();
+            if( model != null ) {
+                JTree tree = (JTree)trees.get( getSelectedIndex() );
+                DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Hidden Root Node" );
+                TreeModel treeModel = new ClassifTreeModel( root, model );
+                tree.setModel( treeModel );
+            }
+        }
         int selectedIndex = jComboBoxClassification.getSelectedIndex();
         try {
             Preferences.getInstance().setPrevSelectedClassif( selectedItem.getUrl() );
