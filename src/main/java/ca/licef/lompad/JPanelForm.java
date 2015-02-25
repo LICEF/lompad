@@ -556,8 +556,12 @@ class JPanelForm extends JPanel {
                 Util.setBundleLocale(Locale.FRENCH);
                 lomForm.graphicalUpdate();
             }
-            if (lang.equals("en")) {
+            else if (lang.equals("en")) {
                 Util.setBundleLocale(Locale.ENGLISH);
+                lomForm.graphicalUpdate();
+            }
+            else if (lang.equals("es")) {
+                Util.setBundleLocale(new Locale("es"));
                 lomForm.graphicalUpdate();
             }
 

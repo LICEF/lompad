@@ -167,7 +167,11 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserLoc", fileBrowserLoc + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserOpened", isFileBrowserOpen + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", ( locale == Locale.FRENCH ? "fr" : "en" ) + "" ) + "/>\n";
+        String lang;
+        if( locale == Locale.FRENCH ) lang = "fr";
+        else if( locale == Locale.ENGLISH ) lang = "en";
+        else lang = "es";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", lang ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
         xml += "</prefs>\n";
         return xml;
@@ -212,8 +216,10 @@ public class Preferences {
                         else if( "locale".equals( key ) ) {
                             if( "fr".equals( value ) )
                                 locale = Locale.FRENCH;
-                            else
+                            else if( "en".equals( value ) )
                                 locale = Locale.ENGLISH;
+                            else
+                                locale = new Locale("es");
                         }
                         else if( "applProfView".equals( key ) )
                             applProfileView = value;

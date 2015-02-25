@@ -38,6 +38,7 @@ class JFrameForm extends JFrame {
     private JMenuItem itemQuit;
     private JRadioButtonMenuItem itemLanguageFrench;
     private JRadioButtonMenuItem itemLanguageEnglish;
+    private JRadioButtonMenuItem itemLanguageSpanish;
     private JMenuItem itemProfileIEEE;
     private JMenuItem itemProfileCanCore;
     private JMenuItem itemProfileScorm;
@@ -103,7 +104,11 @@ class JFrameForm extends JFrame {
             e.printStackTrace();
         }
         updateLocalization();
-        jPanelForm.changeLanguage( locale == Locale.FRENCH ? "fr" : "en" );
+        String lang;
+        if( locale == Locale.FRENCH ) lang = "fr";
+        else if( locale == Locale.ENGLISH ) lang = "en";
+        else lang = "es";
+        jPanelForm.changeLanguage( lang );
     }
 
     void updateLocalization() {
@@ -129,6 +134,7 @@ class JFrameForm extends JFrame {
         menuLanguage.setText(resBundle.getString("language"));
         itemLanguageFrench.setText(resBundle.getString("french"));
         itemLanguageEnglish.setText(resBundle.getString("english"));
+        itemLanguageSpanish.setText(resBundle.getString("spanish"));
         menuProfiles.setText(resBundle.getString("standards"));
         itemProfileIEEE.setText(resBundle.getString("IEEE"));
         itemProfileCanCore.setText(resBundle.getString("CANCORE"));
@@ -226,13 +232,20 @@ class JFrameForm extends JFrame {
         itemLanguageEnglish.setFont(menuFile.getFont());
         itemLanguageEnglish.addActionListener(lSymAction);
         menuLanguage.add(itemLanguageEnglish);
+        itemLanguageSpanish = new JRadioButtonMenuItem("spanish");
+        itemLanguageSpanish.setFont(menuFile.getFont());
+        itemLanguageSpanish.addActionListener(lSymAction);
+        menuLanguage.add(itemLanguageSpanish);
         ButtonGroup groupmenuLanguage = new ButtonGroup();
         groupmenuLanguage.add(itemLanguageFrench);
         groupmenuLanguage.add(itemLanguageEnglish);
+        groupmenuLanguage.add(itemLanguageSpanish);
         if( Preferences.getInstance().getLocale() == Locale.FRENCH )
             itemLanguageFrench.setSelected( true );
-        else 
+        else if ( Preferences.getInstance().getLocale() == Locale.ENGLISH )
             itemLanguageEnglish.setSelected( true );
+        else
+            itemLanguageSpanish.setSelected( true );
         mb.add(menuLanguage);
 
         menuProfiles = new JMenu("standards");
@@ -348,6 +361,8 @@ class JFrameForm extends JFrame {
                 setLanguage( Locale.FRENCH );
             else if (object == itemLanguageEnglish)
                 setLanguage( Locale.ENGLISH );
+            else if (object == itemLanguageSpanish)
+                setLanguage(new Locale("es"));
             else if (object == itemProfileIEEE)
                 setApplicationProfileView("IEEE");
             else if (object == itemProfileCanCore)
