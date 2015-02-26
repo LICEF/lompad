@@ -126,7 +126,7 @@ class JFrameForm extends JFrame {
         itemNewFile.setText(resBundle.getString("new"));
         itemOpenFile.setText(resBundle.getString("open"));
         itemSaveFile.setText(resBundle.getString("save"));
-        itemSaveFileAs.setText(resBundle.getString("saveas"));
+        itemSaveFileAs.setText(resBundle.getString("saveas") + "...");
         itemBrowseFolder.setText(resBundle.getString("browseFolder"));
         itemViewHtml.setText(resBundle.getString("viewhtml"));
         itemViewXml.setText(resBundle.getString("viewxml"));
