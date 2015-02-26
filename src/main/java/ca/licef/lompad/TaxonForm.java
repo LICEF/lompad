@@ -93,7 +93,7 @@ class TaxonForm extends FormContainer {
             String res =(c instanceof FormContainer)?
                     c.toHTMLData(key):c.toHTML(key);
             if (res != null) {
-                html = ((i == 0) ? "<LI>" : "") + html + doTab((i == 0) ? 0 : 13 + j*10) + res;
+                html += doTab((i == 0) ? 0 : 13 + j*10) + res;
                 j++;
             }
         }
