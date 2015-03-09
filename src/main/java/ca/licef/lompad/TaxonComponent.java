@@ -75,6 +75,7 @@ class TaxonComponent extends FormComponent {
         jPanelControl.add(Box.createHorizontalStrut(5));
         jPanelControl.add(jComboBoxLang);
         jComboBoxLang.setFont(new Font("Dialog", Font.PLAIN, 10));
+        jComboBoxLang.getEditor().getEditorComponent().addKeyListener( new ComboBoxKeyListener( jComboBoxLang ) );
 
         Object[] values = mediator.getValues();
         for (int i = 0; i < values.length; i++)
