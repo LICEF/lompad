@@ -125,8 +125,13 @@ class JPanelForm extends JPanel {
                     setEnabled( false );
                     if( openFileFromBrowser( e.getFile() + "" ) )
                         browser.setCurrLocation( e.getFile() + "" );
-                    else
-                        browser.setCurrLocation( browser.getCurrFileLocation() );
+                    else {
+                        String currFileLoc = browser.getCurrFileLocation();
+                        if( currFileLoc == null )
+                            browser.clearSelection();
+                        else
+                            browser.setCurrLocation( currFileLoc );
+                    }
                     setEnabled( true );
                 }
             }
