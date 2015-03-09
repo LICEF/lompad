@@ -383,9 +383,13 @@ class JPanelForm extends JPanel {
             isValidFile = false;
             JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
             dialog.setVisible( true );
+            if( browser != null ) {
+                browser.clearSelection();
+                file = null;
+            }
         }
 
-        this.file = new File( file );
+        this.file = ( file == null ? null : new File( file ) );
 
         lomForm.initiateHasChanged();
         updateFrameTitle();
@@ -398,9 +402,10 @@ class JPanelForm extends JPanel {
             catch( Exception e2 ) {
                 e2.printStackTrace();
             }
+            return( true );
         }
 
-        return( true );
+        return( false );
     }
 
     public void openFile(String label) {
@@ -420,18 +425,28 @@ class JPanelForm extends JPanel {
         }
 
         file = fileTmp;
+        boolean isValidFile = true;
 
         try {
             lomForm.fromXML(new FileInputStream(file));
         } catch (Exception e) {
+            isValidFile = false;
             JDialogAlert dialog = new JDialogAlert(Util.getTopJFrame(this), "titleErr", "text1");
             dialog.setVisible( true );
+            if( browser != null ) {
+                browser.clearSelection();
+                file = null;
+            }
         }
         lomForm.initiateHasChanged();
         updateFrameTitle();
         updateNormeticIcon();
-        if( browser != null )
-            browser.setCurrLocation( file + "" );
+        if( browser != null ) {
+            if( isValidFile )
+                browser.setCurrLocation( file + "" );
+            else
+                browser.setCurrLocation( browser.getCurrFileLocation() );
+        }
     }
 
     File selectFile(boolean openMode, String label) {

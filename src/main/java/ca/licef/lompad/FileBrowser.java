@@ -112,6 +112,9 @@ class FileBrowser extends JPanel {
     }
 
     public void setCurrLocation( String currLoc ) {
+        if( currLoc == null )
+            return;
+
         File loc = new File( currLoc ); 
         boolean isTop = ( TOP.equals( loc )  );
 
