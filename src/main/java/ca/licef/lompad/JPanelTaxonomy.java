@@ -224,7 +224,7 @@ public class JPanelTaxonomy extends JPanel {
 
     void jComboBoxClassification_actionPerformed( ActionEvent event ) {
         int selectedIndex = jComboBoxClassification.getSelectedIndex();
-        if( selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
+        if( event != null && selectedIndex == jComboBoxClassification.getItemCount() - 1 ) { 
             jComboBoxClassification.hidePopup(); // Required to prevent a bug on my laptop screen. - FB
             this.parentDialog.setVisible(false);
             JPanelForm.instance.manageLocalClassifications();
@@ -236,30 +236,33 @@ public class JPanelTaxonomy extends JPanel {
     }
 
     private void updateCurrentSelectedClassif() {
-        Classification selectedItem = (Classification)jComboBoxClassification.getSelectedItem();
-        if( selectedItem != null ) {
-            Model model = selectedItem.getModel();
-            if( model != null ) {
-                JTree tree = (JTree)trees.get( getSelectedIndex() );
-                DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Hidden Root Node" );
-                TreeModel treeModel = new ClassifTreeModel( root, model );
-                tree.setModel( treeModel );
+        Object selectedItem = jComboBoxClassification.getSelectedItem();
+        if( selectedItem instanceof Classification ) {
+            Classification selectedClassif = (Classification)jComboBoxClassification.getSelectedItem();
+            if( selectedClassif != null ) {
+                Model model = selectedClassif.getModel();
+                if( model != null ) {
+                    JTree tree = (JTree)trees.get( getSelectedIndex() );
+                    DefaultMutableTreeNode root = new DefaultMutableTreeNode( "Hidden Root Node" );
+                    TreeModel treeModel = new ClassifTreeModel( root, model );
+                    tree.setModel( treeModel );
+                }
             }
-        }
-        int selectedIndex = jComboBoxClassification.getSelectedIndex();
-        try {
-            Preferences.getInstance().setPrevSelectedClassif( selectedItem.getUrl() );
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-        CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
-        cardLayout.show(jPanelClassifications, selectedIndex + "");
-        for (Iterator it = trees.iterator(); it.hasNext();) {
-            JTree tree = (JTree)it.next();
-            tree.clearSelection();
-            // bug fix: in jre7 , JTree.setRootVisible(false) renders whole tree invisible, must add a expandPath to reender tree
-            tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
+            int selectedIndex = jComboBoxClassification.getSelectedIndex();
+            try {
+                Preferences.getInstance().setPrevSelectedClassif( selectedClassif.getUrl() );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+            CardLayout cardLayout = ((CardLayout)jPanelClassifications.getLayout());
+            cardLayout.show(jPanelClassifications, selectedIndex + "");
+            for (Iterator it = trees.iterator(); it.hasNext();) {
+                JTree tree = (JTree)it.next();
+                tree.clearSelection();
+                // bug fix: in jre7 , JTree.setRootVisible(false) renders whole tree invisible, must add a expandPath to reender tree
+                tree.expandPath(new TreePath(((DefaultMutableTreeNode) tree.getModel().getRoot()).getPath()));
+            }
         }
     }
 

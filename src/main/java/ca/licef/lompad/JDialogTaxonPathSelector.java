@@ -101,7 +101,8 @@ public class JDialogTaxonPathSelector extends JDialog {
             bOk = false;
             updateLocalization();
         }
-        jPanelTaxonomy.setVisible(b);
+        if( jPanelTaxonomy != null )
+            jPanelTaxonomy.setVisible(b);
         super.setVisible(b);
     }
 
