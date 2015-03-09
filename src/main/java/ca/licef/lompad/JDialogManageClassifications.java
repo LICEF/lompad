@@ -215,6 +215,14 @@ class JDialogManageClassifications extends JDialog {
                 for( int i = 0; i < indices.length; i++ ) {
                     Classification classif = (Classification)jListClassifs.getModel().getElementAt( indices[ i ] );
                     if( classif.delete() ) {
+                        if( classif.getUrl().equals( Preferences.getInstance().getPrevSelectedClassif() ) ) {
+                            try {
+                                Preferences.getInstance().setPrevSelectedClassif( null );
+                            }
+                            catch( Exception e ) {
+                                e.printStackTrace();
+                            }
+                        }
                         itemsToRemove.add(classif);
                         treeModels.remove(classif.getUrl());
                     }

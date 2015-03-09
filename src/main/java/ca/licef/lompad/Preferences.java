@@ -162,17 +162,22 @@ public class Preferences {
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowHiddenFiles", isShowHiddenFilesEnabled + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "mimeSubtypeSortMode", mimeSubtypeSortMode + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "isShowTaxumId", isShowTaxumIdEnabled + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "workingDir", workingDir + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserLoc", fileBrowserLoc + "" ) + "/>\n";
+        if( prevClassifDir != null )
+            xml += "  <pref " + getKeyValueAsXmlAttributes( "prevClassifDir", prevClassifDir + "" ) + "/>\n";
+        if( workingDir != null )
+            xml += "  <pref " + getKeyValueAsXmlAttributes( "workingDir", workingDir + "" ) + "/>\n";
+        if( fileBrowserLoc != null )
+            xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserLoc", fileBrowserLoc + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserOpened", isFileBrowserOpen + "" ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
+        if( prevSelectedClassif != null )
+            xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         String lang;
         if( locale == Locale.FRENCH ) lang = "fr";
         else if( locale == Locale.ENGLISH ) lang = "en";
         else lang = "es";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "locale", lang ) + "/>\n";
-        xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
+        if( applProfileView != null )
+            xml += "  <pref " + getKeyValueAsXmlAttributes( "applProfView", applProfileView ) + "/>\n";
         xml += "</prefs>\n";
         return xml;
     }
