@@ -489,15 +489,20 @@ class JPanelForm extends JPanel {
             file = selectFile(false, label);
         if (file == null)
             return false;
-        else {
-            writeFile(file);
-            lomForm.initiateHasChanged();
-            updateFrameTitle();
-            updateNormeticIcon();
-            if( browser != null )
-                browser.setCurrLocation( file + "" );
-            return true;
+
+        if (file.exists()) {
+            JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
+            dialog.setVisible( true );
+            int res = dialog.res;
+            dialog.dispose();
+            if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO) {
+                file = null;
+                return( false );
+            }
         }
+
+        doSaveFile();
+        return true;
     }
 
     public void saveAsFile(String label) {
@@ -508,20 +513,24 @@ class JPanelForm extends JPanel {
             dialog.setVisible( true );
             int res = dialog.res;
             dialog.dispose();
-            if (res == JDialogQuestion.CANCEL)
+            if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO) {
+                file = null;
                 return;
-            if (res == JDialogQuestion.NO)
-                return;
+            }
         }
 
-        if (file != null) {
+        doSaveFile();
+    }
+
+    private void doSaveFile() {
+        if( file != null ) {
             writeFile(file);
             lomForm.initiateHasChanged();
+            updateFrameTitle();
+            updateNormeticIcon();
             if( browser != null )
                 browser.setCurrLocation( file + "" );
         }
-        updateFrameTitle();
-        updateNormeticIcon();
     }
 
     void writeFile(File f) {
