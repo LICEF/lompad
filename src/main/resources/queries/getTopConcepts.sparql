@@ -6,6 +6,7 @@ PREFIX comete: <http://comete.licef.ca/reference#>
 SELECT DISTINCT ?s ?pos
 WHERE {   
     ?s rdf:type skos:Concept .
+    ?s skos:inScheme ?sc .
     OPTIONAL {
         ?s comete:position ?pos
     }
