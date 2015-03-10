@@ -490,20 +490,22 @@ class JPanelForm extends JPanel {
     }
 
     public boolean saveFile(String label) {
-        if (file == null)
-            file = selectFile(false, label);
-        if (file == null)
-            return false;
+        if (file == null) {
+            File selectedFile = selectFile(false, label);
 
-        if (file.exists()) {
-            JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
-            dialog.setVisible( true );
-            int res = dialog.res;
-            dialog.dispose();
-            if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO) {
-                file = null;
-                return( false );
+            if (selectedFile == null)
+                return false;
+
+            if (selectedFile.exists()) {
+                JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
+                dialog.setVisible( true );
+                int res = dialog.res;
+                dialog.dispose();
+                if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO)
+                    return( false );
             }
+
+            file = selectedFile;
         }
 
         doSaveFile();
@@ -511,20 +513,20 @@ class JPanelForm extends JPanel {
     }
 
     public void saveAsFile(String label) {
-        file = selectFile(false, label);
-
-        if (file != null && file.exists()) {
-            JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
-            dialog.setVisible( true );
-            int res = dialog.res;
-            dialog.dispose();
-            if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO) {
-                file = null;
-                return;
+        File selectedFile = selectFile(false, label);
+        if (selectedFile != null ) {
+            if( selectedFile.exists()) {
+                JDialogQuestion dialog = new JDialogQuestion(Util.getTopJFrame(this), "title", "text2");
+                dialog.setVisible( true );
+                int res = dialog.res;
+                dialog.dispose();
+                if (res == JDialogQuestion.CANCEL || res == JDialogQuestion.NO)
+                    return;
             }
-        }
+            file = selectedFile;
 
-        doSaveFile();
+            doSaveFile();
+        }
     }
 
     private void doSaveFile() {
