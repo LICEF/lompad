@@ -113,14 +113,14 @@ public class JPanelTaxonomy extends JPanel {
 
         String prevSelectedClassif = Preferences.getInstance().getPrevSelectedClassif();
         if( prevSelectedClassif != null && !"".equals( prevSelectedClassif ) ) {
-            try {
-                // Dummy classif used for selection only. - FB
-                Classification selectedClassif = new Classification( Preferences.getInstance().getPrevSelectedClassif(), null );
+            // Dummy classif used for selection only. - FB
+            Classification selectedClassif = new Classification( Preferences.getInstance().getPrevSelectedClassif(), null );
+            int selectedIndex = ((DefaultComboBoxModel)jComboBoxClassification.getModel()).getIndexOf( selectedClassif );
+            // Select the classif if it's valid otherwise, initialize the classif tree with the first classif.
+            if( selectedIndex == -1 )
+                jComboBoxClassification_actionPerformed( null );
+            else
                 jComboBoxClassification.setSelectedItem( selectedClassif );
-            }
-            catch( Exception e ) {
-                // Do not select anything if the value is invalid.
-            }
         }
         else 
             jComboBoxClassification_actionPerformed( null );
