@@ -40,6 +40,7 @@ public class JTextAreaPopup extends JTextArea {
     PopupMenuMouseListener pop = new PopupMenuMouseListener();
     public JTextAreaPopup() {
         super();
+        this.setWrapStyleWord(true);
         addMouseListener(pop);
     }
 

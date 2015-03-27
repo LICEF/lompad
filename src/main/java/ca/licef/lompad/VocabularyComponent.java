@@ -25,6 +25,8 @@ import org.w3c.dom.NodeList;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -60,6 +62,16 @@ class VocabularyComponent extends FormComponent {
         }
         SymAction lSymAction = new SymAction();
         jComboBoxVocabulary.addActionListener(lSymAction);
+
+        if (this.isEditable) {
+            jComboBoxVocabulary.getEditor().getEditorComponent().addKeyListener(
+                new KeyAdapter() {
+                    public void keyReleased( KeyEvent e ) {
+                        jComboBoxVocabulary.setSelectedItem( jComboBoxVocabulary.getEditor().getItem() );
+                    }
+                }
+            );
+        }
     }
 
     boolean isFilled() {
