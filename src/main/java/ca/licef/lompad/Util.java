@@ -209,6 +209,7 @@ class Util {
     static ImageIcon folderIcon;
     static ImageIcon fileIcon;
     static ImageIcon rootIcon;
+    static ImageIcon vcardIcon;
 
     static void initImageIcon(Class cl) {
         imageApp = getImage(cl, "app.gif");
@@ -230,6 +231,7 @@ class Util {
         folderIcon = new ImageIcon(getImage(cl, "folder.gif"));
         fileIcon = new ImageIcon(getImage(cl, "file.gif"));
         rootIcon = new ImageIcon(getImage(cl, "root.gif"));
+        vcardIcon = new ImageIcon(getImage(cl, "vcard.png"));
     }
 
     public static Image getImage(Class cl, String name) {

@@ -27,102 +27,93 @@ import java.awt.*;
 import info.clearthought.layout.TableLayout; 
 
 class EntityComponent extends FormComponent {
+
+    String vCard = null;
+
     JPanel jPanelEntity;
 
-    JPanel jPanelNameElements;
-    JPanel jPanelPrefix;
-    JPanel jPanelNames;
-    JPanel jPanelSuffix;
-
-    JPanel jPanelOtherInfo;
-
-    LocalizeJLabel jLabelPrefix;
     LocalizeJLabel jLabelGivenName;
     LocalizeJLabel jLabelFamilyName;
-    LocalizeJLabel jLabelAdditionalName;
-    LocalizeJLabel jLabelSuffix;
     LocalizeJLabel jLabelEMail;
     LocalizeJLabel jLabelOrg;
 
-    JTextFieldPopup jTextFieldPrefix;
     JTextFieldPopup jTextFieldGivenName;
     JTextFieldPopup jTextFieldFamilyName;
-    JTextFieldPopup jTextFieldAdditionalName;
-    JTextFieldPopup jTextFieldSuffix;
     JTextFieldPopup jTextFieldEMail;
     JTextFieldPopup jTextFieldOrg;
+
+    JPanel jPanelVCard;
+    JButton jButtonVCard;
 
     public EntityComponent(boolean isFirst) {
         super(null);
 
         jPanelEntity = new JPanel();
         jPanelEntity.setOpaque(false);
-        jTextFieldPrefix = new JTextFieldPopup();
         jTextFieldGivenName = new JTextFieldPopup();
         jTextFieldFamilyName = new JTextFieldPopup();
-        jTextFieldAdditionalName = new JTextFieldPopup();
-        jTextFieldSuffix = new JTextFieldPopup();
         jTextFieldEMail = new JTextFieldPopup();
         jTextFieldOrg = new JTextFieldPopup();
+
+        jButtonVCard = new JButton(Util.vcardIcon);
+        jButtonVCard.setBorderPainted(false);
+        jButtonVCard.setFocusPainted(false);
+        jButtonVCard.setPreferredSize(new Dimension(28, 23));
+
+        jPanelVCard = new JPanel();
+        jPanelVCard.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        jPanelVCard.add(jButtonVCard);
 
         double xBorder = 2;
         double yBorder = 0;
         double shortGap = 2;
-        double largeGap = 4;
+        double largeGap = 10;
         double sectionGap = 20;
         double sizeForFirst[][] = { 
-            { xBorder, 0.055, largeGap, 0.165, shortGap, 0.165, shortGap, 0.165, largeGap, 0.055, sectionGap, TableLayout.FILL, shortGap, 0.22, xBorder },
+            { xBorder, 0.23, shortGap, 0.23, shortGap, 0.23, shortGap, 0.23, shortGap, 0.06 },
             { yBorder, 0.5, shortGap, 0.5, yBorder } 
         };
         double sizeForOther[][] = {
-            { xBorder, 0.055, largeGap, 0.165, shortGap, 0.165, shortGap, 0.165, largeGap, 0.055, sectionGap, TableLayout.FILL, shortGap, 0.22, xBorder },
+            { xBorder, 0.23, shortGap, 0.23, shortGap, 0.23, shortGap, 0.23, shortGap, 0.06 },
             { yBorder, TableLayout.FILL, yBorder } 
         };
         jPanelEntity.setLayout( new TableLayout( isFirst ? sizeForFirst : sizeForOther ) );
 
         if( isFirst ) {
             java.awt.Font labelFont = new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12);
-            jLabelPrefix = new LocalizeJLabel("prefix");
-            jLabelPrefix.setFont(labelFont);
             jLabelGivenName = new LocalizeJLabel("givenName");
             jLabelGivenName.setFont(labelFont);
             jLabelFamilyName = new LocalizeJLabel("familyName");
             jLabelFamilyName.setFont(labelFont);
-            jLabelAdditionalName = new LocalizeJLabel("additionalName");
-            jLabelAdditionalName.setFont(labelFont);
-            jLabelSuffix = new LocalizeJLabel("suffix");
-            jLabelSuffix.setFont(labelFont);
             jLabelEMail = new LocalizeJLabel("email");
             jLabelEMail.setFont(labelFont);
             jLabelOrg = new LocalizeJLabel("org");
             jLabelOrg.setFont(labelFont);
 
-            jPanelEntity.add( jLabelPrefix,             "1, 1" );
-            jPanelEntity.add( jLabelGivenName,          "3, 1" );
-            jPanelEntity.add( jLabelFamilyName,         "5, 1" );
-            jPanelEntity.add( jLabelAdditionalName,     "7, 1" );
-            jPanelEntity.add( jLabelSuffix,             "9, 1" );
-            jPanelEntity.add( jLabelEMail,              "11, 1" );
-            jPanelEntity.add( jLabelOrg,                "13, 1" );
+            jPanelEntity.add( jLabelGivenName,          "1, 1" );
+            jPanelEntity.add( jLabelFamilyName,         "3, 1" );
+            jPanelEntity.add( jLabelEMail,              "5, 1" );
+            jPanelEntity.add( jLabelOrg,                "7, 1" );
 
-            jPanelEntity.add( jTextFieldPrefix,         "1, 3" );
-            jPanelEntity.add( jTextFieldGivenName,      "3, 3" );
-            jPanelEntity.add( jTextFieldFamilyName,     "5, 3" );
-            jPanelEntity.add( jTextFieldAdditionalName, "7, 3" );
-            jPanelEntity.add( jTextFieldSuffix,         "9, 3" );
-            jPanelEntity.add( jTextFieldEMail,          "11, 3" );
-            jPanelEntity.add( jTextFieldOrg,            "13, 3" );
+            jPanelEntity.add( jTextFieldGivenName,      "1, 3" );
+            jPanelEntity.add( jTextFieldFamilyName,     "3, 3" );
+            jPanelEntity.add( jTextFieldEMail,          "5, 3" );
+            jPanelEntity.add( jTextFieldOrg,            "7, 3" );
+            jPanelEntity.add( jPanelVCard,              "9, 3" );
         }
         else {
-            jPanelEntity.add( jTextFieldPrefix,         "1, 1" );
-            jPanelEntity.add( jTextFieldGivenName,      "3, 1" );
-            jPanelEntity.add( jTextFieldFamilyName,     "5, 1" );
-            jPanelEntity.add( jTextFieldAdditionalName, "7, 1" );
-            jPanelEntity.add( jTextFieldSuffix,         "9, 1" );
-            jPanelEntity.add( jTextFieldEMail,          "11, 1" );
-            jPanelEntity.add( jTextFieldOrg,            "13, 1" );
+            jPanelEntity.add( jTextFieldGivenName,      "1, 1" );
+            jPanelEntity.add( jTextFieldFamilyName,     "3, 1" );
+            jPanelEntity.add( jTextFieldEMail,          "5, 1" );
+            jPanelEntity.add( jTextFieldOrg,            "7, 1" );
+            jPanelEntity.add( jPanelVCard,              "9, 1" );
         }
         jPanelGauche.add(jPanelEntity);
+
+        SymAction lSymAction = new SymAction();
+        jButtonVCard.addActionListener(lSymAction);
+        SymMouse aSymMouse = new SymMouse();
+        jButtonVCard.addMouseListener(aSymMouse);
     }
 
     boolean isFilled() {
@@ -133,94 +124,82 @@ class EntityComponent extends FormComponent {
     }
 
     public void setEnabled(boolean b) {
-        jTextFieldPrefix.setEditable(b);
-        jTextFieldPrefix.setBackground(Color.white);
         jTextFieldGivenName.setEditable(b);
         jTextFieldGivenName.setBackground(Color.white);
         jTextFieldFamilyName.setEditable(b);
         jTextFieldFamilyName.setBackground(Color.white);
-        jTextFieldAdditionalName.setEditable(b);
-        jTextFieldAdditionalName.setBackground(Color.white);
-        jTextFieldSuffix.setEditable(b);
-        jTextFieldSuffix.setBackground(Color.white);
         jTextFieldEMail.setEditable(b);
         jTextFieldEMail.setBackground(Color.white);
         jTextFieldOrg.setEditable(b);
         jTextFieldOrg.setBackground(Color.white);
     }
 
-    //XML
-    String toXML(String key) {
-        // No need to call convertSpecialCharactersForXML() here because the data is enclosed between CDATA delimiters.
-        String familyName = jTextFieldFamilyName.getText().trim();
-        String givenName = jTextFieldGivenName.getText().trim();
-        String additionalName = jTextFieldAdditionalName.getText().trim();
-        String prefix = jTextFieldPrefix.getText().trim();
-        String suffix = jTextFieldSuffix.getText().trim();
-        String email = jTextFieldEMail.getText().trim();
-        String org = jTextFieldOrg.getText().trim();
-
-        if( ( familyName + givenName + additionalName + prefix + suffix + email + org ).length() == 0 )
-            return( null );
-
-        String vCard = "";
-
-        StringBuilder nValue = new StringBuilder();
-        nValue.append( familyName ).append( ";" );
-        nValue.append( givenName ).append( ";" );
-        nValue.append( additionalName ).append( ";" );
-        nValue.append( prefix ).append( ";" );
-        nValue.append( suffix ).append( ";" );
-        // Remove trailing semicolons.
-        while( nValue.length() > 0 && nValue.charAt( nValue.length() - 1 ) == ';' ) 
-            nValue.deleteCharAt( nValue.length() - 1 );
-        vCard += "N:" + nValue.toString() + "\n";
-
-        StringBuilder fnValue = new StringBuilder();
-        fnValue.append( prefix );
-        if( prefix.length() > 0 )
-            fnValue.append( " " );
-        fnValue.append( givenName );
-        if( givenName.length() > 0 )
-            fnValue.append( " " );
-        fnValue.append( additionalName );
-        if( additionalName.length() > 0 )
-            fnValue.append( " " );
-        fnValue.append( familyName );
-        if( familyName.length() > 0 )
-            fnValue.append( " " );
-        fnValue.append( suffix );
-        vCard += "FN:" + fnValue.toString() + "\n";
-
-        if (!jTextFieldEMail.getText().trim().equals(""))
-            vCard += "EMAIL;TYPE=INTERNET:" + email + "\n";
-        if (!jTextFieldOrg.getText().trim().equals(""))
-            vCard += "ORG:" + org + "\n";
-
-        vCard = "<![CDATA[BEGIN:VCARD\nVERSION:3.0\n" + vCard + "END:VCARD]]>";
-        return vCard;
+    class SymAction implements java.awt.event.ActionListener {
+        public void actionPerformed(java.awt.event.ActionEvent event) {
+            Object object = event.getSource();
+            if (object == jButtonVCard)
+                editVCard();
+        }
     }
 
-    void fromXML(String path, Element e) {
-        if (e.getFirstChild() == null) return;
+    private void editVCard() {
+        if (this.vCard == null || "".equals(this.vCard))
+            generateVCard();
+        else {
+            try {
+                updateVCard();
+            } catch (Exception e) {
+                //ignore exception, if user put error in vcard editor, it's his responsability
+            }
+        }
 
-        String vCard = e.getFirstChild().getNodeValue();
+        JDialogVCardEditor jDialog =
+                new JDialogVCardEditor(Util.getTopJFrame(this), this.vCard);
+        jDialog.setVisible(true);
+        if (jDialog.bOk) {
+            this.vCard = jDialog.getVCardValue().trim();
+            setVCardValues();
+        }
+
+        jDialog.dispose();
+    }
+
+    class SymMouse extends java.awt.event.MouseAdapter {
+        public void mouseEntered(java.awt.event.MouseEvent event) {
+            Object object = event.getSource();
+            if (object instanceof JButton)
+                jButton_mouseInOut((JButton) object, true);
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent event) {
+            Object object = event.getSource();
+            if (object instanceof JButton)
+                jButton_mouseInOut((JButton) object, false);
+        }
+    }
+
+    void jButton_mouseInOut(JButton jButton, boolean in) {
+        jButton.setBorderPainted(in);
+    }
+
+    void setVCardValues() {
+        if (this.vCard == null)
+            return;
+
+        String vCard = this.vCard;
 
         String fnField = null;
         String nField = null;
 
         String familyName = null;
         String givenName = null;
-        String additionalName = null;
-        String prefix = null;
-        String suffix = null;
         String email = null;
         String org = null;
 
         // Handle easy fields in the first pass.
         for( ;; ) {
             int index = vCard.indexOf("\n");
-            if (index == -1) 
+            if (index == -1)
                 break;
 
             String token = vCard.substring(0, index);
@@ -234,116 +213,266 @@ class EntityComponent extends FormComponent {
                 org = token.substring("ORG:".length());
 
             vCard = vCard.substring(index + 1);
-            if (vCard.startsWith("END:")) 
+            if (vCard.startsWith("END:"))
                 break;
         }
 
         // Handle nField and fnField in the second pass.
         if( nField != null && !"".equals( nField ) ) {
-            int indexOfSemicolon1 = nField.indexOf( ";" );
-            if( indexOfSemicolon1 == -1 )
-                familyName = nField;
-            else {
-                familyName = nField.substring( 0, indexOfSemicolon1 );
-
-                int indexOfSemicolon2 = nField.indexOf( ";", indexOfSemicolon1 + 1 );
-                if( indexOfSemicolon2 == -1 )
-                    givenName = nField.substring( indexOfSemicolon1 + 1 );
-                else {
-                    givenName = nField.substring( indexOfSemicolon1 + 1, indexOfSemicolon2 );
-
-                    int indexOfSemicolon3 = nField.indexOf( ";", indexOfSemicolon2 + 1 );
-                    if( indexOfSemicolon3 == -1 )
-                        additionalName = nField.substring( indexOfSemicolon2 + 1 );
-                    else {
-                        additionalName = nField.substring( indexOfSemicolon2 + 1, indexOfSemicolon3 );
-
-                        int indexOfSemicolon4 = nField.indexOf( ";", indexOfSemicolon3 + 1 );
-                        if( indexOfSemicolon4 == -1 )
-                            prefix = nField.substring( indexOfSemicolon3 + 1 );
-                        else  {
-                            prefix = nField.substring( indexOfSemicolon3 + 1, indexOfSemicolon4 );
-                            suffix = nField.substring( indexOfSemicolon4 + 1 ); 
-                        }
-                    }
-                }
-            }
+            String[] vals = nField.split(";");
+            if (vals.length >= 1)
+                familyName = vals[0];
+            if (vals.length >= 2)
+                givenName = vals[1];
         }
 
-        // In theory, the name fields have 
-        // already been set by the N: field so that 
+        // In theory, the name fields have
+        // already been set by the N: field so that
         // the FN: field should not be taken into account.
-        // However, in case that the N: field has not been 
+        // However, in case that the N: field has not been
         // specified (even though it's mandatory) or partially
         // specified, we try to use the FN: field instead.
-        // As it's impossible to parse this field accurately, 
+        // As it's impossible to parse this field accurately,
         // we use an heuristic approach.
-        if( fnField != null && !"".equals( fnField ) ) {
-            int indexOfSpace1 = fnField.indexOf( " " );
-            if( indexOfSpace1 == -1 ) {
-                if( familyName == null || "".equals( familyName ) )
-                    familyName = fnField.substring( fnField.indexOf( ":" ) + 1 );
-            }
-            else {
-                if( ( givenName == null || "".equals( givenName ) ) &&
-                    ( familyName == null || "".equals( familyName ) ) ) {
-                    givenName = fnField.substring( fnField.indexOf( ":" ) + 1, indexOfSpace1 );
-                    familyName = fnField.substring( indexOfSpace1 + 1 );
-                }
+        if( ( givenName == null || "".equals( givenName ) ) &&
+                ( familyName == null || "".equals( familyName ) )  &&
+                ( fnField != null && !"".equals( fnField ) ) ) {
+            String[] vals = fnField.split(" ");
+            if (vals.length == 1)
+                familyName = vals[0];
+            else if (vals.length == 2) {
+                givenName = vals[0];
+                familyName = vals[1];
             }
         }
 
-        if( prefix != null ) {
-            jTextFieldPrefix.setText( prefix );
-            jTextFieldPrefix.setCaretPosition( 0 );
+        jTextFieldGivenName.setText( givenName );
+        jTextFieldGivenName.setCaretPosition( 0 );
+
+        jTextFieldFamilyName.setText( familyName );
+        jTextFieldFamilyName.setCaretPosition( 0 );
+
+        jTextFieldEMail.setText( email );
+        jTextFieldEMail.setCaretPosition( 0 );
+
+        jTextFieldOrg.setText( org );
+        jTextFieldOrg.setCaretPosition( 0 );
+    }
+
+    void generateVCard() {
+        String familyName = jTextFieldFamilyName.getText().trim();
+        String givenName = jTextFieldGivenName.getText().trim();
+        String email = jTextFieldEMail.getText().trim();
+        String org = jTextFieldOrg.getText().trim();
+
+        if( ( familyName + givenName + email + org ).length() == 0 )
+            return;
+
+        String vCard = "N:" + familyName + ";" + givenName + ";;;" + "\n";
+        vCard += "FN:" + givenName + (("".equals(givenName)) ? "" : " ") + familyName + "\n";
+
+        if (!"".equals(email))
+            vCard += "EMAIL;TYPE=INTERNET:" + email + "\n";
+        if (!"".equals(org))
+            vCard += "ORG:" + org + "\n";
+
+        if ("".equals(vCard))
+            this.vCard = null;
+        else
+            this.vCard = "BEGIN:VCARD\nVERSION:3.0\n" + vCard + "END:VCARD";
+    }
+
+    void updateVCard() {
+        updateNandFN();
+        updateEMAIL();
+        updateORG();
+    }
+
+    void updateNandFN() {
+        String familyName = jTextFieldFamilyName.getText().trim();
+        String givenName = jTextFieldGivenName.getText().trim();
+        int start = this.vCard.indexOf("\nN:");
+        int end;
+        if (start != -1) {
+            end = this.vCard.indexOf("\n", start + 1);
+            String previousValue = this.vCard.substring(start + 3, end);
+            String[] vals = previousValue.split(";");
+            boolean hasChanged;
+            if (vals.length >= 1)
+                hasChanged = (!familyName.equals(vals[0]));
+            else
+                hasChanged = !"".equals(familyName);
+            if (!hasChanged) {
+                if (vals.length >= 2)
+                    hasChanged = (!givenName.equals(vals[1]));
+                else
+                    hasChanged = !"".equals(givenName);
+            }
+            if (hasChanged) {
+                //replacing N:
+                String additionalName = "";
+                String prefix = "";
+                String suffix = "";
+                if (vals.length >= 3)
+                    additionalName = vals[2];
+                if (vals.length >= 4)
+                    prefix = vals[3];
+                if (vals.length >= 5)
+                    suffix = vals[4];
+                this.vCard = this.vCard.substring(0, start) +
+                        "\nN:" + familyName + ";" + givenName + ";" + additionalName + ";" + prefix + ";" + suffix +
+                        this.vCard.substring(end);
+                //replacing FN:
+                start = this.vCard.indexOf("\nFN:");
+                if (start != -1) {
+                    end = this.vCard.indexOf("\n", start + 1);
+                    this.vCard = this.vCard.substring(0, start) +
+                            "\nFN:" + givenName + (("".equals(givenName)) ? "" : " ") + familyName +
+                            this.vCard.substring(end);
+                } else {
+                    start = this.vCard.indexOf("\nEND:VCARD");
+                    this.vCard = this.vCard.substring(0, start) +
+                            "\nFN:" + givenName + (("".equals(givenName)) ? "" : " ") + familyName +
+                            this.vCard.substring(start);
+                }
+            }
+        } else {
+            //insert N:
+            start = this.vCard.indexOf("\nEND:VCARD");
+            this.vCard = this.vCard.substring(0, start) +
+                    "\nN:" + familyName + ";" + givenName + ";;;" +
+                    this.vCard.substring(start);
+            //replacing FN:
+            start = this.vCard.indexOf("\nFN:");
+            if (start != -1) {
+                end = this.vCard.indexOf("\n", start + 1);
+                this.vCard = this.vCard.substring(0, start) +
+                        "\nFN:" + givenName + (("".equals(givenName)) ? "" : " ") + familyName +
+                        this.vCard.substring(end);
+            } else {
+                start = this.vCard.indexOf("\nEND:VCARD");
+                this.vCard = this.vCard.substring(0, start) +
+                        "\nFN:" + givenName + (("".equals(givenName)) ? "" : " ") + familyName +
+                        this.vCard.substring(start);
+            }
         }
-        if( givenName != null ) {
-            jTextFieldGivenName.setText( givenName );
-            jTextFieldGivenName.setCaretPosition( 0 );
+    }
+
+    void updateEMAIL() {
+        String email = jTextFieldEMail.getText().trim();
+        int start;
+        int end;
+        //EMAIL:
+        if ("".equals(email)) {
+            start = this.vCard.indexOf("\nEMAIL");
+            //remove if previous value exists
+            if (start != -1) {
+                end = this.vCard.indexOf("\n", start + 1);
+                this.vCard = this.vCard.substring(0, start) +
+                        this.vCard.substring(end);
+            }
+        } else {
+            start = this.vCard.indexOf("\nEMAIL");
+            if (start != -1) {
+                //possible update if value changed
+                end = this.vCard.indexOf("\n", start + 1);
+                String pref = ":";
+                int typeIndex = this.vCard.indexOf(";TYPE", start + 6);
+                String previousValue;
+                if (typeIndex != -1) {
+                    int valIndex = this.vCard.indexOf(":", typeIndex + 1);
+                    pref = this.vCard.substring(typeIndex, valIndex + 1);
+                    previousValue = this.vCard.substring(valIndex + 1, end);
+                } else
+                    previousValue = this.vCard.substring(start + 7, end);
+                boolean hasChanged = (!email.equals(previousValue));
+                if (hasChanged)
+                    this.vCard = this.vCard.substring(0, start) +
+                            "\nEMAIL" + pref + email +
+                            this.vCard.substring(end);
+            } else {
+                //insert EMAIL:
+                start = this.vCard.indexOf("\nEND:VCARD");
+                this.vCard = this.vCard.substring(0, start) +
+                        "\nEMAIL;TYPE=INTERNET:" + email +
+                        this.vCard.substring(start);
+            }
         }
-        if( familyName != null ) {
-            jTextFieldFamilyName.setText( familyName );
-            jTextFieldFamilyName.setCaretPosition( 0 );
+    }
+
+    void updateORG() {
+        String org = jTextFieldOrg.getText().trim();
+        int start;
+        int end;
+        if ("".equals(org)) {
+            start = this.vCard.indexOf("\nORG:");
+            //remove if previous value exists
+            if (start != -1) {
+                end = this.vCard.indexOf("\n", start + 1);
+                this.vCard = this.vCard.substring(0, start) +
+                        this.vCard.substring(end);
+            }
+        } else {
+            start = this.vCard.indexOf("\nORG:");
+            if (start != -1) {
+                //possible update if value changed
+                end = this.vCard.indexOf("\n", start + 1);
+                String previousValue = this.vCard.substring(start + 5, end);
+                boolean hasChanged = (!org.equals(previousValue));
+                if (hasChanged)
+                    this.vCard = this.vCard.substring(0, start) +
+                            "\nORG:" + org +
+                            this.vCard.substring(end);
+            } else {
+                //insert ORG:
+                start = this.vCard.indexOf("\nEND:VCARD");
+                this.vCard = this.vCard.substring(0, start) +
+                        "\nORG:" + org +
+                        this.vCard.substring(start);
+            }
         }
-        if( additionalName != null ) {
-            jTextFieldAdditionalName.setText( additionalName );
-            jTextFieldAdditionalName.setCaretPosition( 0 );
+    }
+
+    //XML
+    String toXML(String key) {
+        if (this.vCard == null || "".equals(this.vCard))
+            generateVCard();
+        else {
+            try {
+                updateVCard();
+            } catch (Exception e) {
+                //ignore exception, if user put error in vcard editor, it's his responsability
+            }
         }
-        if( suffix != null ) {
-            jTextFieldSuffix.setText( suffix );
-            jTextFieldSuffix.setCaretPosition( 0 );
-        }
-        if( email != null ) {
-            jTextFieldEMail.setText( email );
-            jTextFieldEMail.setCaretPosition( 0 );
-        }
-        if( org != null ) {
-            jTextFieldOrg.setText( org);
-            jTextFieldOrg.setCaretPosition( 0 );
-        }
+
+        if (this.vCard == null || "".equals(this.vCard))
+            return null;
+        else
+            return "<![CDATA[" + this.vCard + "]]>";
+    }
+
+    void fromXML(String path, Element e) {
+        if (e.getFirstChild() == null) return;
+
+        String vCard = e.getFirstChild().getNodeValue();
+        this.vCard = vCard.trim();
+
+        setVCardValues();
     }
 
     //HTML
     String toHTML(String key) {
         String familyName = Util.convertSpecialCharactersForXML(jTextFieldFamilyName.getText().trim());
         String givenName = Util.convertSpecialCharactersForXML(jTextFieldGivenName.getText().trim());
-        String additionalName = Util.convertSpecialCharactersForXML(jTextFieldAdditionalName.getText().trim());
-        String prefix = Util.convertSpecialCharactersForXML(jTextFieldPrefix.getText().trim());
-        String suffix = Util.convertSpecialCharactersForXML(jTextFieldSuffix.getText().trim());
         String email = Util.convertSpecialCharactersForXML(jTextFieldEMail.getText().trim());
         String org = Util.convertSpecialCharactersForXML(jTextFieldOrg.getText().trim());
 
         String html = "";
-        if (!familyName.equals("") || !givenName.equals("") || !additionalName.equals("")) {
-            html += prefix;
+        if (!familyName.equals("") || !givenName.equals("")) {
             if(!givenName.equals(""))
                 html += (html.equals("")?"":" ") + givenName;
-            if(!additionalName.equals(""))
-                html += (html.equals("")?"":" ") + additionalName;
             if(!familyName.equals(""))
                 html += (html.equals("")?"":" ") + familyName;
-            if(!suffix.equals(""))
-                html += (html.equals("")?"":" ") + suffix;
         }
         if (!email.equals(""))
             html += (html.equals("")?"":" (") + "<a href=\"mailto:" + email + "\">" + email + "</a>)";
