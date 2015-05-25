@@ -52,7 +52,26 @@ class FileBrowser extends JPanel {
         panelLocation.add( BorderLayout.CENTER, textFieldLocation );
         panelLocation.add( BorderLayout.EAST, buttonClose );
 
-        listEntries = new JList();
+        listEntries = new JList() {
+            private boolean processEvent(MouseEvent e) {
+                int index = listEntries.locationToIndex(e.getPoint());
+                return index > -1 && listEntries.getCellBounds(index, index).contains(e.getPoint());
+            }
+
+            @Override
+            protected void processMouseEvent(MouseEvent e) {
+                if (processEvent(e)) {
+                    super.processMouseEvent(e);
+                }
+            }
+
+            @Override
+            protected void processMouseMotionEvent(MouseEvent e) {
+                if (processEvent(e)) {
+                    super.processMouseMotionEvent(e);
+                }
+            }
+        };
         listEntries.setCellRenderer( new EntryRenderer() );
         listEntries.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         listEntries.addListSelectionListener( 
