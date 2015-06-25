@@ -99,8 +99,13 @@
         <xsl:param name="sourceTerm" select="iri-to-uri(vdex:sourceTerm)"/>
         <xsl:param name="targetIdentifier" select="vdex:targetTerm/@vocabularyIdentifier"/>
         <xsl:param name="targetTerm" select="iri-to-uri(vdex:targetTerm)"/>
+        <xsl:variable name="targetUri">
+            <xsl:call-template name="resourceUri">
+                <xsl:with-param name="identifier" select="$targetTerm"/>
+            </xsl:call-template>
+        </xsl:variable>
         <xsl:choose>
-            <xsl:when test="($sourceTerm) and ($targetTerm)">
+            <xsl:when test="$sourceTerm and $targetTerm">
                 <skos:Concept>
                     <xsl:attribute name="rdf:about">
                         <xsl:call-template name="resourceUri">
@@ -110,46 +115,22 @@
                     <xsl:choose>
                         <xsl:when test="vdex:relationshipType='RT'">
                             <xsl:if test="$sourceIdentifier = $targetIdentifier">
-                                <skos:related>
-                                    <xsl:attribute name="rdf:resource">
-                                        <xsl:call-template name="resourceUri">
-                                            <xsl:with-param name="identifier" select="$targetTerm"/>
-                                        </xsl:call-template>
-                                    </xsl:attribute>
-                                </skos:related>
+                                <skos:related rdf:resource="{$targetUri}" />
                             </xsl:if>
                         </xsl:when>
                         <xsl:when test="vdex:relationshipType='NT'">
                             <xsl:if test="$sourceIdentifier = $targetIdentifier">
-                                <skos:narrower>
-                                    <xsl:attribute name="rdf:resource">
-                                        <xsl:call-template name="resourceUri">
-                                            <xsl:with-param name="identifier" select="$targetTerm"/>
-                                        </xsl:call-template>
-                                    </xsl:attribute>
-                                </skos:narrower>
+                                <skos:narrower rdf:resource="{$targetUri}" />
                             </xsl:if>
                         </xsl:when>
                         <xsl:when test="vdex:relationshipType='BT'">
                             <xsl:if test="$sourceIdentifier = $targetIdentifier">
-                                <skos:broader>
-                                    <xsl:attribute name="rdf:resource">
-                                        <xsl:call-template name="resourceUri">
-                                            <xsl:with-param name="identifier" select="$targetTerm"/>
-                                        </xsl:call-template>
-                                    </xsl:attribute>
-                                </skos:broader>
+                                <skos:broader rdf:resource="{$targetUri}" />
                             </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:if test="$sourceIdentifier = $targetIdentifier">
-                                <skos:related>
-                                    <xsl:attribute name="rdf:resource">
-                                        <xsl:call-template name="resourceUri">
-                                            <xsl:with-param name="identifier" select="$targetTerm"/>
-                                        </xsl:call-template>
-                                    </xsl:attribute>
-                                </skos:related>
+                                <skos:related rdf:resource="{$targetUri}" />
                             </xsl:if>
                         </xsl:otherwise>
                     </xsl:choose>
