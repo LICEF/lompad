@@ -30,7 +30,7 @@ import java.awt.*;
  */
 class JWindowAbout extends JWindow {
 
-    private static final String version         = "2.2.0";
+    private static final String version         = "2.2.1";
     private static final String contactEmail    = "lompad@licef.ca";
     private static final String licefSite       = "http://www.licef.ca/";
     private static final String teluqSite       = "http://www.teluq.uquebec.ca/";
