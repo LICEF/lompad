@@ -129,6 +129,15 @@ public class Preferences {
         save();
     }
 
+    public int getFileBrowserWidth() {
+        return( fileBrowserWidth );
+    }
+
+    public void setFileBrowserWidth( int width ) throws Exception {
+        this.fileBrowserWidth = width;
+        save();
+    }
+
     public String getPrevSelectedClassif() {
         return( prevSelectedClassif );
     }
@@ -169,6 +178,7 @@ public class Preferences {
         if( fileBrowserLoc != null )
             xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserLoc", fileBrowserLoc + "" ) + "/>\n";
         xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserOpened", isFileBrowserOpen + "" ) + "/>\n";
+        xml += "  <pref " + getKeyValueAsXmlAttributes( "fileBrowserWidth", fileBrowserWidth + "" ) + "/>\n";
         if( prevSelectedClassif != null )
             xml += "  <pref " + getKeyValueAsXmlAttributes( "prevSelectedClassif", prevSelectedClassif + "" ) + "/>\n";
         String lang;
@@ -216,6 +226,8 @@ public class Preferences {
                             fileBrowserLoc = new File( value );
                         else if( "fileBrowserOpened".equals( key ) )
                             isFileBrowserOpen = Boolean.parseBoolean( value );
+                        else if( "fileBrowserWidth".equals( key ) )
+                            fileBrowserWidth = Integer.parseInt( value );
                         else if( "prevSelectedClassif".equals( key ) )
                             prevSelectedClassif = value;
                         else if( "locale".equals( key ) ) {
@@ -248,6 +260,7 @@ public class Preferences {
     private File workingDir  = FileSystemView.getFileSystemView().getDefaultDirectory();
     private File fileBrowserLoc = FileSystemView.getFileSystemView().getDefaultDirectory();
     private boolean isFileBrowserOpen;
+    private int fileBrowserWidth;
     private String prevSelectedClassif; 
     private Locale locale = Locale.FRENCH;
     private String applProfileView = "IEEE";

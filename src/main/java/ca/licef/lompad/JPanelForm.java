@@ -189,6 +189,10 @@ class JPanelForm extends JPanel {
         catch( Exception e ) {
             e.printStackTrace();
         }
+
+        int browserWidth = Preferences.getInstance().getFileBrowserWidth();
+        if( browserWidth > 0 ) 
+            splitPane.setDividerLocation( browserWidth );
     }
 
     private void hideBrowser() {

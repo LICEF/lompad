@@ -103,6 +103,20 @@ class FileBrowser extends JPanel {
             add( BorderLayout.SOUTH, checkBoxShowHiddenFiles );
 
         updateLocalization();
+
+        addComponentListener( 
+            new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    int width = e.getComponent().getSize().width;
+                    try {
+                        Preferences.getInstance().setFileBrowserWidth( width );
+                    }
+                    catch( Exception e3 ) {
+                        e3.printStackTrace();
+                    }
+                }
+            }
+        );
     }
     
     public void updateLocalization() {
